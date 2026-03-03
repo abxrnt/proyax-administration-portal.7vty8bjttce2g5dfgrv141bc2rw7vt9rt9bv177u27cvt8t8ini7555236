@@ -1,0 +1,2644 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PROYAX Admin Panel</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <style>
+      :root {
+        --bg-1: #ebf3fe;
+        --bg-2: #dbeaff;
+        --line: rgba(4, 40, 98, 0.2);
+        --text: #042862;
+        --muted: #3f5f95;
+        --accent: #3280ff;
+        --accent-2: #5a9bff;
+        --ok: #1f9d63;
+        --err: #d64045;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 8% 10%, #ffffff 0%, #ebf3fe 38%, #dbeaff 100%),
+          linear-gradient(180deg, rgba(50, 128, 255, 0.04), rgba(4, 40, 98, 0.03));
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        background-image: url("/logo.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: min(42vw, 420px) auto;
+        opacity: 0.045;
+      }
+
+      .navbar {
+        height: 52px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        background: rgba(235, 243, 254, 0.96);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 6px 20px rgba(4, 40, 98, 0.06);
+      }
+
+      .nav-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.4px;
+        color: var(--text);
+      }
+
+      .nav-title img {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        object-fit: contain;
+      }
+
+      .nav-user {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .nav-left,
+      .nav-mid,
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .nav-mid {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .nav-btn {
+        width: auto;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(4, 40, 98, 0.25);
+        background: #ffffff;
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-btn.active {
+        border-color: rgba(50, 128, 255, 0.8);
+        background: rgba(50, 128, 255, 0.16);
+        color: #0f3f8f;
+      }
+
+      .nav-btn:hover {
+        border-color: rgba(50, 128, 255, 0.55);
+        background: rgba(50, 128, 255, 0.1);
+      }
+
+      .page {
+        height: calc(100vh - 52px);
+        width: 100%;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .view {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        padding: 16px;
+      }
+
+      #login-section {
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .login-shell {
+        width: min(560px, 100%);
+        position: relative;
+      }
+
+      .login-shell::before {
+        content: "";
+        position: absolute;
+        inset: -18px;
+        border-radius: 24px;
+        background: radial-gradient(circle at 18% 12%, rgba(50, 128, 255, 0.24), rgba(4, 40, 98, 0.08) 62%, transparent 100%);
+        filter: blur(12px);
+        z-index: 0;
+      }
+
+      .login-panel {
+        position: relative;
+        z-index: 1;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 18px;
+        padding: 24px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(235, 243, 254, 0.94));
+        box-shadow: 0 22px 46px rgba(4, 40, 98, 0.16);
+        animation: login-panel-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+
+      .login-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .login-icon-wrap {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        color: #fff;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        box-shadow: 0 8px 16px rgba(50, 128, 255, 0.3);
+      }
+
+      #login-form .row-2 {
+        grid-template-columns: 1fr;
+      }
+
+      #login-status {
+        margin-top: 10px;
+      }
+
+      @keyframes login-panel-in {
+        0% {
+          opacity: 0;
+          transform: translateY(16px) scale(0.98);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      #admin-section {
+        display: grid;
+        align-content: start;
+        gap: 12px;
+      }
+
+      #registration-view,
+      #records-view {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        padding: 0;
+        min-height: calc(100vh - 140px);
+        align-content: start;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 26px;
+        letter-spacing: -0.2px;
+        color: var(--text);
+      }
+
+      .subtext {
+        margin-top: 4px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      form {
+        margin-top: 14px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .row-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 10px;
+      }
+
+      .row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .label-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        color: var(--accent);
+      }
+
+      [data-lucide] {
+        width: 16px;
+        height: 16px;
+        stroke-width: 2;
+        vertical-align: middle;
+      }
+
+      input,
+      select,
+      button {
+        width: 100%;
+        border-radius: 9px;
+        border: 1px solid rgba(4, 40, 98, 0.25);
+        background: #ffffff;
+        color: var(--text);
+        padding: 10px 11px;
+        font-size: 14px;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(50, 128, 255, 0.18);
+      }
+
+      .choice-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .choice-grid.batch-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .choice-grid.role-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .choice-btn {
+        background: transparent;
+        border: 1px solid rgba(4, 40, 98, 0.25);
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .choice-btn.active {
+        border-color: rgba(50, 128, 255, 0.8);
+        background: rgba(50, 128, 255, 0.16);
+        box-shadow: 0 0 0 2px rgba(50, 128, 255, 0.2) inset;
+      }
+
+      .choice-btn.disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      .btn-primary {
+        border: 1px solid rgba(50, 128, 255, 0.65);
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #ffffff;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 8px 18px rgba(50, 128, 255, 0.22);
+        transition: all 0.2s ease;
+      }
+
+      .btn-secondary {
+        width: auto;
+        padding: 7px 10px;
+        background: transparent;
+        border: 1px solid rgba(4, 40, 98, 0.25);
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(50, 128, 255, 0.28);
+      }
+
+      .btn-secondary:hover {
+        border-color: rgba(50, 128, 255, 0.55);
+        background: rgba(50, 128, 255, 0.08);
+      }
+
+      .topbar {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .topbar strong {
+        color: var(--text);
+        font-size: 13px;
+      }
+
+      .status {
+        margin-top: 8px;
+        min-height: 18px;
+        font-size: 12px;
+      }
+
+      .status.ok {
+        color: var(--ok);
+      }
+
+      .status.err {
+        color: var(--err);
+      }
+
+      .hint {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .records-wrap {
+        margin-top: 12px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .logs-wrap {
+        margin-top: 12px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .manage-wrap {
+        margin-top: 12px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .manage-header,
+      .manage-row {
+        display: grid;
+        grid-template-columns: 1.1fr 1.2fr 2fr 1fr 2.6fr 0.9fr;
+        gap: 8px;
+        padding: 10px;
+        font-size: 12px;
+        align-items: center;
+      }
+
+      .manage-header {
+        background: rgba(50, 128, 255, 0.12);
+        font-weight: 800;
+      }
+
+      .manage-body {
+        max-height: calc(100vh - 320px);
+        overflow: auto;
+      }
+
+      .manage-row {
+        border-top: 1px solid rgba(4, 40, 98, 0.16);
+      }
+
+      .manage-row:nth-child(even) {
+        background: rgba(50, 128, 255, 0.06);
+      }
+
+      .tab-chips {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .tab-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        background: #fff;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .tab-chip input {
+        width: 13px;
+        height: 13px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .perm-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(4, 40, 98, 0.35);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3500;
+        padding: 16px;
+      }
+
+      .perm-modal-card {
+        width: min(620px, 100%);
+        border-radius: 14px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        background: linear-gradient(180deg, #ffffff, #f6f9ff);
+        box-shadow: 0 24px 56px rgba(4, 40, 98, 0.22);
+        padding: 14px;
+      }
+
+      .perm-modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .perm-modal-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text);
+      }
+
+      .perm-modal-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .perm-grid {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .perm-actions {
+        margin-top: 14px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .logs-header,
+      .log-row {
+        display: grid;
+        grid-template-columns: 1fr 2.8fr;
+        gap: 8px;
+        padding: 10px;
+        font-size: 12px;
+        align-items: center;
+      }
+
+      .logs-header {
+        background: rgba(50, 128, 255, 0.12);
+        font-weight: 800;
+      }
+
+      .logs-body {
+        max-height: calc(100vh - 320px);
+        overflow: auto;
+      }
+
+      .log-row {
+        border-top: 1px solid rgba(4, 40, 98, 0.16);
+      }
+
+      .log-row:nth-child(even) {
+        background: rgba(50, 128, 255, 0.06);
+      }
+
+      .records-header,
+      .record-row {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1.3fr 1fr 0.8fr 1fr;
+        gap: 8px;
+        padding: 10px;
+        font-size: 12px;
+        align-items: center;
+      }
+
+      .records-header {
+        background: rgba(50, 128, 255, 0.12);
+        font-weight: 800;
+      }
+
+      .records-body {
+        max-height: calc(100vh - 320px);
+        overflow: auto;
+      }
+
+      .record-row {
+        border-top: 1px solid rgba(4, 40, 98, 0.16);
+      }
+
+      .record-row:nth-child(even) {
+        background: rgba(50, 128, 255, 0.06);
+      }
+
+      .mb-wrap {
+        margin-top: 10px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 10px;
+        background: #ffffff;
+        overflow: hidden;
+        box-shadow: none;
+      }
+
+      .mb-top-bar {
+        display: flex;
+        gap: 8px;
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.16);
+        background: linear-gradient(180deg, #f8fbff, #f2f7ff);
+        overflow-x: auto;
+        align-items: flex-end;
+      }
+
+      .mb-field {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .mb-field label {
+        font-size: 10px;
+      }
+
+      .mb-field.name {
+        width: 180px;
+      }
+
+      .mb-field.small {
+        width: 90px;
+      }
+
+      .mb-field.mid {
+        width: 130px;
+      }
+
+      .mb-field.long {
+        width: 220px;
+      }
+
+      .mb-actions {
+        margin-left: auto;
+        display: flex;
+        gap: 6px;
+      }
+
+      .mb-btn {
+        height: 30px;
+        padding: 0 12px;
+        border-radius: 6px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #fff;
+        color: var(--text);
+        width: auto;
+        transition: all 0.18s ease;
+      }
+
+      h1 {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .title-icon {
+        display: inline-flex;
+        width: 22px;
+        height: 22px;
+        color: var(--accent);
+      }
+
+      .mb-btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        box-shadow: 0 6px 14px rgba(50, 128, 255, 0.22);
+      }
+
+      .mb-btn.success {
+        background: var(--ok);
+        color: #fff;
+        border-color: var(--ok);
+      }
+
+      .mb-btn.danger {
+        background: var(--err);
+        color: #fff;
+        border-color: var(--err);
+      }
+
+      .mb-body {
+        padding: 12px;
+        max-height: calc(100vh - 330px);
+        overflow: auto;
+        background: #ffffff;
+      }
+
+      .mb-tabs {
+        display: flex;
+        gap: 6px;
+      }
+
+      .mb-tab {
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      .mb-tab.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      .mb-tab:hover {
+        border-color: rgba(50, 128, 255, 0.5);
+        background: rgba(50, 128, 255, 0.08);
+      }
+
+      .mb-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      .mb-table th,
+      .mb-table td {
+        padding: 8px;
+        font-size: 12px;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.15);
+        vertical-align: middle;
+      }
+
+      .mb-mono {
+        color: var(--muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 380px;
+      }
+
+      .mb-modal {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(4, 40, 98, 0.3),
+          rgba(50, 128, 255, 0.2)
+        );
+        display: none;
+        z-index: 3000;
+      }
+
+      .mb-modal-card {
+        background: linear-gradient(180deg, #ffffff, #f6f9ff);
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border-radius: 0;
+        border: 0;
+        box-shadow: none;
+        padding: 16px 18px;
+        overflow: auto;
+      }
+
+      .mb-modal-head {
+        display: flex;
+        gap: 10px;
+        flex-wrap: nowrap;
+        align-items: center;
+        position: sticky;
+        top: -14px;
+        background: linear-gradient(180deg, #f7fbff, #eef5ff);
+        padding: 10px 12px;
+        z-index: 1;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.15);
+        border-radius: 12px;
+        overflow-x: auto;
+      }
+
+      #mb-import-modal .mb-modal-head input,
+      #mb-import-modal .mb-modal-head select,
+      #mb-import-modal .mb-modal-head .mb-btn {
+        height: 36px;
+        min-height: 36px;
+        border-radius: 9px;
+      }
+
+      #mb-imp-subject {
+        width: 130px;
+        min-width: 130px;
+      }
+
+      #mb-imp-year {
+        width: 90px;
+        min-width: 90px;
+      }
+
+      #mb-imp-chapter {
+        width: 170px;
+        min-width: 170px;
+      }
+
+      #mb-imp-qid {
+        width: 130px;
+        min-width: 130px;
+      }
+
+      #mb-imp-search {
+        width: 100%;
+        min-width: 260px;
+      }
+
+      #mb-imp-sort {
+        width: 140px;
+        min-width: 140px;
+      }
+
+      #mb-import-all,
+      #mb-close-import {
+        min-width: 110px;
+      }
+
+      .mb-pyq-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .mb-pyq-card {
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: #fff;
+        box-shadow: 0 6px 16px rgba(4, 40, 98, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .mb-pyq-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(4, 40, 98, 0.12);
+      }
+
+      .mb-pyq-thumb {
+        height: 70px;
+        background: linear-gradient(180deg, #f3f8ff, #e8f1ff);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(50, 128, 255, 0.15);
+      }
+
+      .mb-pyq-thumb img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .mb-pyq-title {
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mb-pyq-qid {
+        font-size: 10px;
+        font-weight: 700;
+        color: #1e40af;
+        background: #eff6ff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        align-self: flex-start;
+      }
+
+      .mb-pyq-btn.done {
+        background: var(--ok);
+        color: #fff;
+        border-color: var(--ok);
+      }
+
+      .mocks-view-toolbar {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .mocks-view-table-wrap {
+        margin-top: 12px;
+      }
+
+      .mocks-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 12px;
+        max-height: calc(100vh - 280px);
+        overflow: auto;
+        padding-right: 4px;
+      }
+
+      .batch-card {
+        border: 1px solid rgba(4, 40, 98, 0.24);
+        border-radius: 14px;
+        background: linear-gradient(180deg, #ffffff, #eef5ff);
+        box-shadow: 0 10px 26px rgba(4, 40, 98, 0.1);
+        min-height: 160px;
+        padding: 16px;
+        display: grid;
+        align-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .batch-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(4, 40, 98, 0.14);
+      }
+
+      .batch-title {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+        color: var(--text);
+      }
+
+      .batch-sub {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .mock-card {
+        border: 1px solid rgba(4, 40, 98, 0.22);
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ffffff, #f6f9ff);
+        box-shadow: 0 8px 20px rgba(4, 40, 98, 0.08);
+        padding: 12px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .mock-card-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--text);
+        margin: 0;
+      }
+
+      .mock-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .mock-meta b {
+        color: var(--text);
+      }
+
+      .mock-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 2px;
+      }
+
+      .mock-empty {
+        border: 1px dashed rgba(4, 40, 98, 0.3);
+        border-radius: 10px;
+        padding: 16px;
+        font-size: 13px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.75);
+      }
+
+      .device-blocker {
+        position: fixed;
+        inset: 0;
+        display: none;
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.65), rgba(235, 243, 254, 0.95) 55%),
+          linear-gradient(145deg, rgba(4, 40, 98, 0.88), rgba(50, 128, 255, 0.72));
+        backdrop-filter: blur(6px);
+      }
+
+      .device-blocker-window {
+        width: min(560px, 100%);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(235, 243, 254, 0.96));
+        box-shadow: 0 28px 64px rgba(4, 40, 98, 0.35);
+        padding: 22px 22px 20px;
+        animation: blocker-window-in 450ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+
+      .device-blocker-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .device-blocker-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        color: #ffffff;
+        background: linear-gradient(135deg, var(--accent), #71abff);
+        box-shadow: 0 8px 16px rgba(50, 128, 255, 0.35);
+      }
+
+      .device-blocker-title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+        color: var(--text);
+      }
+
+      .device-blocker-text {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+
+      .device-blocker-note {
+        margin-top: 12px;
+        border: 1px solid rgba(50, 128, 255, 0.25);
+        background: rgba(50, 128, 255, 0.08);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 12px;
+        color: #17428f;
+        font-weight: 600;
+      }
+
+      @keyframes blocker-window-in {
+        0% {
+          opacity: 0;
+          transform: translateY(18px) scale(0.97);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @media (max-width: 900px) {
+        html,
+        body {
+          overflow: auto;
+        }
+
+        .page {
+          height: auto;
+          min-height: calc(100vh - 52px);
+          justify-content: flex-start;
+          padding: 0;
+        }
+
+        .row-3,
+        .row-2 {
+          grid-template-columns: 1fr;
+        }
+
+        .choice-grid.batch-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .view {
+          padding: 12px;
+        }
+
+        .mb-modal-card {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+        }
+      }
+
+      @media (max-width: 1024px), (pointer: coarse) and (hover: none) {
+        .device-blocker {
+          display: flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="device-blocker" class="device-blocker" aria-live="polite">
+      <div class="device-blocker-window">
+        <div class="device-blocker-head">
+          <span class="device-blocker-icon">
+            <i data-lucide="monitor-smartphone"></i>
+          </span>
+          <h2 class="device-blocker-title">Desktop Access Required</h2>
+        </div>
+        <p class="device-blocker-text">
+          The admin panel is optimized for desktop and laptop workflows only.
+          Please open this page on a larger screen for the best and secure experience.
+        </p>
+        <div class="device-blocker-note">
+          Recommended: width 1280px or above in Chrome, Edge, or Firefox.
+        </div>
+      </div>
+    </div>
+
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="nav-title">
+          <img src="/logo.png" alt="PROYAX logo" />
+          <span>PROYAX ADMIN PANEL</span>
+        </div>
+      </div>
+      <div class="nav-mid hidden" id="nav-actions">
+        <button id="nav-new-registration" class="nav-btn active" type="button">
+          <i data-lucide="user-plus"></i>
+          New Registration
+        </button>
+        <button id="nav-user-records" class="nav-btn" type="button">
+          <i data-lucide="users"></i>
+          User Records
+        </button>
+        <button id="nav-create-mock" class="nav-btn" type="button">
+          <i data-lucide="file-plus-2"></i>
+          Create Mock
+        </button>
+        <button id="nav-mocks" class="nav-btn" type="button">
+          <i data-lucide="layout-grid"></i>
+          Mocks
+        </button>
+        <button id="nav-logs" class="nav-btn" type="button">
+          <i data-lucide="logs"></i>
+          Logs
+        </button>
+        <button id="nav-manage-admins" class="nav-btn hidden" type="button">
+          <i data-lucide="shield-user"></i>
+          Manage Admins
+        </button>
+      </div>
+      <div class="nav-right">
+        <div class="nav-user" id="nav-user">Not logged in</div>
+        <button id="logout-btn" class="btn-secondary hidden" type="button">
+          <i data-lucide="log-out"></i>
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <div class="page">
+      <section id="login-section" class="view">
+        <div class="login-shell">
+          <div class="login-panel">
+            <div class="login-title">
+              <span class="login-icon-wrap"><i data-lucide="shield-check"></i></span>
+              <h1>Admin Login</h1>
+            </div>
+            <div class="subtext">Sign in with Firebase Authentication.</div>
+
+            <form id="login-form" autocomplete="off">
+              <div class="row-2">
+                <div class="field">
+                  <label for="login-email">Email</label>
+                  <input id="login-email" type="email" required placeholder="admin@example.com" />
+                </div>
+                <div class="field">
+                  <label for="login-password">Password</label>
+                  <input id="login-password" type="password" required placeholder="Enter admin password" />
+                </div>
+              </div>
+              <div>
+                <button id="login-btn" class="btn-primary" type="submit">
+                  <i data-lucide="log-in"></i>
+                  Login
+                </button>
+              </div>
+            </form>
+            <div id="login-status" class="status"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="admin-section" class="view hidden">
+        <section id="registration-view">
+          <h1><span class="title-icon"><i data-lucide="user-plus"></i></span>Create User</h1>
+          <div class="subtext">Create Firebase Auth user and save profile in Firestore.</div>
+        <form id="create-user-form" autocomplete="off">
+          <div class="row-3">
+            <div class="field">
+              <label for="user-email">Email</label>
+              <input id="user-email" type="email" required placeholder="student@example.com" />
+            </div>
+            <div class="field">
+              <label for="username">Username</label>
+              <input id="username" type="text" required placeholder="student_username" />
+            </div>
+            <div class="field">
+              <label for="user-password">Password</label>
+              <input id="user-password" type="password" minlength="6" required placeholder="Minimum 6 characters" />
+            </div>
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" type="text" required placeholder="Full Name" />
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="field">
+              <label>Role</label>
+              <div class="choice-grid role-row">
+                <button type="button" class="choice-btn role-btn active" data-role="student">Student</button>
+                <button type="button" class="choice-btn role-btn" data-role="admin">Admin</button>
+              </div>
+              <input id="role" type="hidden" value="student" required />
+            </div>
+
+            <div class="field">
+              <label>Batch</label>
+              <div class="choice-grid batch-row">
+                <button type="button" class="choice-btn sub-btn" data-subscription="alpha batch">Alpha Batch</button>
+                <button type="button" class="choice-btn sub-btn" data-subscription="beta batch">Beta Batch</button>
+                <button type="button" class="choice-btn sub-btn" data-subscription="gamma batch">Gamma Batch</button>
+                <button type="button" class="choice-btn sub-btn" data-subscription="delta batch">Delta Batch</button>
+              </div>
+              <input id="subscription" type="hidden" value="" required />
+            </div>
+          </div>
+
+          <div>
+            <button id="submit-btn" class="btn-primary" type="submit">
+              <i data-lucide="user-check"></i>
+              Create User
+            </button>
+          </div>
+        </form>
+        </section>
+
+        <section id="records-view" class="hidden">
+          <h1><span class="title-icon"><i data-lucide="contact"></i></span>User Records</h1>
+          <div class="subtext">All users from <code>mocks_users</code> collection (read-only).</div>
+          <div style="margin-top:10px;max-width:220px">
+              <button id="refresh-records-btn" class="btn-secondary" type="button">
+                <i data-lucide="refresh-cw"></i>
+                Refresh Records
+              </button>
+          </div>
+          <div class="records-wrap">
+            <div class="records-header">
+              <div>Username</div>
+              <div>Name</div>
+              <div>Email</div>
+              <div>Batch</div>
+              <div>Role</div>
+              <div>Created</div>
+            </div>
+            <div id="records-body" class="records-body"></div>
+          </div>
+        </section>
+
+        <section id="mock-builder-view" class="hidden">
+          <h1><span class="title-icon"><i data-lucide="file-cog"></i></span>Create Mock</h1>
+          <div class="subtext">Build, import and manage mocks.</div>
+
+          <div class="mb-wrap">
+            <div class="mb-top-bar">
+              <div class="mb-field name">
+                <label>Mock Name *</label>
+                <input id="mb-mock-name" value="CEE Mock 01" />
+              </div>
+
+              <div class="mb-field small">
+                <label>Duration</label>
+                <input id="mb-duration" type="number" value="120" />
+              </div>
+
+              <div class="mb-field small">
+                <label>Total Qs</label>
+                <input id="mb-qns" type="number" value="60" />
+              </div>
+
+              <div class="mb-field small">
+                <label>Active</label>
+                <select id="mb-active">
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </div>
+
+              <div class="mb-field small">
+                <label>Subscription</label>
+                <select id="mb-subscription">
+                  <option value="alpha batch">Alpha Batch</option>
+                  <option value="beta batch">Beta Batch</option>
+                  <option value="gamma batch">Gamma Batch</option>
+                  <option value="delta batch">Delta Batch</option>
+                </select>
+              </div>
+
+              <div class="mb-field mid">
+                <label>Date</label>
+                <input type="date" id="mb-date-added" />
+              </div>
+
+              <div class="mb-field long">
+                <label>Syllabus</label>
+                <input id="mb-syllabus" value="PCM (XI & XII) - CEE Level" />
+              </div>
+
+              <div class="mb-actions">
+                <button class="mb-btn primary" id="mb-save-mock" type="button">
+                  <i data-lucide="save"></i>
+                  Save Mock
+                </button>
+                <button class="mb-btn" id="mb-open-import" type="button">
+                  <i data-lucide="download"></i>
+                  Import PYQs
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-body">
+              <div class="mb-tabs">
+                <div class="mb-tab active" data-sub="Physics">Physics</div>
+                <div class="mb-tab" data-sub="Chemistry">Chemistry</div>
+                <div class="mb-tab" data-sub="Mathematics">Mathematics</div>
+              </div>
+
+              <table class="mb-table">
+                <thead>
+                  <tr>
+                    <th>QID</th>
+                    <th>Image URL</th>
+                    <th>Answer</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="mb-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="mb-status" class="status"></div>
+        </section>
+
+        <section id="mocks-view" class="hidden">
+          <h1 id="mocks-view-title">
+            <span class="title-icon"><i data-lucide="folders"></i></span>Mocks by Batch
+          </h1>
+          <div class="subtext" id="mocks-view-subtitle">
+            Select a batch to view its mocks.
+          </div>
+          <div class="mocks-view-toolbar">
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="btn-secondary hidden" id="mocks-back-btn" type="button">
+                <i data-lucide="arrow-left"></i>
+                Back to Batches
+              </button>
+              <button class="btn-secondary" id="mocks-refresh-btn" type="button">
+                <i data-lucide="refresh-cw"></i>
+                Refresh
+              </button>
+            </div>
+          </div>
+          <div class="mocks-view-table-wrap">
+            <div id="mb-mocks-grid" class="mocks-grid"></div>
+          </div>
+        </section>
+
+        <section id="logs-view" class="hidden">
+          <h1>
+            <span class="title-icon"><i data-lucide="logs"></i></span>Admin Logs
+          </h1>
+          <div class="subtext">Admin login and logout activity.</div>
+          <div style="margin-top:10px;max-width:220px">
+            <button id="refresh-logs-btn" class="btn-secondary" type="button">
+              <i data-lucide="refresh-cw"></i>
+              Refresh Logs
+            </button>
+          </div>
+          <div class="logs-wrap">
+            <div class="logs-header">
+              <div>Date & Time</div>
+              <div>Activity</div>
+            </div>
+            <div id="logs-body" class="logs-body"></div>
+          </div>
+        </section>
+
+        <section id="manage-admins-view" class="hidden">
+          <h1>
+            <span class="title-icon"><i data-lucide="shield-user"></i></span>Manage Admins
+          </h1>
+          <div class="subtext">Only superadmin can set which tabs each admin can access.</div>
+          <div style="margin-top:10px;max-width:220px">
+            <button id="refresh-admins-btn" class="btn-secondary" type="button">
+              <i data-lucide="refresh-cw"></i>
+              Refresh Admins
+            </button>
+          </div>
+          <div class="manage-wrap">
+            <div class="manage-header">
+              <div>Username</div>
+              <div>Name</div>
+              <div>Email</div>
+              <div>Role</div>
+              <div>Allowed Tabs</div>
+              <div>Action</div>
+            </div>
+            <div id="manage-admins-body" class="manage-body"></div>
+          </div>
+        </section>
+
+        <div id="status" class="status"></div>
+        <div class="hint">Use strict Firebase rules so only admins can write to users.</div>
+      </section>
+    </div>
+
+    <div class="mb-modal" id="mb-import-modal">
+      <div class="mb-modal-card">
+        <div class="mb-modal-head">
+          <select id="mb-imp-subject">
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Mathematics</option>
+          </select>
+          <input id="mb-imp-year" placeholder="Year" />
+          <input id="mb-imp-chapter" placeholder="Chapter" />
+          <input id="mb-imp-qid" placeholder="QID" />
+          <input id="mb-imp-search" placeholder="Search" />
+          <select id="mb-imp-sort">
+            <option value="">Sort</option>
+            <option value="qid">QID A-Z</option>
+            <option value="yearDesc">Year Desc</option>
+            <option value="yearAsc">Year Asc</option>
+          </select>
+          <button class="mb-btn success" id="mb-import-all" type="button">Import All</button>
+          <button class="mb-btn" id="mb-close-import" type="button">Close</button>
+        </div>
+        <div class="mb-pyq-grid" id="mb-pyq-grid"></div>
+      </div>
+    </div>
+
+    <div class="perm-modal" id="perm-modal">
+      <div class="perm-modal-card">
+        <div class="perm-modal-head">
+          <div>
+            <h3 class="perm-modal-title">Edit Admin Permissions</h3>
+            <div id="perm-modal-sub" class="perm-modal-sub">Select tabs allowed for this admin.</div>
+          </div>
+          <button id="perm-close-btn" class="btn-secondary" type="button">
+            <i data-lucide="x"></i>
+            Close
+          </button>
+        </div>
+        <div id="perm-grid" class="perm-grid"></div>
+        <div class="perm-actions">
+          <button id="perm-save-btn" class="btn-primary" type="button">
+            <i data-lucide="save"></i>
+            Save Permissions
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBOVl1hdmprJXpgdN_sNTO3FsNePD_zNZY",
+        authDomain: "aahes-cee-cutoffs.firebaseapp.com",
+        projectId: "aahes-cee-cutoffs",
+      };
+
+      let app = null;
+      let db = null;
+      let auth = null;
+
+      try {
+        app = firebase.apps.length ? firebase.app() : firebase.initializeApp(firebaseConfig);
+        auth = firebase.auth();
+        db = firebase.firestore();
+      } catch (err) {
+        console.error(err);
+      }
+
+      const loginSection = document.getElementById("login-section");
+      const adminSection = document.getElementById("admin-section");
+      const navUserEl = document.getElementById("nav-user");
+      const navActionsEl = document.getElementById("nav-actions");
+      const navNewRegistrationBtn = document.getElementById("nav-new-registration");
+      const navUserRecordsBtn = document.getElementById("nav-user-records");
+      const navCreateMockBtn = document.getElementById("nav-create-mock");
+      const navMocksBtn = document.getElementById("nav-mocks");
+      const navLogsBtn = document.getElementById("nav-logs");
+      const navManageAdminsBtn = document.getElementById("nav-manage-admins");
+
+      const loginForm = document.getElementById("login-form");
+      const loginBtn = document.getElementById("login-btn");
+      const loginStatusEl = document.getElementById("login-status");
+      const logoutBtn = document.getElementById("logout-btn");
+
+      const form = document.getElementById("create-user-form");
+      const submitBtn = document.getElementById("submit-btn");
+      const statusEl = document.getElementById("status");
+
+      const roleInput = document.getElementById("role");
+      const roleButtons = document.querySelectorAll(".role-btn");
+      const subscriptionInput = document.getElementById("subscription");
+      const subscriptionButtons = document.querySelectorAll(".sub-btn");
+      const registrationView = document.getElementById("registration-view");
+      const recordsView = document.getElementById("records-view");
+      const mockBuilderView = document.getElementById("mock-builder-view");
+      const mocksView = document.getElementById("mocks-view");
+      const recordsBody = document.getElementById("records-body");
+      const refreshRecordsBtn = document.getElementById("refresh-records-btn");
+      const logsView = document.getElementById("logs-view");
+      const logsBody = document.getElementById("logs-body");
+      const refreshLogsBtn = document.getElementById("refresh-logs-btn");
+      const manageAdminsView = document.getElementById("manage-admins-view");
+      const manageAdminsBody = document.getElementById("manage-admins-body");
+      const refreshAdminsBtn = document.getElementById("refresh-admins-btn");
+      const permModal = document.getElementById("perm-modal");
+      const permModalSub = document.getElementById("perm-modal-sub");
+      const permGrid = document.getElementById("perm-grid");
+      const permCloseBtn = document.getElementById("perm-close-btn");
+      const permSaveBtn = document.getElementById("perm-save-btn");
+      const mockBuilderStatusEl = document.getElementById("mb-status");
+      const mocksRefreshBtn = document.getElementById("mocks-refresh-btn");
+      const mocksBackBtn = document.getElementById("mocks-back-btn");
+      const mocksViewTitleEl = document.getElementById("mocks-view-title");
+      const mocksViewSubtitleEl = document.getElementById("mocks-view-subtitle");
+      let currentAdminData = null;
+      let currentPane = "registration";
+      let editingAdminDocId = null;
+      let editingAdminLabel = "";
+
+      const TAB_DEFS = [
+        { key: "registration", label: "New Registration", button: navNewRegistrationBtn },
+        { key: "records", label: "User Records", button: navUserRecordsBtn },
+        { key: "builder", label: "Create Mock", button: navCreateMockBtn },
+        { key: "mocks", label: "Mocks", button: navMocksBtn },
+        { key: "logs", label: "Logs", button: navLogsBtn },
+      ];
+
+      const ADMIN_TAB_KEYS = TAB_DEFS.map((t) => t.key);
+
+      function normalizeRole(v) {
+        return String(v || "").trim().toLowerCase();
+      }
+
+      function getAllowedTabsFromData(adminData) {
+        const role = normalizeRole(adminData && adminData.role);
+        if (role === "superadmin") return [...ADMIN_TAB_KEYS];
+        const raw = Array.isArray(adminData && adminData.allowedTabs)
+          ? adminData.allowedTabs
+          : [];
+        const cleaned = raw
+          .map((x) => String(x || "").trim().toLowerCase())
+          .filter((x) => ADMIN_TAB_KEYS.includes(x));
+        return cleaned.length ? [...new Set(cleaned)] : [...ADMIN_TAB_KEYS];
+      }
+
+      function isCurrentUserSuperadmin() {
+        return normalizeRole(currentAdminData && currentAdminData.role) === "superadmin";
+      }
+
+      function canAccessPane(which) {
+        if (!currentAdminData) return false;
+        if (which === "manage-admins") return isCurrentUserSuperadmin();
+        return getAllowedTabsFromData(currentAdminData).includes(String(which || "").toLowerCase());
+      }
+
+      function getFirstAllowedPane() {
+        const allowed = getAllowedTabsFromData(currentAdminData);
+        return allowed[0] || "registration";
+      }
+
+      function applyNavAccess() {
+        const isSuperadmin = isCurrentUserSuperadmin();
+        const allowed = new Set(getAllowedTabsFromData(currentAdminData));
+        TAB_DEFS.forEach((tab) => {
+          tab.button.classList.toggle("hidden", !isSuperadmin && !allowed.has(tab.key));
+        });
+        navManageAdminsBtn.classList.toggle("hidden", !isSuperadmin);
+      }
+
+      function formatAllowedTabsPreview(allowedKeys) {
+        const labels = TAB_DEFS
+          .filter((tab) => allowedKeys.includes(tab.key))
+          .map((tab) => tab.label);
+        if (!labels.length) return "No tabs selected";
+        return labels.join(", ");
+      }
+
+      function openPermissionsModal(docId, adminData) {
+        editingAdminDocId = docId;
+        editingAdminLabel = (adminData && (adminData.username || adminData.name || adminData.email)) || "admin";
+        const allowed = getAllowedTabsFromData(adminData);
+        permModalSub.textContent = "Set visible tabs for: " + editingAdminLabel;
+        permGrid.innerHTML = TAB_DEFS.map((tab) => {
+          const checked = allowed.includes(tab.key) ? "checked" : "";
+          return `<label class="tab-chip"><input type="checkbox" data-tab="${tab.key}" ${checked} />${escapeHtml(tab.label)}</label>`;
+        }).join("");
+        permModal.style.display = "flex";
+        renderLucideIcons();
+      }
+
+      function closePermissionsModal() {
+        permModal.style.display = "none";
+        editingAdminDocId = null;
+        editingAdminLabel = "";
+      }
+
+      function escapeHtml(v) {
+        return String(v || "").replace(/[&<>"']/g, (m) => {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
+        });
+      }
+
+      function formatDateValue(v) {
+        if (!v) return "-";
+        try {
+          if (v.toDate && typeof v.toDate === "function") return v.toDate().toLocaleString();
+          const d = new Date(v);
+          if (!isNaN(d.getTime())) return d.toLocaleString();
+        } catch (_) {}
+        return String(v);
+      }
+
+      function renderLucideIcons() {
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+          window.lucide.createIcons();
+        }
+      }
+
+      function addIconsToLabels() {
+        const iconByLabel = {
+          email: "mail",
+          username: "user",
+          password: "lock-keyhole",
+          name: "badge-check",
+          role: "shield",
+          batch: "layers",
+          duration: "timer",
+          "total qs": "hash",
+          active: "toggle-right",
+          subscription: "gem",
+          date: "calendar-days",
+          syllabus: "book-open",
+          subject: "flask-conical",
+          year: "calendar",
+          chapter: "book-text",
+          qid: "fingerprint",
+          search: "search",
+          sort: "arrow-up-down",
+        };
+
+        document.querySelectorAll("label").forEach((label) => {
+          if (label.querySelector(".label-icon")) return;
+          const text = (label.textContent || "").trim().toLowerCase();
+          let iconName = "tag";
+          Object.keys(iconByLabel).forEach((key) => {
+            if (text.includes(key)) iconName = iconByLabel[key];
+          });
+          const span = document.createElement("span");
+          span.className = "label-icon";
+          span.innerHTML = `<i data-lucide="${iconName}"></i>`;
+          label.insertBefore(span, label.firstChild);
+        });
+      }
+
+      async function loadUserRecords() {
+        if (!db) {
+          recordsBody.innerHTML = '<div class="record-row"><div>DB not configured</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+          return;
+        }
+        recordsBody.innerHTML = '<div class="record-row"><div>Loading...</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+        try {
+          let docs = [];
+          try {
+            const snap = await db
+              .collection("mocks_users")
+              .orderBy("createdAt", "desc")
+              .limit(500)
+              .get();
+            docs = snap.docs;
+          } catch (_) {
+            const fallback = await db.collection("mocks_users").limit(500).get();
+            docs = fallback.docs.sort((a, b) => {
+              const av = a.data() && a.data().createdAt && a.data().createdAt.toDate ? a.data().createdAt.toDate().getTime() : 0;
+              const bv = b.data() && b.data().createdAt && b.data().createdAt.toDate ? b.data().createdAt.toDate().getTime() : 0;
+              return bv - av;
+            });
+          }
+
+          if (!docs.length) {
+            recordsBody.innerHTML = '<div class="record-row"><div>No users found</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+            return;
+          }
+
+          recordsBody.innerHTML = "";
+          docs.forEach((doc) => {
+            const d = doc.data() || {};
+            const row = document.createElement("div");
+            row.className = "record-row";
+            row.innerHTML = `
+              <div>${escapeHtml(d.username || "-")}</div>
+              <div>${escapeHtml(d.name || "-")}</div>
+              <div>${escapeHtml(d.email || "-")}</div>
+              <div>${escapeHtml(d.subscription || "-")}</div>
+              <div>${escapeHtml(d.role || "student")}</div>
+              <div>${escapeHtml(formatDateValue(d.createdAt))}</div>
+            `;
+            recordsBody.appendChild(row);
+          });
+        } catch (err) {
+          console.error(err);
+          recordsBody.innerHTML = '<div class="record-row"><div>Failed to load users</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+        }
+      }
+
+      async function loadAdminLogs() {
+        if (!db) {
+          logsBody.innerHTML = '<div class="log-row"><div>-</div><div>DB not configured</div></div>';
+          return;
+        }
+        logsBody.innerHTML = '<div class="log-row"><div>-</div><div>Loading logs...</div></div>';
+        try {
+          let docs = [];
+          try {
+            const snap = await db
+              .collection("admin_logs")
+              .orderBy("createdAt", "desc")
+              .limit(500)
+              .get();
+            docs = snap.docs;
+          } catch (_) {
+            const fallback = await db.collection("admin_logs").limit(500).get();
+            docs = fallback.docs.sort((a, b) => {
+              const av = a.data() && a.data().createdAt && a.data().createdAt.toDate ? a.data().createdAt.toDate().getTime() : 0;
+              const bv = b.data() && b.data().createdAt && b.data().createdAt.toDate ? b.data().createdAt.toDate().getTime() : 0;
+              return bv - av;
+            });
+          }
+
+          if (!docs.length) {
+            logsBody.innerHTML = '<div class="log-row"><div>-</div><div>No logs found</div></div>';
+            return;
+          }
+
+          logsBody.innerHTML = "";
+          docs.forEach((doc) => {
+            const d = doc.data() || {};
+            const row = document.createElement("div");
+            row.className = "log-row";
+            row.innerHTML = `
+              <div>${escapeHtml(formatDateValue(d.createdAt))}</div>
+              <div>${escapeHtml(d.message || "-")}</div>
+            `;
+            logsBody.appendChild(row);
+          });
+        } catch (err) {
+          console.error(err);
+          logsBody.innerHTML = '<div class="log-row"><div>-</div><div>Failed to load logs</div></div>';
+        }
+      }
+
+      async function loadManageAdmins() {
+        if (!isCurrentUserSuperadmin()) {
+          manageAdminsBody.innerHTML = '<div class="manage-row"><div>-</div><div>-</div><div>-</div><div>-</div><div>Access denied</div><div>-</div></div>';
+          return;
+        }
+        if (!db) {
+          manageAdminsBody.innerHTML = '<div class="manage-row"><div>-</div><div>-</div><div>-</div><div>-</div><div>DB not configured</div><div>-</div></div>';
+          return;
+        }
+
+        manageAdminsBody.innerHTML = '<div class="manage-row"><div>-</div><div>-</div><div>-</div><div>-</div><div>Loading admins...</div><div>-</div></div>';
+        try {
+          let docs = [];
+          try {
+            const snap = await db.collection("mock_admins").orderBy("createdAt", "desc").limit(500).get();
+            docs = snap.docs;
+          } catch (_) {
+            const fallback = await db.collection("mock_admins").limit(500).get();
+            docs = fallback.docs;
+          }
+
+          if (!docs.length) {
+            manageAdminsBody.innerHTML = '<div class="manage-row"><div>-</div><div>-</div><div>-</div><div>-</div><div>No admins found</div><div>-</div></div>';
+            return;
+          }
+
+          manageAdminsBody.innerHTML = "";
+          docs.forEach((docSnap) => {
+            const d = docSnap.data() || {};
+            const role = normalizeRole(d.role);
+            const row = document.createElement("div");
+            row.className = "manage-row";
+
+            if (role === "superadmin") {
+              row.innerHTML = `
+                <div>${escapeHtml(d.username || "-")}</div>
+                <div>${escapeHtml(d.name || "-")}</div>
+                <div>${escapeHtml(d.email || "-")}</div>
+                <div>superadmin</div>
+                <div>All tabs (fixed)</div>
+                <div>-</div>
+              `;
+              manageAdminsBody.appendChild(row);
+              return;
+            }
+
+            const allowed = getAllowedTabsFromData(d);
+
+            row.innerHTML = `
+              <div>${escapeHtml(d.username || "-")}</div>
+              <div>${escapeHtml(d.name || "-")}</div>
+              <div>${escapeHtml(d.email || "-")}</div>
+              <div>${escapeHtml(role || "admin")}</div>
+              <div>${escapeHtml(formatAllowedTabsPreview(allowed))}</div>
+              <div><button class="btn-secondary" type="button"><i data-lucide="sliders-horizontal"></i> Edit Permissions</button></div>
+            `;
+
+            const editBtn = row.querySelector("button");
+            editBtn.addEventListener("click", () => openPermissionsModal(docSnap.id, d));
+
+            manageAdminsBody.appendChild(row);
+          });
+          renderLucideIcons();
+        } catch (err) {
+          console.error(err);
+          manageAdminsBody.innerHTML = '<div class="manage-row"><div>-</div><div>-</div><div>-</div><div>-</div><div>Failed to load admins</div><div>-</div></div>';
+        }
+      }
+
+      async function writeAdminLog(action, user, adminData, customMessage) {
+        if (!db || !user || !action) return;
+        const normalized = String(action).toLowerCase();
+        const actor =
+          (adminData && adminData.username) ||
+          (adminData && adminData.name) ||
+          user.email ||
+          "Admin";
+        let message = customMessage || "";
+        if (!message) {
+          message =
+            normalized === "login"
+              ? actor + " logged in to admin panel."
+              : actor + " logged out from admin panel.";
+        }
+
+        try {
+          await db.collection("admin_logs").add({
+            action: normalized,
+            adminUid: user.uid || "",
+            adminEmail: user.email || "",
+            adminUsername: (adminData && adminData.username) || "",
+            message,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        } catch (err) {
+          console.error("Failed to write admin log", err);
+        }
+      }
+
+      function setActivePane(which) {
+        if (currentAdminData && !canAccessPane(which)) {
+          setStatus(statusEl, "You do not have access to this tab.", false);
+          return;
+        }
+
+        currentPane = which;
+        const showRecords = which === "records";
+        const showBuilder = which === "builder";
+        const showMocks = which === "mocks";
+        const showLogs = which === "logs";
+        const showManageAdmins = which === "manage-admins";
+        registrationView.classList.toggle("hidden", showRecords || showBuilder || showMocks || showLogs || showManageAdmins);
+        recordsView.classList.toggle("hidden", !showRecords);
+        mockBuilderView.classList.toggle("hidden", !showBuilder);
+        mocksView.classList.toggle("hidden", !showMocks);
+        logsView.classList.toggle("hidden", !showLogs);
+        manageAdminsView.classList.toggle("hidden", !showManageAdmins);
+        navNewRegistrationBtn.classList.toggle("active", which === "registration");
+        navUserRecordsBtn.classList.toggle("active", showRecords);
+        navCreateMockBtn.classList.toggle("active", showBuilder);
+        navMocksBtn.classList.toggle("active", showMocks);
+        navLogsBtn.classList.toggle("active", showLogs);
+        navManageAdminsBtn.classList.toggle("active", showManageAdmins);
+        if (showRecords) loadUserRecords();
+        if (showMocks) {
+          mbSelectedBatch = null;
+          mbLoadMocksTable();
+        }
+        if (showLogs) loadAdminLogs();
+        if (showManageAdmins) loadManageAdmins();
+        renderLucideIcons();
+      }
+
+      function setStatus(el, message, ok) {
+        el.textContent = message || "";
+        el.className = "status " + (ok ? "ok" : "err");
+      }
+
+      function setRole(roleValue) {
+        const role = String(roleValue || "").toLowerCase();
+        roleInput.value = role;
+        roleButtons.forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.role === role);
+        });
+
+        if (role === "admin") {
+          subscriptionInput.value = "all batches";
+          subscriptionButtons.forEach((btn) => {
+            btn.classList.add("active");
+            btn.classList.add("disabled");
+            btn.disabled = true;
+          });
+        } else {
+          subscriptionButtons.forEach((btn) => {
+            btn.classList.remove("disabled");
+            btn.disabled = false;
+          });
+          setSubscription("");
+        }
+      }
+
+      function setSubscription(subscriptionValue) {
+        if (roleInput.value === "admin") return;
+        const subscription = String(subscriptionValue || "").toLowerCase();
+        subscriptionInput.value = subscription;
+        subscriptionButtons.forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.subscription === subscription);
+        });
+      }
+
+      function setAdminVisible(user, adminData) {
+        if (user) {
+          currentAdminData = adminData || null;
+          loginSection.classList.add("hidden");
+          adminSection.classList.remove("hidden");
+          const shown = (adminData && adminData.username) || user.email || "Logged in";
+          navUserEl.textContent = shown;
+          navActionsEl.classList.remove("hidden");
+          logoutBtn.classList.remove("hidden");
+          applyNavAccess();
+          setActivePane(getFirstAllowedPane());
+          setStatus(loginStatusEl, "", false);
+        } else {
+          currentAdminData = null;
+          adminSection.classList.add("hidden");
+          loginSection.classList.remove("hidden");
+          navActionsEl.classList.add("hidden");
+          logoutBtn.classList.add("hidden");
+          navManageAdminsBtn.classList.add("hidden");
+          navUserEl.textContent = "Not logged in";
+          currentPane = "registration";
+          setActivePane("registration");
+          setStatus(statusEl, "", false);
+        }
+      }
+
+      roleButtons.forEach((btn) => {
+        btn.addEventListener("click", () => setRole(btn.dataset.role));
+      });
+
+      subscriptionButtons.forEach((btn) => {
+        btn.addEventListener("click", () => setSubscription(btn.dataset.subscription));
+      });
+
+      navNewRegistrationBtn.addEventListener("click", () => setActivePane("registration"));
+      navUserRecordsBtn.addEventListener("click", () => setActivePane("records"));
+      navCreateMockBtn.addEventListener("click", () => setActivePane("builder"));
+      navMocksBtn.addEventListener("click", () => setActivePane("mocks"));
+      navLogsBtn.addEventListener("click", () => setActivePane("logs"));
+      navManageAdminsBtn.addEventListener("click", () => setActivePane("manage-admins"));
+      refreshRecordsBtn.addEventListener("click", () => loadUserRecords());
+      refreshLogsBtn.addEventListener("click", () => loadAdminLogs());
+      refreshAdminsBtn.addEventListener("click", () => loadManageAdmins());
+      permCloseBtn.addEventListener("click", () => closePermissionsModal());
+      permModal.addEventListener("click", (e) => {
+        if (e.target === permModal) closePermissionsModal();
+      });
+      permSaveBtn.addEventListener("click", async () => {
+        if (!editingAdminDocId) return;
+        const selected = Array.from(permGrid.querySelectorAll('input[type="checkbox"][data-tab]'))
+          .filter((el) => el.checked)
+          .map((el) => String(el.dataset.tab || "").toLowerCase())
+          .filter((tab) => ADMIN_TAB_KEYS.includes(tab));
+
+        if (!selected.length) {
+          setStatus(statusEl, "At least one tab must be enabled for an admin.", false);
+          return;
+        }
+
+        try {
+          permSaveBtn.disabled = true;
+          permSaveBtn.textContent = "Saving...";
+          await db.collection("mock_admins").doc(editingAdminDocId).set(
+            { allowedTabs: selected },
+            { merge: true },
+          );
+          setStatus(statusEl, "Permissions saved for " + editingAdminLabel + ".", true);
+          closePermissionsModal();
+          loadManageAdmins();
+          if (auth && auth.currentUser && auth.currentUser.uid === editingAdminDocId) {
+            const adminRecord = await getAdminDocByUid(editingAdminDocId);
+            if (adminRecord) {
+              currentAdminData = adminRecord.data;
+              applyNavAccess();
+              if (!canAccessPane(currentPane)) setActivePane(getFirstAllowedPane());
+            }
+          }
+        } catch (err) {
+          console.error(err);
+          setStatus(statusEl, "Failed to save permissions.", false);
+        } finally {
+          permSaveBtn.disabled = false;
+          permSaveBtn.innerHTML = '<i data-lucide="save"></i> Save Permissions';
+          renderLucideIcons();
+        }
+      });
+      mocksRefreshBtn.addEventListener("click", () => mbLoadMocksTable());
+      mocksBackBtn.addEventListener("click", () => {
+        mbSelectedBatch = null;
+        mbRenderBatchCards();
+      });
+
+      setRole("student");
+      setSubscription("");
+
+      async function getAdminDocByUid(uid) {
+        if (!db || !uid) return null;
+        const docSnap = await db.collection("mock_admins").doc(uid).get();
+        if (!docSnap.exists) return null;
+        const data = docSnap.data() || {};
+        const role = normalizeRole(data.role);
+        if (role !== "admin" && role !== "superadmin") return null;
+        return { id: docSnap.id, data };
+      }
+
+      if (auth) {
+        auth.onAuthStateChanged(async (user) => {
+          if (!user) {
+            setAdminVisible(null, null);
+            return;
+          }
+
+          try {
+            const adminRecord = await getAdminDocByUid(user.uid);
+            if (!adminRecord) {
+              await auth.signOut();
+              setStatus(
+                loginStatusEl,
+                "Access denied. Only users in mock_admins can login.",
+                false,
+              );
+              return;
+            }
+            setAdminVisible(user, adminRecord.data);
+          } catch (err) {
+            console.error(err);
+            await auth.signOut().catch(() => {});
+            setAdminVisible(null, null);
+            setStatus(loginStatusEl, "Admin verification failed.", false);
+          }
+        });
+      }
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        setStatus(loginStatusEl, "", false);
+
+        if (!auth) {
+          setStatus(loginStatusEl, "Auth is not configured.", false);
+          return;
+        }
+
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value;
+
+        if (!email || !password) {
+          setStatus(loginStatusEl, "Email and password are required.", false);
+          return;
+        }
+
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Logging in...";
+
+        try {
+          const cred = await auth.signInWithEmailAndPassword(email, password);
+          const signedInUid = cred.user && cred.user.uid;
+          if (!signedInUid) {
+            throw new Error("Failed to verify admin account.");
+          }
+
+          const byUid = await getAdminDocByUid(signedInUid);
+          if (!byUid) {
+            await auth.signOut().catch(() => {});
+            throw new Error("Access denied. Admin record not found for this account.");
+          }
+
+          await writeAdminLog("login", cred.user, byUid.data);
+          setStatus(loginStatusEl, "Login successful.", true);
+          loginForm.reset();
+        } catch (err) {
+          console.error(err);
+          setStatus(loginStatusEl, err && err.message ? err.message : "Login failed.", false);
+        } finally {
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Login";
+        }
+      });
+
+      logoutBtn.addEventListener("click", async () => {
+        if (!auth) return;
+        try {
+          const user = auth.currentUser;
+          await writeAdminLog("logout", user, currentAdminData);
+          await auth.signOut();
+        } catch (err) {
+          console.error(err);
+          setStatus(statusEl, "Failed to logout.", false);
+        }
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        setStatus(statusEl, "", false);
+
+        if (!app || !db || !auth || !auth.currentUser) {
+          setStatus(statusEl, "Please login first.", false);
+          return;
+        }
+
+        const email = document.getElementById("user-email").value.trim();
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("user-password").value;
+        const name = document.getElementById("name").value.trim();
+        const subscription = subscriptionInput.value.trim().toLowerCase();
+        const role = roleInput.value.trim().toLowerCase();
+
+        if (!email || !username || !password || !name || !subscription || !role) {
+          setStatus(
+            statusEl,
+            "Email, username, password, name, batch, and role are required.",
+            false,
+          );
+          return;
+        }
+
+        if (role === "superadmin") {
+          setStatus(statusEl, "Superadmin cannot be created from admin panel.", false);
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Creating...";
+
+        let secondaryApp = null;
+
+        try {
+          const secondaryName = "admin-create-user-" + Date.now();
+          secondaryApp = firebase.initializeApp(firebaseConfig, secondaryName);
+          const secondaryAuth = secondaryApp.auth();
+
+          const cred = await secondaryAuth.createUserWithEmailAndPassword(email, password);
+          const newUser = cred.user;
+
+          const targetCollection =
+            role === "admin" ? "mock_admins" : "mocks_users";
+
+          await db
+            .collection(targetCollection)
+            .doc(newUser.uid)
+            .set(
+              {
+                email,
+                username,
+                name,
+                subscription,
+                role,
+                allowedTabs: role === "admin" ? [...ADMIN_TAB_KEYS] : null,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                createdBy: auth.currentUser.uid,
+              },
+              { merge: true },
+            );
+
+          await writeAdminLog(
+            "user_create",
+            auth.currentUser,
+            currentAdminData,
+            ((currentAdminData && (currentAdminData.username || currentAdminData.name)) ||
+              auth.currentUser.email ||
+              "Admin") +
+              " created " +
+              role +
+              " user " +
+              (username || email) +
+              " (" +
+              email +
+              ").",
+          );
+
+          setStatus(statusEl, "User created successfully.", true);
+          form.reset();
+          setRole("student");
+          setSubscription("");
+        } catch (err) {
+          console.error(err);
+          setStatus(statusEl, err && err.message ? err.message : "Failed to create user.", false);
+        } finally {
+          if (secondaryApp) {
+            try {
+              await secondaryApp.auth().signOut();
+              await secondaryApp.delete();
+            } catch (_) {}
+          }
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create User";
+        }
+      });
+
+      const mbData = { Physics: [], Chemistry: [], Mathematics: [] };
+      let mbCurrent = "Physics";
+      let mbEditMockId = null;
+      let mbAllPyqs = [];
+      let mbFilteredPyqs = [];
+
+      const mbTabs = document.querySelectorAll(".mb-tab");
+      const mbTbody = document.getElementById("mb-tbody");
+      const mbMockName = document.getElementById("mb-mock-name");
+      const mbDuration = document.getElementById("mb-duration");
+      const mbQns = document.getElementById("mb-qns");
+      const mbActive = document.getElementById("mb-active");
+      const mbSubscription = document.getElementById("mb-subscription");
+      const mbDateAdded = document.getElementById("mb-date-added");
+      const mbSyllabus = document.getElementById("mb-syllabus");
+      const mbSaveMock = document.getElementById("mb-save-mock");
+      const mbOpenImport = document.getElementById("mb-open-import");
+
+      const mbImportModal = document.getElementById("mb-import-modal");
+      const mbCloseImport = document.getElementById("mb-close-import");
+      const mbImpSubject = document.getElementById("mb-imp-subject");
+      const mbImpYear = document.getElementById("mb-imp-year");
+      const mbImpChapter = document.getElementById("mb-imp-chapter");
+      const mbImpQid = document.getElementById("mb-imp-qid");
+      const mbImpSearch = document.getElementById("mb-imp-search");
+      const mbImpSort = document.getElementById("mb-imp-sort");
+      const mbImportAll = document.getElementById("mb-import-all");
+      const mbPyqGrid = document.getElementById("mb-pyq-grid");
+
+      const mbMocksGrid = document.getElementById("mb-mocks-grid");
+      let mbAllMocks = [];
+      let mbSelectedBatch = null;
+
+      function setMockBuilderStatus(msg, ok) {
+        if (!mockBuilderStatusEl) return;
+        mockBuilderStatusEl.textContent = msg || "";
+        mockBuilderStatusEl.className = "status " + (ok ? "ok" : "err");
+      }
+
+      function mbRender() {
+        mbTbody.innerHTML = "";
+        mbData[mbCurrent].forEach((q, i) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${escapeHtml(q.qid || "-")}</td>
+            <td class="mb-mono">${escapeHtml(q.img || "")}</td>
+            <td>${escapeHtml(q.ans || "")}</td>
+            <td><button class="mb-btn danger" type="button"><i data-lucide="trash-2"></i> Remove</button></td>
+          `;
+          row.querySelector("button").addEventListener("click", () => {
+            mbData[mbCurrent].splice(i, 1);
+            mbRender();
+          });
+          mbTbody.appendChild(row);
+        });
+        renderLucideIcons();
+      }
+
+      async function mbLoadPyqs() {
+        try {
+          const snap = await db
+            .collection("pyqs")
+            .where("subject", "==", mbImpSubject.value)
+            .get();
+          mbAllPyqs = [];
+          snap.forEach((doc) => {
+            const d = doc.data();
+            d._id = doc.id;
+            mbAllPyqs.push(d);
+          });
+          mbApplyFilters();
+        } catch (err) {
+          console.error(err);
+          mbPyqGrid.innerHTML = '<div class="mb-pyq-card">Failed to load pyqs</div>';
+        }
+      }
+
+      function mbApplyFilters() {
+        mbFilteredPyqs = [...mbAllPyqs];
+
+        if (mbImpYear.value) {
+          mbFilteredPyqs = mbFilteredPyqs.filter((p) =>
+            String(p.year || "").includes(mbImpYear.value),
+          );
+        }
+        if (mbImpChapter.value) {
+          mbFilteredPyqs = mbFilteredPyqs.filter((p) =>
+            String(p.chapter || "")
+              .toLowerCase()
+              .includes(mbImpChapter.value.toLowerCase()),
+          );
+        }
+        if (mbImpQid.value) {
+          mbFilteredPyqs = mbFilteredPyqs.filter((p) =>
+            String(p.qid || "").toLowerCase().includes(mbImpQid.value.toLowerCase()),
+          );
+        }
+        if (mbImpSearch.value) {
+          const s = mbImpSearch.value.toLowerCase();
+          mbFilteredPyqs = mbFilteredPyqs.filter((p) => {
+            return (
+              String(p.chapter || "").toLowerCase().includes(s) ||
+              String(p.qid || "").toLowerCase().includes(s)
+            );
+          });
+        }
+
+        if (mbImpSort.value === "qid") {
+          mbFilteredPyqs.sort((a, b) =>
+            String(a.qid || "").localeCompare(String(b.qid || "")),
+          );
+        } else if (mbImpSort.value === "yearDesc") {
+          mbFilteredPyqs.sort((a, b) => (b.year || 0) - (a.year || 0));
+        } else if (mbImpSort.value === "yearAsc") {
+          mbFilteredPyqs.sort((a, b) => (a.year || 0) - (b.year || 0));
+        }
+
+        mbRenderPyqs();
+      }
+
+      function mbRenderPyqs() {
+        mbPyqGrid.innerHTML = "";
+        mbFilteredPyqs.forEach((d) => {
+          const card = document.createElement("div");
+          card.className = "mb-pyq-card";
+          card.innerHTML = `
+            <div class="mb-pyq-thumb"><img src="${escapeHtml(d.imageUrl || "")}" alt="" /></div>
+            <div class="mb-pyq-title">${escapeHtml(d.chapter || "PYQ")}</div>
+            <div class="mb-pyq-qid">QID: ${escapeHtml(d.qid || "-")}</div>
+            <button class="mb-btn mb-pyq-btn" type="button"><i data-lucide="plus"></i> Add</button>
+          `;
+          const addBtn = card.querySelector("button");
+          addBtn.addEventListener("click", () => {
+            const subj = d.subject || mbImpSubject.value;
+            if (!mbData[subj]) return;
+            mbData[subj].push({
+              qid: d.qid || "",
+              img: d.imageUrl || "",
+              ans: d.correct || "",
+            });
+            mbRender();
+            addBtn.classList.add("done");
+            addBtn.textContent = "OK";
+          });
+          mbPyqGrid.appendChild(card);
+        });
+        renderLucideIcons();
+      }
+
+      function toBatchKey(v) {
+        return String(v || "")
+          .trim()
+          .toLowerCase();
+      }
+
+      function toBatchLabel(v) {
+        const s = String(v || "").trim();
+        if (!s) return "Unassigned";
+        return s
+          .split(" ")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(" ");
+      }
+
+      function mbRenderBatchCards() {
+        const map = new Map();
+        mbAllMocks.forEach((m) => {
+          const key = toBatchKey(m.data.subscription);
+          const label = toBatchLabel(m.data.subscription);
+          if (!map.has(key)) map.set(key, { key, label, count: 0 });
+          map.get(key).count += 1;
+        });
+        const batches = Array.from(map.values()).sort((a, b) =>
+          a.label.localeCompare(b.label),
+        );
+
+        mocksViewTitleEl.textContent = "Mocks by Batch";
+        mocksViewSubtitleEl.textContent = "Select a batch to view its mocks.";
+        mocksBackBtn.classList.add("hidden");
+
+        if (!batches.length) {
+          mbMocksGrid.innerHTML = '<div class="mock-empty">No batches found.</div>';
+          return;
+        }
+
+        mbMocksGrid.innerHTML = "";
+        batches.forEach((b) => {
+          const card = document.createElement("article");
+          card.className = "batch-card";
+          card.innerHTML = `
+            <h3 class="batch-title"><i data-lucide="folder-open"></i> ${escapeHtml(b.label)}</h3>
+            <div class="batch-sub">${escapeHtml(String(b.count))} mock(s)</div>
+          `;
+          card.addEventListener("click", () => {
+            mbSelectedBatch = b.key;
+            mbRenderMocksForBatch();
+          });
+          mbMocksGrid.appendChild(card);
+        });
+        renderLucideIcons();
+      }
+
+      function mbRenderMocksForBatch() {
+        const selected = mbSelectedBatch;
+        const selectedLabel = toBatchLabel(selected);
+        const items = mbAllMocks.filter(
+          (m) => toBatchKey(m.data.subscription) === selected,
+        );
+
+        mocksViewTitleEl.textContent = selectedLabel + " Mocks";
+        mocksViewSubtitleEl.textContent = "Edit or delete mocks in this batch.";
+        mocksBackBtn.classList.remove("hidden");
+
+        if (!items.length) {
+          mbMocksGrid.innerHTML =
+            '<div class="mock-empty">No mocks found in this batch.</div>';
+          return;
+        }
+
+        mbMocksGrid.innerHTML = "";
+        items.forEach(({ id, data: d }) => {
+          const card = document.createElement("article");
+          card.className = "mock-card";
+          card.innerHTML = `
+            <h3 class="mock-card-title"><i data-lucide="file-text"></i> ${escapeHtml(d.name || "Untitled Mock")}</h3>
+            <div class="mock-meta">
+              <div><b>Questions:</b> ${escapeHtml(String(d.qns || "-"))}</div>
+              <div><b>Duration:</b> ${escapeHtml(String(d.duration || "-"))} min</div>
+              <div><b>Active:</b> ${escapeHtml(String(d.active || "-"))}</div>
+              <div><b>Subscription:</b> ${escapeHtml(String(d.subscription || "-"))}</div>
+            </div>
+            <div class="mock-actions">
+              <button class="mb-btn" type="button"><i data-lucide="pencil"></i> Edit</button>
+              <button class="mb-btn danger" type="button"><i data-lucide="trash-2"></i> Delete</button>
+            </div>
+          `;
+          const [editBtn, delBtn] = card.querySelectorAll("button");
+          editBtn.addEventListener("click", () => mbEditMock(id));
+          delBtn.addEventListener("click", () => mbDeleteMock(id));
+          mbMocksGrid.appendChild(card);
+        });
+        renderLucideIcons();
+      }
+
+      async function mbLoadMocksTable() {
+        mbMocksGrid.innerHTML = '<div class="mock-empty">Loading mocks...</div>';
+        try {
+          const snap = await db.collection("mocks").get();
+          mbAllMocks = snap.docs.map((doc) => ({ id: doc.id, data: doc.data() || {} }));
+          if (!mbAllMocks.length) {
+            mbMocksGrid.innerHTML = '<div class="mock-empty">No mocks found.</div>';
+            mocksViewTitleEl.textContent = "Mocks";
+            mocksViewSubtitleEl.textContent = "No mocks available.";
+            mocksBackBtn.classList.add("hidden");
+            return;
+          }
+          if (mbSelectedBatch) mbRenderMocksForBatch();
+          else mbRenderBatchCards();
+        } catch (err) {
+          console.error(err);
+          mbMocksGrid.innerHTML = '<div class="mock-empty">Failed to load mocks.</div>';
+        }
+      }
+
+      async function mbEditMock(id) {
+        try {
+          const doc = await db.collection("mocks").doc(id).get();
+          if (!doc.exists) return;
+          const d = doc.data() || {};
+          mbEditMockId = id;
+          mbMockName.value = d.name || "";
+          mbDuration.value = d.duration || 120;
+          mbQns.value = d.qns || 60;
+          mbSyllabus.value = d.syllabus || "";
+          mbActive.value = d.active || "Yes";
+          mbSubscription.value = d.subscription || "alpha batch";
+          mbDateAdded.value = d.date && d.date.toDate ? d.date.toDate().toISOString().split("T")[0] : "";
+          mbData.Physics = (d.questions && d.questions.Physics) ? [...d.questions.Physics] : [];
+          mbData.Chemistry = (d.questions && d.questions.Chemistry) ? [...d.questions.Chemistry] : [];
+          mbData.Mathematics = (d.questions && d.questions.Mathematics) ? [...d.questions.Mathematics] : [];
+          mbRender();
+          setActivePane("builder");
+          setMockBuilderStatus("Loaded mock for edit.", true);
+        } catch (err) {
+          console.error(err);
+          setMockBuilderStatus("Failed to load mock.", false);
+        }
+      }
+
+      async function mbDeleteMock(id) {
+        if (!confirm("Delete this mock?")) return;
+        try {
+          await db.collection("mocks").doc(id).delete();
+          mbLoadMocksTable();
+          setMockBuilderStatus("Mock deleted.", true);
+        } catch (err) {
+          console.error(err);
+          setMockBuilderStatus("Failed to delete mock.", false);
+        }
+      }
+
+      mbTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          mbTabs.forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          mbCurrent = tab.dataset.sub;
+          mbRender();
+        });
+      });
+
+      mbOpenImport.addEventListener("click", () => {
+        mbImportModal.style.display = "block";
+        mbLoadPyqs();
+      });
+      mbCloseImport.addEventListener("click", () => {
+        mbImportModal.style.display = "none";
+      });
+      mbImpSubject.addEventListener("change", mbLoadPyqs);
+      [mbImpYear, mbImpChapter, mbImpQid, mbImpSearch, mbImpSort].forEach((el) => {
+        el.addEventListener("input", mbApplyFilters);
+        el.addEventListener("change", mbApplyFilters);
+      });
+
+      mbImportAll.addEventListener("click", () => {
+        mbFilteredPyqs.forEach((d) => {
+          const subj = d.subject || mbImpSubject.value;
+          if (!mbData[subj]) return;
+          mbData[subj].push({
+            qid: d.qid || "",
+            img: d.imageUrl || "",
+            ans: d.correct || "",
+          });
+        });
+        mbRender();
+        setMockBuilderStatus(`${mbFilteredPyqs.length} questions imported.`, true);
+      });
+
+      mbSaveMock.addEventListener("click", async () => {
+        try {
+          const isEdit = !!mbEditMockId;
+          const payload = {
+            name: mbMockName.value,
+            duration: +mbDuration.value,
+            qns: +mbQns.value,
+            syllabus: mbSyllabus.value,
+            active: mbActive.value,
+            subscription: mbSubscription.value,
+            date: mbDateAdded.value
+              ? firebase.firestore.Timestamp.fromDate(
+                  new Date(mbDateAdded.value + "T00:00:00"),
+                )
+              : null,
+            questions: mbData,
+          };
+          if (isEdit) {
+            await db.collection("mocks").doc(mbEditMockId).update(payload);
+          } else {
+            await db.collection("mocks").add(payload);
+          }
+          await writeAdminLog(
+            isEdit ? "mock_update" : "mock_create",
+            auth && auth.currentUser ? auth.currentUser : null,
+            currentAdminData,
+            ((currentAdminData && (currentAdminData.username || currentAdminData.name)) ||
+              (auth && auth.currentUser && auth.currentUser.email) ||
+              "Admin") +
+              (isEdit ? " updated mock " : " created mock ") +
+              (payload.name || "Untitled Mock") +
+              ".",
+          );
+          mbLoadMocksTable();
+          setMockBuilderStatus("Mock saved.", true);
+        } catch (err) {
+          console.error(err);
+          setMockBuilderStatus("Failed to save mock.", false);
+        }
+      });
+
+      mbImportModal.addEventListener("click", (e) => {
+        if (e.target === mbImportModal) mbImportModal.style.display = "none";
+      });
+
+      mbRender();
+      addIconsToLabels();
+      renderLucideIcons();
+    </script>
+  </body>
+</html>
