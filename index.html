@@ -1,10 +1,11 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>PROYAX Admin Panel</title>
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="favicon.png?v=2" />
+    <link rel="shortcut icon" type="image/png" href="favicon.png?v=2" />
     <style>
       :root {
         --bg-1: #ebf3fe;
@@ -16,6 +17,7 @@
         --accent-2: #5a9bff;
         --ok: #1f9d63;
         --err: #d64045;
+        --footer-h: 34px;
       }
 
       * {
@@ -71,10 +73,35 @@
       }
 
       .nav-title img {
-        width: 24px;
-        height: 24px;
+        height: 30px;
+        width: auto;
         border-radius: 6px;
         object-fit: contain;
+      }
+
+      .nav-title .nav-logo {
+        height: 50px;
+      }
+
+      .nav-title .nav-banner {
+        border-radius: 0;
+      }
+
+      .nav-site-link {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        background: #eef5ff;
+        color: #0d3a86;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+
+      .nav-site-link:hover {
+        background: #dceaff;
       }
 
       .nav-user {
@@ -123,12 +150,60 @@
       }
 
       .page {
-        height: calc(100vh - 52px);
+        height: calc(100vh - 52px - var(--footer-h));
         width: 100%;
         padding: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+      }
+
+      .site-footer {
+        height: var(--footer-h);
+        border-top: 1px solid var(--line);
+        background: rgba(235, 243, 254, 0.96);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        padding: 0 12px;
+        font-size: 11px;
+        color: var(--muted);
+        gap: 10px;
+      }
+
+      .footer-left {
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .footer-right {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        justify-self: end;
+      }
+
+      .footer-link-btn {
+        height: 22px;
+        padding: 0 7px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 8px;
+        background: #fff;
+        color: #11428f;
+        font-size: 10px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .footer-link-btn:hover {
+        background: #eef5ff;
       }
 
       .view {
@@ -226,6 +301,11 @@
         align-content: start;
       }
 
+      #registration-view {
+        display: flex;
+        flex-direction: column;
+      }
+
       .hidden {
         display: none !important;
       }
@@ -249,9 +329,134 @@
         gap: 12px;
       }
 
+      .registration-layout {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        gap: 14px;
+        align-items: stretch;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .registration-left,
+      .registration-right {
+        min-width: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .registration-left {
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 12px;
+        padding: 12px;
+        background: linear-gradient(180deg, #ffffff, #f6f9ff);
+      }
+
+      .registration-right {
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 12px;
+        padding: 12px;
+        background: linear-gradient(180deg, #ffffff, #f6f9ff);
+      }
+
+      .registration-right h2 {
+        margin: 0;
+        font-size: 18px;
+        color: var(--text);
+      }
+
+      .registration-side-sub {
+        margin-top: 4px;
+      }
+
+      .id-search-input-wrap {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .id-search-prefix {
+        border: 1px solid rgba(4, 40, 98, 0.25);
+        border-radius: 9px;
+        background: rgba(50, 128, 255, 0.1);
+        color: #17428f;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 0.4px;
+        padding: 10px 12px;
+      }
+
+      .id-search-results {
+        margin-top: 10px;
+        border: 1px solid rgba(4, 40, 98, 0.16);
+        border-radius: 9px;
+        background: #fff;
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+      }
+
+      .id-search-empty {
+        padding: 12px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .id-search-item {
+        padding: 10px;
+        border-top: 1px solid rgba(4, 40, 98, 0.12);
+        display: grid;
+        gap: 5px;
+      }
+
+      .id-search-item:first-child {
+        border-top: 0;
+      }
+
+      .id-search-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .id-search-id {
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .id-search-chip {
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 700;
+        background: rgba(50, 128, 255, 0.1);
+        color: #17428f;
+      }
+
+      .id-search-main {
+        font-size: 12px;
+        color: var(--text);
+      }
+
+      .id-search-sub {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .id-search-meta {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
       .row-3 {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 10px;
       }
 
@@ -259,6 +464,15 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
+      }
+
+      .registration-form {
+        margin-top: 0;
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto auto auto auto auto auto 1fr;
+        gap: 12px;
+        align-content: start;
       }
 
       .field {
@@ -572,7 +786,7 @@
       .records-header,
       .record-row {
         display: grid;
-        grid-template-columns: 1.2fr 1fr 1.3fr 1fr 0.8fr 1fr;
+        grid-template-columns: 1.1fr 1.1fr 1fr 1.2fr 1fr 0.8fr 1fr;
         gap: 8px;
         padding: 10px;
         font-size: 12px;
@@ -609,11 +823,21 @@
       .mb-top-bar {
         display: flex;
         gap: 8px;
-        padding: 10px 12px;
-        border-bottom: 1px solid rgba(4, 40, 98, 0.16);
-        background: linear-gradient(180deg, #f8fbff, #f2f7ff);
         overflow-x: auto;
         align-items: flex-end;
+        justify-content: flex-end;
+        margin-left: auto;
+      }
+
+      .mb-header-row {
+        margin-top: 6px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .mb-header-row h1 {
+        margin: 0;
       }
 
       .mb-field {
@@ -646,6 +870,43 @@
         margin-left: auto;
         display: flex;
         gap: 6px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .mb-actions .mb-btn {
+        width: 140px;
+        justify-content: center;
+      }
+
+      .mb-auto-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 170px;
+        border: 1px solid rgba(4, 40, 98, 0.16);
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ffffff, #f5f9ff);
+        padding: 8px 10px;
+      }
+
+      .mb-auto-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .mb-auto-item span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .mb-auto-item b {
+        color: #0f3c88;
       }
 
       .mb-btn {
@@ -704,52 +965,188 @@
         background: #ffffff;
       }
 
-      .mb-tabs {
+      .mb-subject-cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .mb-subject-card {
+        border: 1px solid rgba(4, 40, 98, 0.18);
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ffffff, #f5f9ff);
+        padding: 12px;
+        min-height: 190px;
+      }
+
+      .mb-subject-head {
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 10px;
+        font-weight: 800;
+        color: #0d3a86;
+      }
+
+      .mb-subject-head span {
+        display: inline-flex;
+        align-items: center;
         gap: 6px;
       }
 
-      .mb-tab {
-        padding: 6px 14px;
-        border-radius: 999px;
-        border: 1px solid rgba(4, 40, 98, 0.2);
+      .mb-subject-total {
         font-size: 12px;
-        font-weight: 800;
-        cursor: pointer;
         color: var(--muted);
       }
 
-      .mb-tab.active {
-        background: var(--accent);
-        color: #fff;
-        border-color: var(--accent);
+      .mb-chapter-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
 
-      .mb-tab:hover {
-        border-color: rgba(50, 128, 255, 0.5);
-        background: rgba(50, 128, 255, 0.08);
-      }
-
-      .mb-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-      }
-
-      .mb-table th,
-      .mb-table td {
-        padding: 8px;
+      .mb-chapter-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
         font-size: 12px;
-        border-bottom: 1px solid rgba(4, 40, 98, 0.15);
-        vertical-align: middle;
+        border: 1px solid rgba(4, 40, 98, 0.12);
+        border-radius: 8px;
+        padding: 6px 8px;
+        background: #fff;
       }
 
-      .mb-mono {
-        color: var(--muted);
+      .mb-chapter-right {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .mb-chapter-name {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 380px;
+        color: #07306e;
+        font-weight: 700;
+      }
+
+      .mb-chapter-count {
+        font-weight: 800;
+        color: #0f3c88;
+      }
+
+      .mb-view-chapter-btn {
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        background: #eef5ff;
+        color: #0d3a86;
+        border-radius: 7px;
+        width: 28px;
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .mb-view-chapter-btn:hover {
+        background: #dceaff;
+      }
+
+      .mb-chapter-empty {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .mb-chapter-modal-card {
+        background: #fff;
+        width: min(1100px, 96vw);
+        margin: 24px auto;
+        border-radius: 12px;
+        border: 1px solid rgba(4, 40, 98, 0.18);
+        box-shadow: 0 20px 48px rgba(4, 40, 98, 0.26);
+        padding: 14px;
+        max-height: calc(100vh - 48px);
+        overflow: auto;
+      }
+
+      .mb-chapter-modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .mb-chapter-modal-title {
+        margin: 0;
+        font-size: 18px;
+        color: #0d3a86;
+      }
+
+      .mb-chapter-modal-meta {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .mb-chapter-questions {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 10px;
+      }
+
+      .mb-chapter-q-card {
+        border: 1px solid rgba(4, 40, 98, 0.14);
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ffffff, #f7fbff);
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .mb-chapter-q-head {
+        font-size: 12px;
+        color: #0d3a86;
+        font-weight: 800;
+      }
+
+      .mb-chapter-q-img-wrap {
+        border: 1px solid rgba(4, 40, 98, 0.15);
+        border-radius: 8px;
+        background: #fff;
+        min-height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px;
+      }
+
+      .mb-chapter-q-img {
+        max-width: 100%;
+        max-height: 420px;
+        object-fit: contain;
+      }
+
+      .mb-chapter-q-empty {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .mb-chapter-q-ans {
+        font-size: 12px;
+      }
+
+      @media (max-width: 1100px) {
+        .mb-subject-cards {
+          grid-template-columns: 1fr;
+        }
       }
 
       .mb-modal {
@@ -762,6 +1159,42 @@
         );
         display: none;
         z-index: 3000;
+      }
+
+      .legal-modal-card {
+        background: linear-gradient(180deg, #ffffff, #f6f9ff);
+        width: min(860px, 96vw);
+        margin: 24px auto;
+        border-radius: 12px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        box-shadow: 0 18px 45px rgba(4, 40, 98, 0.24);
+        padding: 14px;
+        max-height: calc(100vh - 48px);
+        overflow: auto;
+      }
+
+      .legal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .legal-title {
+        margin: 0;
+        color: #0f3f8f;
+        font-size: 18px;
+      }
+
+      .legal-body {
+        margin-top: 8px;
+        font-size: 13px;
+        line-height: 1.55;
+        color: #15376c;
+      }
+
+      .legal-body p {
+        margin: 0 0 10px 0;
       }
 
       .mb-modal-card {
@@ -1083,7 +1516,7 @@
 
         .page {
           height: auto;
-          min-height: calc(100vh - 52px);
+          min-height: calc(100vh - 52px - var(--footer-h));
           justify-content: flex-start;
           padding: 0;
         }
@@ -1099,6 +1532,16 @@
 
         .view {
           padding: 12px;
+        }
+
+        .registration-layout {
+          grid-template-columns: 1fr;
+          flex: none;
+        }
+
+        .registration-left,
+        .registration-right {
+          height: auto;
         }
 
         .mb-modal-card {
@@ -1137,8 +1580,18 @@
     <header class="navbar">
       <div class="nav-left">
         <div class="nav-title">
-          <img src="/logo.png" alt="PROYAX logo" />
-          <span>PROYAX ADMIN PANEL</span>
+          <img class="nav-logo" src="/logo.png" alt="PROYAX logo" />
+          <img class="nav-banner" src="/banner.png" alt="PROYAX banner" />
+          <a
+            class="nav-site-link"
+            href="https://www.proyaxcee.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open PROYAX main site"
+            title="Open main site"
+          >
+            <i data-lucide="external-link"></i>
+          </a>
         </div>
       </div>
       <div class="nav-mid hidden" id="nav-actions">
@@ -1213,55 +1666,78 @@
         <section id="registration-view">
           <h1><span class="title-icon"><i data-lucide="user-plus"></i></span>Create User</h1>
           <div class="subtext">Create Firebase Auth user and save profile in Firestore.</div>
-        <form id="create-user-form" autocomplete="off">
-          <div class="row-3">
-            <div class="field">
-              <label for="user-email">Email</label>
-              <input id="user-email" type="email" required placeholder="student@example.com" />
+          <div class="registration-layout">
+            <div class="registration-left">
+              <form id="create-user-form" class="registration-form" autocomplete="off">
+                <div class="row-2">
+                  <div class="field">
+                    <label for="name">Name</label>
+                    <input id="name" type="text" required placeholder="Full Name" />
+                  </div>
+                  <div class="field">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" required placeholder="student_username" />
+                  </div>
+                </div>
+                <div class="row-2">
+                  <div class="field">
+                    <label for="user-email">Email</label>
+                    <input id="user-email" type="email" required placeholder="student@example.com" />
+                  </div>
+                  <div class="field">
+                    <label for="user-password">Password</label>
+                    <input id="user-password" type="password" minlength="6" required placeholder="Minimum 6 characters" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Role</label>
+                  <div class="choice-grid role-row">
+                    <button type="button" class="choice-btn role-btn active" data-role="student">Student</button>
+                    <button type="button" class="choice-btn role-btn" data-role="admin">Admin</button>
+                  </div>
+                  <input id="role" type="hidden" value="student" required />
+                </div>
+                <div class="field">
+                  <label>Batch</label>
+                  <div class="choice-grid batch-row">
+                    <button type="button" class="choice-btn sub-btn" data-subscription="alpha batch">Alpha Batch</button>
+                    <button type="button" class="choice-btn sub-btn" data-subscription="beta batch">Beta Batch</button>
+                    <button type="button" class="choice-btn sub-btn" data-subscription="gamma batch">Gamma Batch</button>
+                    <button type="button" class="choice-btn sub-btn" data-subscription="delta batch">Delta Batch</button>
+                  </div>
+                  <input id="subscription" type="hidden" value="" required />
+                </div>
+                <div class="field">
+                  <label for="sid"><span id="sid-label-text">Student ID (SID)</span></label>
+                  <input id="sid" type="text" readonly maxlength="12" placeholder="PRX#########" />
+                </div>
+                <div>
+                  <button id="submit-btn" class="btn-primary" type="submit">
+                    <i data-lucide="user-check"></i>
+                    Create User
+                  </button>
+                </div>
+                <div></div>
+              </form>
             </div>
-            <div class="field">
-              <label for="username">Username</label>
-              <input id="username" type="text" required placeholder="student_username" />
-            </div>
-            <div class="field">
-              <label for="user-password">Password</label>
-              <input id="user-password" type="password" minlength="6" required placeholder="Minimum 6 characters" />
-            </div>
-            <div class="field">
-              <label for="name">Name</label>
-              <input id="name" type="text" required placeholder="Full Name" />
-            </div>
-          </div>
-
-          <div class="row-2">
-            <div class="field">
-              <label>Role</label>
-              <div class="choice-grid role-row">
-                <button type="button" class="choice-btn role-btn active" data-role="student">Student</button>
-                <button type="button" class="choice-btn role-btn" data-role="admin">Admin</button>
+            <aside class="registration-right">
+              <h2><span class="title-icon"><i data-lucide="search"></i></span>ID Search</h2>
+              <div class="subtext registration-side-sub">
+                Search users/admins by SID or AID. Prefix <code>PRX</code> is fixed.
               </div>
-              <input id="role" type="hidden" value="student" required />
-            </div>
-
-            <div class="field">
-              <label>Batch</label>
-              <div class="choice-grid batch-row">
-                <button type="button" class="choice-btn sub-btn" data-subscription="alpha batch">Alpha Batch</button>
-                <button type="button" class="choice-btn sub-btn" data-subscription="beta batch">Beta Batch</button>
-                <button type="button" class="choice-btn sub-btn" data-subscription="gamma batch">Gamma Batch</button>
-                <button type="button" class="choice-btn sub-btn" data-subscription="delta batch">Delta Batch</button>
+              <div class="field" style="margin-top:10px">
+                <label for="id-search-digits">Enter ID digits</label>
+                <div class="id-search-input-wrap">
+                  <span class="id-search-prefix">PRX</span>
+                  <input id="id-search-digits" type="text" inputmode="numeric" maxlength="9" placeholder="Enter 9 digits" />
+                </div>
               </div>
-              <input id="subscription" type="hidden" value="" required />
-            </div>
+              <div id="id-search-meta" class="id-search-meta">Type digits to search.</div>
+              <div id="id-search-results" class="id-search-results">
+                <div class="id-search-empty">No search yet.</div>
+              </div>
+            </aside>
           </div>
-
-          <div>
-            <button id="submit-btn" class="btn-primary" type="submit">
-              <i data-lucide="user-check"></i>
-              Create User
-            </button>
-          </div>
-        </form>
         </section>
 
         <section id="records-view" class="hidden">
@@ -1276,6 +1752,7 @@
           <div class="records-wrap">
             <div class="records-header">
               <div>Username</div>
+              <div>SID</div>
               <div>Name</div>
               <div>Email</div>
               <div>Batch</div>
@@ -1287,32 +1764,12 @@
         </section>
 
         <section id="mock-builder-view" class="hidden">
-          <h1><span class="title-icon"><i data-lucide="file-cog"></i></span>Create Mock</h1>
-          <div class="subtext">Build, import and manage mocks.</div>
-
-          <div class="mb-wrap">
+          <div class="mb-header-row">
+            <h1><span class="title-icon"><i data-lucide="file-cog"></i></span>Create Mock</h1>
             <div class="mb-top-bar">
               <div class="mb-field name">
                 <label>Mock Name *</label>
                 <input id="mb-mock-name" value="CEE Mock 01" />
-              </div>
-
-              <div class="mb-field small">
-                <label>Duration</label>
-                <input id="mb-duration" type="number" value="120" />
-              </div>
-
-              <div class="mb-field small">
-                <label>Total Qs</label>
-                <input id="mb-qns" type="number" value="60" />
-              </div>
-
-              <div class="mb-field small">
-                <label>Active</label>
-                <select id="mb-active">
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
               </div>
 
               <div class="mb-field small">
@@ -1325,66 +1782,68 @@
                 </select>
               </div>
 
-              <div class="mb-field mid">
+              <div class="mb-field small">
                 <label>Date</label>
-                <input type="date" id="mb-date-added" />
+                <input id="mb-date-added" type="date" />
               </div>
 
-              <div class="mb-field long">
+              <div class="mb-field name">
                 <label>Syllabus</label>
-                <input id="mb-syllabus" value="PCM (XI & XII) - CEE Level" />
+                <input id="mb-syllabus" value="PCM" />
+              </div>
+
+              <div class="mb-auto-meta">
+                <div class="mb-auto-item">
+                  <span><i data-lucide="list-checks"></i> Questions</span>
+                  <b id="mb-auto-qns">0</b>
+                </div>
+                <div class="mb-auto-item">
+                  <span><i data-lucide="timer"></i> Duration</span>
+                  <b id="mb-auto-duration">0 min</b>
+                </div>
+                <div class="mb-auto-item">
+                  <span><i data-lucide="target"></i> Marks</span>
+                  <b id="mb-auto-marks">0</b>
+                </div>
               </div>
 
               <div class="mb-actions">
-                <button class="mb-btn primary" id="mb-save-mock" type="button">
-                  <i data-lucide="save"></i>
-                  Save Mock
-                </button>
                 <button class="mb-btn" id="mb-open-import" type="button">
                   <i data-lucide="download"></i>
                   Import PYQs
                 </button>
+                <button class="mb-btn success" id="mb-save-mock" type="button">
+                  <i data-lucide="save"></i>
+                  Save Mock
+                </button>
               </div>
-            </div>
-
-            <div class="mb-body">
-              <div class="mb-tabs">
-                <div class="mb-tab active" data-sub="Physics">Physics</div>
-                <div class="mb-tab" data-sub="Chemistry">Chemistry</div>
-                <div class="mb-tab" data-sub="Mathematics">Mathematics</div>
-              </div>
-
-              <table class="mb-table">
-                <thead>
-                  <tr>
-                    <th>QID</th>
-                    <th>Image URL</th>
-                    <th>Answer</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="mb-tbody"></tbody>
-              </table>
             </div>
           </div>
+          <div class="subtext">Build, import and manage mocks.</div>
 
-          <div id="mb-status" class="status"></div>
+          <div class="mb-wrap">
+            <div id="mb-subject-cards" class="mb-subject-cards"></div>
+
+            <div class="mb-footer">
+              <div id="mb-status" class="status"></div>
+            </div>
+          </div>
         </section>
 
         <section id="mocks-view" class="hidden">
-          <h1 id="mocks-view-title">
-            <span class="title-icon"><i data-lucide="folders"></i></span>Mocks by Batch
-          </h1>
-          <div class="subtext" id="mocks-view-subtitle">
-            Select a batch to view its mocks.
-          </div>
-          <div class="mocks-view-toolbar">
-            <div style="display:flex;gap:8px;align-items:center">
-              <button class="btn-secondary hidden" id="mocks-back-btn" type="button">
+          <div class="mocks-view-top">
+            <div>
+              <h1 id="mocks-view-title"><span class="title-icon"><i data-lucide="layout-grid"></i></span>Mocks</h1>
+              <div id="mocks-view-subtitle" class="subtext">
+                Select a batch to view its mocks.
+              </div>
+            </div>
+            <div class="mocks-view-actions">
+              <button id="mocks-back-btn" class="btn-secondary hidden" type="button">
                 <i data-lucide="arrow-left"></i>
                 Back to Batches
               </button>
-              <button class="btn-secondary" id="mocks-refresh-btn" type="button">
+              <button id="mocks-refresh-btn" class="btn-secondary" type="button">
                 <i data-lucide="refresh-cw"></i>
                 Refresh
               </button>
@@ -1394,7 +1853,6 @@
             <div id="mb-mocks-grid" class="mocks-grid"></div>
           </div>
         </section>
-
         <section id="logs-view" class="hidden">
           <h1>
             <span class="title-icon"><i data-lucide="logs"></i></span>Admin Logs
@@ -1440,9 +1898,22 @@
         </section>
 
         <div id="status" class="status"></div>
-        <div class="hint">Use strict Firebase rules so only admins can write to users.</div>
       </section>
     </div>
+
+    <footer class="site-footer">
+      <div class="footer-left">Copyright © 2026 PROYAX CEE. All rights reserved.</div>
+      <div class="footer-right">
+        <button id="footer-privacy-btn" class="footer-link-btn" type="button">
+          <i data-lucide="shield-check"></i>
+          Privacy Policy
+        </button>
+        <button id="footer-terms-btn" class="footer-link-btn" type="button">
+          <i data-lucide="file-text"></i>
+          T&C
+        </button>
+      </div>
+    </footer>
 
     <div class="mb-modal" id="mb-import-modal">
       <div class="mb-modal-card">
@@ -1466,6 +1937,33 @@
           <button class="mb-btn" id="mb-close-import" type="button">Close</button>
         </div>
         <div class="mb-pyq-grid" id="mb-pyq-grid"></div>
+      </div>
+    </div>
+
+    <div class="mb-modal" id="mb-chapter-modal">
+      <div class="mb-chapter-modal-card">
+        <div class="mb-chapter-modal-head">
+          <h3 id="mb-chapter-modal-title" class="mb-chapter-modal-title">Chapter Questions</h3>
+          <button class="mb-btn" id="mb-chapter-close" type="button">
+            <i data-lucide="x"></i>
+            Close
+          </button>
+        </div>
+        <div id="mb-chapter-modal-meta" class="mb-chapter-modal-meta"></div>
+        <div id="mb-chapter-modal-body" class="mb-chapter-questions"></div>
+      </div>
+    </div>
+
+    <div class="mb-modal" id="legal-modal">
+      <div class="legal-modal-card">
+        <div class="legal-head">
+          <h3 id="legal-modal-title" class="legal-title">Legal</h3>
+          <button id="legal-close-btn" class="btn-secondary" type="button">
+            <i data-lucide="x"></i>
+            Close
+          </button>
+        </div>
+        <div id="legal-modal-body" class="legal-body"></div>
       </div>
     </div>
 
@@ -1533,6 +2031,15 @@
       const form = document.getElementById("create-user-form");
       const submitBtn = document.getElementById("submit-btn");
       const statusEl = document.getElementById("status");
+      const emailInputEl = document.getElementById("user-email");
+      const usernameInputEl = document.getElementById("username");
+      const passwordInputEl = document.getElementById("user-password");
+      const nameInputEl = document.getElementById("name");
+      const sidInputEl = document.getElementById("sid");
+      const sidLabelTextEl = document.getElementById("sid-label-text");
+      const idSearchDigitsEl = document.getElementById("id-search-digits");
+      const idSearchMetaEl = document.getElementById("id-search-meta");
+      const idSearchResultsEl = document.getElementById("id-search-results");
 
       const roleInput = document.getElementById("role");
       const roleButtons = document.querySelectorAll(".role-btn");
@@ -1555,6 +2062,12 @@
       const permGrid = document.getElementById("perm-grid");
       const permCloseBtn = document.getElementById("perm-close-btn");
       const permSaveBtn = document.getElementById("perm-save-btn");
+      const footerPrivacyBtn = document.getElementById("footer-privacy-btn");
+      const footerTermsBtn = document.getElementById("footer-terms-btn");
+      const legalModal = document.getElementById("legal-modal");
+      const legalModalTitle = document.getElementById("legal-modal-title");
+      const legalModalBody = document.getElementById("legal-modal-body");
+      const legalCloseBtn = document.getElementById("legal-close-btn");
       const mockBuilderStatusEl = document.getElementById("mb-status");
       const mocksRefreshBtn = document.getElementById("mocks-refresh-btn");
       const mocksBackBtn = document.getElementById("mocks-back-btn");
@@ -1564,6 +2077,10 @@
       let currentPane = "registration";
       let editingAdminDocId = null;
       let editingAdminLabel = "";
+      let idSearchUsers = [];
+      let idSearchAdmins = [];
+      let idSearchLoaded = false;
+      let idSearchLoadPromise = null;
 
       const TAB_DEFS = [
         { key: "registration", label: "New Registration", button: navNewRegistrationBtn },
@@ -1658,6 +2175,41 @@
         return String(v);
       }
 
+      const LEGAL_CONTENT = {
+        privacy: {
+          title: "Privacy Policy",
+          body: `
+            <p>We collect only the information required to operate this admin platform, including account details, role permissions, and academic records entered by authorized users.</p>
+            <p>Data is used for user management, mock test operations, analytics, and platform security monitoring. Access is restricted to authorized admins based on assigned permissions.</p>
+            <p>We apply reasonable safeguards to protect stored data. Do not share credentials, and report any unauthorized access immediately to the platform owner.</p>
+            <p>By using this panel, you acknowledge that organizational administrators are responsible for ensuring compliance with applicable privacy and data handling laws.</p>
+          `,
+        },
+        terms: {
+          title: "Terms & Conditions",
+          body: `
+            <p>This admin panel is intended for authorized academic and operational use only. Access is granted solely to approved admins and superadmins.</p>
+            <p>Users must ensure all entered data is accurate and lawful. Unauthorized modification, misuse, credential sharing, or data export is strictly prohibited.</p>
+            <p>Platform owners may suspend or revoke access at any time for policy violations, suspected misuse, or security concerns.</p>
+            <p>Continued use of this panel indicates acceptance of these terms and all updates published by the organization.</p>
+          `,
+        },
+      };
+
+      function openLegalModal(which) {
+        const key = which === "terms" ? "terms" : "privacy";
+        const data = LEGAL_CONTENT[key];
+        if (!data || !legalModal || !legalModalTitle || !legalModalBody) return;
+        legalModalTitle.textContent = data.title;
+        legalModalBody.innerHTML = data.body;
+        legalModal.style.display = "block";
+        renderLucideIcons();
+      }
+
+      function closeLegalModal() {
+        if (legalModal) legalModal.style.display = "none";
+      }
+
       function renderLucideIcons() {
         if (window.lucide && typeof window.lucide.createIcons === "function") {
           window.lucide.createIcons();
@@ -1670,6 +2222,7 @@
           username: "user",
           password: "lock-keyhole",
           name: "badge-check",
+          sid: "id-card",
           role: "shield",
           batch: "layers",
           duration: "timer",
@@ -1700,12 +2253,175 @@
         });
       }
 
-      async function loadUserRecords() {
-        if (!db) {
-          recordsBody.innerHTML = '<div class="record-row"><div>DB not configured</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+      function buildAutoSid({ email, username, name, subscription, role }) {
+        if (!email || !username || !name || !subscription || !role) return "";
+        const raw = [email, username, name, subscription, role].join("|");
+        let hash = 0;
+        for (let i = 0; i < raw.length; i += 1) {
+          hash = (hash * 31 + raw.charCodeAt(i)) >>> 0;
+        }
+        const numericPart = String(hash % 1000000000).padStart(9, "0");
+        return `PRX${numericPart}`;
+      }
+
+      function maskSid(sidValue) {
+        const sid = String(sidValue || "").trim().toUpperCase();
+        if (!sid) return "";
+        if (sid.length <= 4) return "XXXX";
+        return sid.slice(0, -4) + "XXXX";
+      }
+
+      function updateCreateUserButtonLabel(sidValue) {
+        const safeSid = maskSid(sidValue);
+        const label = safeSid ? `Create User (${safeSid})` : "Create User";
+        submitBtn.innerHTML = `<i data-lucide="user-check"></i> ${label}`;
+        renderLucideIcons();
+      }
+
+      function updateSidPreview() {
+        const fullSid = buildAutoSid({
+          email: emailInputEl.value.trim(),
+          username: usernameInputEl.value.trim(),
+          name: nameInputEl.value.trim(),
+          subscription: subscriptionInput.value.trim().toLowerCase(),
+          role: roleInput.value.trim().toLowerCase(),
+        });
+        const isAdminRole = roleInput.value === "admin";
+        sidLabelTextEl.textContent = isAdminRole ? "Admin ID (AID)" : "Student ID (SID)";
+        sidInputEl.dataset.fullSid = fullSid;
+        sidInputEl.value = maskSid(fullSid);
+        sidInputEl.placeholder = "PRX#########";
+        if (!submitBtn.disabled) {
+          updateCreateUserButtonLabel(fullSid);
+        }
+      }
+
+      function normalizeSearchDigits(raw) {
+        return String(raw || "").replace(/\D/g, "").slice(0, 9);
+      }
+
+      function extractIdDigits(idValue) {
+        return String(idValue || "")
+          .toUpperCase()
+          .replace(/^PRX/, "")
+          .replace(/\D/g, "")
+          .slice(0, 9);
+      }
+
+      async function fetchSearchDocs(collectionName) {
+        if (!db) return [];
+        try {
+          let docs = [];
+          try {
+            const snap = await db.collection(collectionName).orderBy("createdAt", "desc").limit(1000).get();
+            docs = snap.docs;
+          } catch (_) {
+            const fallback = await db.collection(collectionName).limit(1000).get();
+            docs = fallback.docs;
+          }
+          return docs.map((doc) => ({ id: doc.id, ...(doc.data() || {}) }));
+        } catch (err) {
+          console.error(err);
+          return [];
+        }
+      }
+
+      async function ensureIdSearchData(forceReload) {
+        if (!db) return false;
+        if (!forceReload && idSearchLoaded) return true;
+        if (!forceReload && idSearchLoadPromise) return idSearchLoadPromise;
+        idSearchMetaEl.textContent = "Loading users and admins...";
+        idSearchLoadPromise = (async () => {
+          const [users, admins] = await Promise.all([
+            fetchSearchDocs("mocks_users"),
+            fetchSearchDocs("mock_admins"),
+          ]);
+          idSearchUsers = users;
+          idSearchAdmins = admins;
+          idSearchLoaded = true;
+          return true;
+        })();
+        try {
+          return await idSearchLoadPromise;
+        } finally {
+          idSearchLoadPromise = null;
+        }
+      }
+
+      function renderIdSearchResults(rawDigits) {
+        const digits = normalizeSearchDigits(rawDigits);
+        if (!digits) {
+          idSearchMetaEl.textContent = "Type digits to search.";
+          idSearchResultsEl.innerHTML = '<div class="id-search-empty">Enter digits after PRX to search.</div>';
           return;
         }
-        recordsBody.innerHTML = '<div class="record-row"><div>Loading...</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+
+        const isSuperadmin = isCurrentUserSuperadmin();
+        const lockedBatch = getCurrentAdminLockedBatch();
+        const userMatches = idSearchUsers
+          .filter((d) => {
+            if (!extractIdDigits(d.sid).startsWith(digits)) return false;
+            if (isSuperadmin) return true;
+            if (!lockedBatch) return false;
+            return toBatchKey(d.subscription) === lockedBatch;
+          })
+          .map((d) => ({ ...d, _type: "student", _id: d.sid || "" }));
+
+        const adminMatches = isSuperadmin
+          ? idSearchAdmins
+              .filter((d) => extractIdDigits(d.aid).startsWith(digits))
+              .map((d) => ({ ...d, _type: "admin", _id: d.aid || "" }))
+          : [];
+
+        const matches = [...adminMatches, ...userMatches];
+        idSearchMetaEl.textContent = `${matches.length} result(s) for PRX${digits}`;
+        if (!matches.length) {
+          idSearchResultsEl.innerHTML = isSuperadmin
+            ? '<div class="id-search-empty">No users or admins found.</div>'
+            : '<div class="id-search-empty">No students found in your batch.</div>';
+          return;
+        }
+
+        idSearchResultsEl.innerHTML = matches
+          .map((d) => {
+            const title = d._type === "admin" ? "Admin" : "Student";
+            const idLabel = d._type === "admin" ? "AID" : "SID";
+            return `
+              <div class="id-search-item">
+                <div class="id-search-head">
+                  <div class="id-search-id">${escapeHtml(idLabel)}: ${escapeHtml(maskSid(d._id) || "-")}</div>
+                  <span class="id-search-chip">${escapeHtml(title)}</span>
+                </div>
+                <div class="id-search-main">${escapeHtml(d.name || "-")} (${escapeHtml(d.username || "-")})</div>
+                <div class="id-search-sub">${escapeHtml(d.email || "-")} | Batch: ${escapeHtml(d.subscription || "-")}</div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      async function runLiveIdSearch(forceReload) {
+        const digits = normalizeSearchDigits(idSearchDigitsEl.value);
+        idSearchDigitsEl.value = digits;
+        if (!digits) {
+          renderIdSearchResults("");
+          return;
+        }
+        const loaded = await ensureIdSearchData(!!forceReload);
+        if (!loaded) {
+          idSearchMetaEl.textContent = "Search unavailable. DB not configured.";
+          idSearchResultsEl.innerHTML = '<div class="id-search-empty">Unable to load search data.</div>';
+          return;
+        }
+        renderIdSearchResults(digits);
+      }
+
+      async function loadUserRecords() {
+        if (!db) {
+          recordsBody.innerHTML = '<div class="record-row"><div>DB not configured</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+          return;
+        }
+        recordsBody.innerHTML = '<div class="record-row"><div>Loading...</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
         try {
           let docs = [];
           try {
@@ -1725,7 +2441,7 @@
           }
 
           if (!docs.length) {
-            recordsBody.innerHTML = '<div class="record-row"><div>No users found</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+            recordsBody.innerHTML = '<div class="record-row"><div>No users found</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
             return;
           }
 
@@ -1736,6 +2452,7 @@
             row.className = "record-row";
             row.innerHTML = `
               <div>${escapeHtml(d.username || "-")}</div>
+              <div>${escapeHtml(maskSid(d.sid) || "-")}</div>
               <div>${escapeHtml(d.name || "-")}</div>
               <div>${escapeHtml(d.email || "-")}</div>
               <div>${escapeHtml(d.subscription || "-")}</div>
@@ -1746,7 +2463,7 @@
           });
         } catch (err) {
           console.error(err);
-          recordsBody.innerHTML = '<div class="record-row"><div>Failed to load users</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+          recordsBody.innerHTML = '<div class="record-row"><div>Failed to load users</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
         }
       }
 
@@ -1934,36 +2651,62 @@
         el.className = "status " + (ok ? "ok" : "err");
       }
 
+      function getCurrentAdminLockedBatch() {
+        const role = normalizeRole(currentAdminData && currentAdminData.role);
+        const subscription = String(
+          (currentAdminData && currentAdminData.subscription) || "",
+        )
+          .trim()
+          .toLowerCase();
+        if (role !== "admin") return "";
+        if (!subscription || subscription === "all batches") return "";
+        return subscription;
+      }
+
+      function applySubscriptionSelectionState() {
+        const selected = String(subscriptionInput.value || "").toLowerCase();
+        const locked = getCurrentAdminLockedBatch();
+        if (locked) {
+          subscriptionInput.value = locked;
+        }
+        subscriptionButtons.forEach((btn) => {
+          const value = String(btn.dataset.subscription || "").toLowerCase();
+          const isActive = locked ? value === locked : value === selected;
+          const isDisabled = !!locked && value !== locked;
+          btn.classList.toggle("active", isActive);
+          btn.classList.toggle("disabled", isDisabled);
+          btn.disabled = isDisabled;
+        });
+      }
+
       function setRole(roleValue) {
         const role = String(roleValue || "").toLowerCase();
         roleInput.value = role;
         roleButtons.forEach((btn) => {
           btn.classList.toggle("active", btn.dataset.role === role);
         });
-
-        if (role === "admin") {
-          subscriptionInput.value = "all batches";
-          subscriptionButtons.forEach((btn) => {
-            btn.classList.add("active");
-            btn.classList.add("disabled");
-            btn.disabled = true;
-          });
-        } else {
-          subscriptionButtons.forEach((btn) => {
-            btn.classList.remove("disabled");
-            btn.disabled = false;
-          });
-          setSubscription("");
+        const locked = getCurrentAdminLockedBatch();
+        if (locked) {
+          subscriptionInput.value = locked;
+        } else if (!subscriptionInput.value) {
+          subscriptionInput.value = "";
         }
+        applySubscriptionSelectionState();
+        updateSidPreview();
       }
 
       function setSubscription(subscriptionValue) {
-        if (roleInput.value === "admin") return;
+        const locked = getCurrentAdminLockedBatch();
+        if (locked) {
+          subscriptionInput.value = locked;
+          applySubscriptionSelectionState();
+          updateSidPreview();
+          return;
+        }
         const subscription = String(subscriptionValue || "").toLowerCase();
         subscriptionInput.value = subscription;
-        subscriptionButtons.forEach((btn) => {
-          btn.classList.toggle("active", btn.dataset.subscription === subscription);
-        });
+        applySubscriptionSelectionState();
+        updateSidPreview();
       }
 
       function setAdminVisible(user, adminData) {
@@ -1976,6 +2719,7 @@
           navActionsEl.classList.remove("hidden");
           logoutBtn.classList.remove("hidden");
           applyNavAccess();
+          applySubscriptionSelectionState();
           setActivePane(getFirstAllowedPane());
           setStatus(loginStatusEl, "", false);
         } else {
@@ -1987,6 +2731,7 @@
           navManageAdminsBtn.classList.add("hidden");
           navUserEl.textContent = "Not logged in";
           currentPane = "registration";
+          applySubscriptionSelectionState();
           setActivePane("registration");
           setStatus(statusEl, "", false);
         }
@@ -1999,6 +2744,12 @@
       subscriptionButtons.forEach((btn) => {
         btn.addEventListener("click", () => setSubscription(btn.dataset.subscription));
       });
+      [emailInputEl, usernameInputEl, nameInputEl, passwordInputEl].forEach((inputEl) => {
+        inputEl.addEventListener("input", updateSidPreview);
+      });
+      idSearchDigitsEl.addEventListener("input", () => {
+        runLiveIdSearch(false);
+      });
 
       navNewRegistrationBtn.addEventListener("click", () => setActivePane("registration"));
       navUserRecordsBtn.addEventListener("click", () => setActivePane("records"));
@@ -2010,6 +2761,20 @@
       refreshLogsBtn.addEventListener("click", () => loadAdminLogs());
       refreshAdminsBtn.addEventListener("click", () => loadManageAdmins());
       permCloseBtn.addEventListener("click", () => closePermissionsModal());
+      if (footerPrivacyBtn) {
+        footerPrivacyBtn.addEventListener("click", () => openLegalModal("privacy"));
+      }
+      if (footerTermsBtn) {
+        footerTermsBtn.addEventListener("click", () => openLegalModal("terms"));
+      }
+      if (legalCloseBtn) {
+        legalCloseBtn.addEventListener("click", closeLegalModal);
+      }
+      if (legalModal) {
+        legalModal.addEventListener("click", (e) => {
+          if (e.target === legalModal) closeLegalModal();
+        });
+      }
       permModal.addEventListener("click", (e) => {
         if (e.target === permModal) closePermissionsModal();
       });
@@ -2060,6 +2825,8 @@
 
       setRole("student");
       setSubscription("");
+      updateSidPreview();
+      renderIdSearchResults("");
 
       async function getAdminDocByUid(uid) {
         if (!db || !uid) return null;
@@ -2165,12 +2932,19 @@
           return;
         }
 
-        const email = document.getElementById("user-email").value.trim();
-        const username = document.getElementById("username").value.trim();
-        const password = document.getElementById("user-password").value;
-        const name = document.getElementById("name").value.trim();
-        const subscription = subscriptionInput.value.trim().toLowerCase();
+        const email = emailInputEl.value.trim();
+        const username = usernameInputEl.value.trim();
+        const password = passwordInputEl.value;
+        const name = nameInputEl.value.trim();
+        let subscription = subscriptionInput.value.trim().toLowerCase();
         const role = roleInput.value.trim().toLowerCase();
+        const sid = String(sidInputEl.dataset.fullSid || "").trim();
+        const lockedBatch = getCurrentAdminLockedBatch();
+        if (lockedBatch) {
+          subscription = lockedBatch;
+          subscriptionInput.value = lockedBatch;
+          applySubscriptionSelectionState();
+        }
 
         if (!email || !username || !password || !name || !subscription || !role) {
           setStatus(
@@ -2180,6 +2954,10 @@
           );
           return;
         }
+        if (!sid) {
+          setStatus(statusEl, "ID could not be generated. Fill all registration fields.", false);
+          return;
+        }
 
         if (role === "superadmin") {
           setStatus(statusEl, "Superadmin cannot be created from admin panel.", false);
@@ -2187,7 +2965,8 @@
         }
 
         submitBtn.disabled = true;
-        submitBtn.textContent = "Creating...";
+        submitBtn.innerHTML = '<i data-lucide="loader-circle"></i> Creating...';
+        renderLucideIcons();
 
         let secondaryApp = null;
 
@@ -2202,22 +2981,27 @@
           const targetCollection =
             role === "admin" ? "mock_admins" : "mocks_users";
 
+          const userPayload = {
+            email,
+            username,
+            name,
+            subscription,
+            role,
+            allowedTabs: role === "admin" ? [...ADMIN_TAB_KEYS] : null,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            createdBy: auth.currentUser.uid,
+          };
+          if (role === "admin" && sid) {
+            userPayload.aid = sid;
+          }
+          if (role !== "admin" && sid) {
+            userPayload.sid = sid;
+          }
+
           await db
             .collection(targetCollection)
             .doc(newUser.uid)
-            .set(
-              {
-                email,
-                username,
-                name,
-                subscription,
-                role,
-                allowedTabs: role === "admin" ? [...ADMIN_TAB_KEYS] : null,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                createdBy: auth.currentUser.uid,
-              },
-              { merge: true },
-            );
+            .set(userPayload, { merge: true });
 
           await writeAdminLog(
             "user_create",
@@ -2239,6 +3023,11 @@
           form.reset();
           setRole("student");
           setSubscription("");
+          updateSidPreview();
+          idSearchLoaded = false;
+          idSearchUsers = [];
+          idSearchAdmins = [];
+          await runLiveIdSearch(true);
         } catch (err) {
           console.error(err);
           setStatus(statusEl, err && err.message ? err.message : "Failed to create user.", false);
@@ -2250,25 +3039,23 @@
             } catch (_) {}
           }
           submitBtn.disabled = false;
-          submitBtn.textContent = "Create User";
+          updateCreateUserButtonLabel(sidInputEl.value);
         }
       });
 
       const mbData = { Physics: [], Chemistry: [], Mathematics: [] };
-      let mbCurrent = "Physics";
       let mbEditMockId = null;
       let mbAllPyqs = [];
       let mbFilteredPyqs = [];
 
-      const mbTabs = document.querySelectorAll(".mb-tab");
-      const mbTbody = document.getElementById("mb-tbody");
+      const mbSubjectCards = document.getElementById("mb-subject-cards");
       const mbMockName = document.getElementById("mb-mock-name");
-      const mbDuration = document.getElementById("mb-duration");
-      const mbQns = document.getElementById("mb-qns");
-      const mbActive = document.getElementById("mb-active");
       const mbSubscription = document.getElementById("mb-subscription");
       const mbDateAdded = document.getElementById("mb-date-added");
       const mbSyllabus = document.getElementById("mb-syllabus");
+      const mbAutoQns = document.getElementById("mb-auto-qns");
+      const mbAutoDuration = document.getElementById("mb-auto-duration");
+      const mbAutoMarks = document.getElementById("mb-auto-marks");
       const mbSaveMock = document.getElementById("mb-save-mock");
       const mbOpenImport = document.getElementById("mb-open-import");
 
@@ -2282,6 +3069,11 @@
       const mbImpSort = document.getElementById("mb-imp-sort");
       const mbImportAll = document.getElementById("mb-import-all");
       const mbPyqGrid = document.getElementById("mb-pyq-grid");
+      const mbChapterModal = document.getElementById("mb-chapter-modal");
+      const mbChapterModalTitle = document.getElementById("mb-chapter-modal-title");
+      const mbChapterModalMeta = document.getElementById("mb-chapter-modal-meta");
+      const mbChapterModalBody = document.getElementById("mb-chapter-modal-body");
+      const mbChapterClose = document.getElementById("mb-chapter-close");
 
       const mbMocksGrid = document.getElementById("mb-mocks-grid");
       let mbAllMocks = [];
@@ -2293,23 +3085,129 @@
         mockBuilderStatusEl.className = "status " + (ok ? "ok" : "err");
       }
 
-      function mbRender() {
-        mbTbody.innerHTML = "";
-        mbData[mbCurrent].forEach((q, i) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${escapeHtml(q.qid || "-")}</td>
-            <td class="mb-mono">${escapeHtml(q.img || "")}</td>
-            <td>${escapeHtml(q.ans || "")}</td>
-            <td><button class="mb-btn danger" type="button"><i data-lucide="trash-2"></i> Remove</button></td>
-          `;
-          row.querySelector("button").addEventListener("click", () => {
-            mbData[mbCurrent].splice(i, 1);
-            mbRender();
+      function mbBuildSyllabusFromQuestions() {
+        const chapters = [];
+        ["Physics", "Chemistry", "Mathematics"].forEach((subject) => {
+          (mbData[subject] || []).forEach((q) => {
+            const chapter = String((q && q.chapter) || "").trim();
+            if (chapter) chapters.push(chapter);
           });
-          mbTbody.appendChild(row);
         });
+        return Array.from(new Set(chapters)).join(", ");
+      }
+
+      function mbGetSubjectChapterCounts(subject) {
+        const map = new Map();
+        (mbData[subject] || []).forEach((q) => {
+          const chapter = String((q && q.chapter) || "").trim() || "Unassigned";
+          map.set(chapter, (map.get(chapter) || 0) + 1);
+        });
+        return Array.from(map.entries()).sort((a, b) => {
+          if (b[1] !== a[1]) return b[1] - a[1];
+          return a[0].localeCompare(b[0]);
+        });
+      }
+
+      function mbCloseChapterModal() {
+        if (mbChapterModal) mbChapterModal.style.display = "none";
+      }
+
+      function mbOpenChapterModal(subject, chapter) {
+        if (!mbChapterModal || !mbChapterModalBody) return;
+        const normalizedChapter = String(chapter || "").trim().toLowerCase();
+        const isUnassigned = normalizedChapter === "unassigned";
+        const items = (mbData[subject] || []).filter((q) => {
+          const raw = String((q && q.chapter) || "").trim();
+          if (isUnassigned) return !raw;
+          return raw.toLowerCase() === normalizedChapter;
+        });
+        if (mbChapterModalTitle) {
+          mbChapterModalTitle.textContent = `${subject} - ${chapter}`;
+        }
+        if (mbChapterModalMeta) {
+          mbChapterModalMeta.textContent = `${items.length} question(s)`;
+        }
+        if (!items.length) {
+          mbChapterModalBody.innerHTML = '<div class="mb-chapter-q-empty">No questions found for this chapter.</div>';
+        } else {
+          mbChapterModalBody.innerHTML = items
+            .map(
+              (q, idx) => `
+                <article class="mb-chapter-q-card">
+                  <div class="mb-chapter-q-head">Q${idx + 1}${q.qid ? ` - ${escapeHtml(q.qid)}` : ""}</div>
+                  <div class="mb-chapter-q-img-wrap">
+                    ${q.img
+                      ? `<img class="mb-chapter-q-img" src="${escapeHtml(q.img)}" alt="${escapeHtml(q.qid || "Question")}" />`
+                      : '<div class="mb-chapter-q-empty">No image available</div>'}
+                  </div>
+                  <div class="mb-chapter-q-ans"><b>Answer:</b> ${escapeHtml(q.ans || "-")}</div>
+                </article>
+              `,
+            )
+            .join("");
+        }
+        mbChapterModal.style.display = "block";
         renderLucideIcons();
+      }
+
+      function mbRender() {
+        const subjects = [
+          { key: "Physics", icon: "atom" },
+          { key: "Chemistry", icon: "beaker" },
+          { key: "Mathematics", icon: "sigma" },
+        ];
+        if (mbSubjectCards) {
+          mbSubjectCards.innerHTML = subjects
+            .map((subject) => {
+              const rows = mbGetSubjectChapterCounts(subject.key);
+              const total = (mbData[subject.key] || []).length;
+              const listHtml = rows.length
+                ? `<ul class="mb-chapter-list">${rows
+                    .map(
+                      ([chapter, count]) => `
+                        <li class="mb-chapter-row">
+                          <span class="mb-chapter-name">${escapeHtml(chapter)}</span>
+                          <span class="mb-chapter-right">
+                            <span class="mb-chapter-count">${escapeHtml(String(count))}</span>
+                            <button class="mb-view-chapter-btn" type="button" data-subject="${escapeHtml(subject.key)}" data-chapter="${escapeHtml(encodeURIComponent(chapter))}">
+                              <i data-lucide="eye"></i>
+                            </button>
+                          </span>
+                        </li>`,
+                    )
+                    .join("")}</ul>`
+                : '<div class="mb-chapter-empty">No selected chapters.</div>';
+              return `
+                <article class="mb-subject-card">
+                  <div class="mb-subject-head">
+                    <span><i data-lucide="${escapeHtml(subject.icon)}"></i>${escapeHtml(subject.key)}</span>
+                    <span class="mb-subject-total">${escapeHtml(String(total))} qns</span>
+                  </div>
+                  ${listHtml}
+                </article>
+              `;
+            })
+            .join("");
+        }
+        mbSyllabus.value = mbBuildSyllabusFromQuestions();
+        mbUpdateAutoMeta();
+        renderLucideIcons();
+      }
+
+      function mbGetQuestionCount() {
+        return ["Physics", "Chemistry", "Mathematics"].reduce(
+          (sum, subject) => sum + (Array.isArray(mbData[subject]) ? mbData[subject].length : 0),
+          0,
+        );
+      }
+
+      function mbUpdateAutoMeta() {
+        const qns = mbGetQuestionCount();
+        const duration = qns * 1.5;
+        const totalMarks = qns * 4;
+        if (mbAutoQns) mbAutoQns.textContent = String(qns);
+        if (mbAutoDuration) mbAutoDuration.textContent = `${duration} min`;
+        if (mbAutoMarks) mbAutoMarks.textContent = String(totalMarks);
       }
 
       async function mbLoadPyqs() {
@@ -2393,6 +3291,7 @@
               qid: d.qid || "",
               img: d.imageUrl || "",
               ans: d.correct || "",
+              chapter: d.chapter || "",
             });
             mbRender();
             addBtn.classList.add("done");
@@ -2482,7 +3381,7 @@
             <div class="mock-meta">
               <div><b>Questions:</b> ${escapeHtml(String(d.qns || "-"))}</div>
               <div><b>Duration:</b> ${escapeHtml(String(d.duration || "-"))} min</div>
-              <div><b>Active:</b> ${escapeHtml(String(d.active || "-"))}</div>
+              <div><b>Total Marks:</b> ${escapeHtml(String(d.totalMarks || (d.qns ? d.qns * 4 : "-")))}</div>
               <div><b>Subscription:</b> ${escapeHtml(String(d.subscription || "-"))}</div>
             </div>
             <div class="mock-actions">
@@ -2525,10 +3424,7 @@
           const d = doc.data() || {};
           mbEditMockId = id;
           mbMockName.value = d.name || "";
-          mbDuration.value = d.duration || 120;
-          mbQns.value = d.qns || 60;
           mbSyllabus.value = d.syllabus || "";
-          mbActive.value = d.active || "Yes";
           mbSubscription.value = d.subscription || "alpha batch";
           mbDateAdded.value = d.date && d.date.toDate ? d.date.toDate().toISOString().split("T")[0] : "";
           mbData.Physics = (d.questions && d.questions.Physics) ? [...d.questions.Physics] : [];
@@ -2555,15 +3451,6 @@
         }
       }
 
-      mbTabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          mbTabs.forEach((t) => t.classList.remove("active"));
-          tab.classList.add("active");
-          mbCurrent = tab.dataset.sub;
-          mbRender();
-        });
-      });
-
       mbOpenImport.addEventListener("click", () => {
         mbImportModal.style.display = "block";
         mbLoadPyqs();
@@ -2585,21 +3472,49 @@
             qid: d.qid || "",
             img: d.imageUrl || "",
             ans: d.correct || "",
+            chapter: d.chapter || "",
           });
         });
         mbRender();
         setMockBuilderStatus(`${mbFilteredPyqs.length} questions imported.`, true);
       });
 
+      if (mbSubjectCards) {
+        mbSubjectCards.addEventListener("click", (e) => {
+          const btn = e.target.closest(".mb-view-chapter-btn");
+          if (!btn) return;
+          const subject = btn.dataset.subject || "";
+          const chapter = decodeURIComponent(btn.dataset.chapter || "");
+          if (!subject || !chapter) return;
+          mbOpenChapterModal(subject, chapter);
+        });
+      }
+      if (mbChapterClose) {
+        mbChapterClose.addEventListener("click", mbCloseChapterModal);
+      }
+      if (mbChapterModal) {
+        mbChapterModal.addEventListener("click", (e) => {
+          if (e.target === mbChapterModal) mbCloseChapterModal();
+        });
+      }
+
       mbSaveMock.addEventListener("click", async () => {
         try {
+          const qns = mbGetQuestionCount();
+          if (!qns) {
+            setMockBuilderStatus("Add at least 1 question before saving.", false);
+            return;
+          }
+          const duration = qns * 1.5;
+          const totalMarks = qns * 4;
+          const syllabus = mbBuildSyllabusFromQuestions();
           const isEdit = !!mbEditMockId;
           const payload = {
             name: mbMockName.value,
-            duration: +mbDuration.value,
-            qns: +mbQns.value,
-            syllabus: mbSyllabus.value,
-            active: mbActive.value,
+            duration,
+            qns,
+            totalMarks,
+            syllabus,
             subscription: mbSubscription.value,
             date: mbDateAdded.value
               ? firebase.firestore.Timestamp.fromDate(
