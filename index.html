@@ -8,13 +8,13 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png?v=2" />
     <style>
       :root {
-        --bg-1: #ebf3fe;
-        --bg-2: #dbeaff;
-        --line: rgba(4, 40, 98, 0.2);
-        --text: #042862;
-        --muted: #3f5f95;
-        --accent: #3280ff;
-        --accent-2: #5a9bff;
+        --bg-1: #fdf7f3;
+        --bg-2: #eef6ff;
+        --line: rgba(30, 63, 107, 0.18);
+        --text: #1f3553;
+        --muted: #55739a;
+        --accent: #66a7ff;
+        --accent-2: #87c2ff;
         --ok: #1f9d63;
         --err: #d64045;
         --footer-h: 34px;
@@ -33,8 +33,20 @@
         font-family: "Segoe UI", Roboto, Arial, sans-serif;
         color: var(--text);
         background:
-          radial-gradient(circle at 8% 10%, #ffffff 0%, #ebf3fe 38%, #dbeaff 100%),
-          linear-gradient(180deg, rgba(50, 128, 255, 0.04), rgba(4, 40, 98, 0.03));
+          repeating-radial-gradient(
+            circle at 12% -10%,
+            rgba(31, 53, 83, 0.1) 0 1px,
+            transparent 1px 42px
+          ),
+          repeating-radial-gradient(
+            circle at 92% 112%,
+            rgba(31, 53, 83, 0.08) 0 1px,
+            transparent 1px 46px
+          ),
+          radial-gradient(circle at 8% 10%, #fffdfb 0%, #fdf7f3 34%, #f1f8ff 100%),
+          radial-gradient(circle at 86% 84%, rgba(255, 221, 190, 0.32), rgba(255, 221, 190, 0) 48%),
+          linear-gradient(145deg, rgba(255, 214, 168, 0.3), rgba(176, 215, 255, 0.34));
+        background-size: auto, auto, auto, auto, auto;
       }
 
       body::after {
@@ -57,9 +69,9 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 16px;
-        background: rgba(235, 243, 254, 0.96);
+        background: rgba(255, 250, 246, 0.94);
         backdrop-filter: blur(8px);
-        box-shadow: 0 6px 20px rgba(4, 40, 98, 0.06);
+        box-shadow: 0 6px 20px rgba(31, 53, 83, 0.08);
       }
 
       .nav-title {
@@ -219,51 +231,106 @@
       #login-section {
         display: grid;
         place-items: center;
-        padding: 24px;
+        padding: 18px;
       }
 
       .login-shell {
-        width: min(560px, 100%);
+        width: min(1120px, 100%);
         position: relative;
-      }
-
-      .login-shell::before {
-        content: "";
-        position: absolute;
-        inset: -18px;
-        border-radius: 24px;
-        background: radial-gradient(circle at 18% 12%, rgba(50, 128, 255, 0.24), rgba(4, 40, 98, 0.08) 62%, transparent 100%);
-        filter: blur(12px);
-        z-index: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 14px;
       }
 
       .login-panel {
         position: relative;
-        z-index: 1;
         border: 1px solid rgba(4, 40, 98, 0.2);
-        border-radius: 18px;
+        border-radius: 16px;
         padding: 24px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(235, 243, 254, 0.94));
-        box-shadow: 0 22px 46px rgba(4, 40, 98, 0.16);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(247, 252, 255, 0.92));
+        box-shadow: 0 16px 34px rgba(31, 53, 83, 0.12);
         animation: login-panel-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
       }
 
       .login-title {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
       }
 
       .login-icon-wrap {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 34px;
-        height: 34px;
+        width: 32px;
+        height: 32px;
         border-radius: 10px;
         color: #fff;
         background: linear-gradient(135deg, var(--accent), var(--accent-2));
         box-shadow: 0 8px 16px rgba(50, 128, 255, 0.3);
+      }
+
+      .login-brand-panel {
+        border: 1px solid rgba(31, 53, 83, 0.16);
+        border-radius: 16px;
+        padding: 20px;
+        background:
+          radial-gradient(circle at 16% 16%, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0) 54%),
+          linear-gradient(145deg, #fff7ee, #edf6ff 58%, #f0fffb);
+        color: #1f3553;
+        box-shadow: 0 16px 34px rgba(31, 53, 83, 0.1);
+        display: grid;
+        align-content: space-between;
+        gap: 14px;
+        min-height: 360px;
+      }
+
+      .login-brand-head {
+        display: grid;
+        gap: 10px;
+      }
+
+      .login-brand-logo {
+        width: auto;
+        height: 58px;
+      }
+
+      .login-brand-banner {
+        width: auto;
+        height: 28px;
+        max-width: 100%;
+      }
+
+      .login-brand-title {
+        margin: 0;
+        font-size: 25px;
+        line-height: 1.15;
+        letter-spacing: -0.2px;
+      }
+
+      .login-brand-sub {
+        margin: 0;
+        font-size: 13px;
+        color: #5f7898;
+      }
+
+      .login-brand-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 8px;
+      }
+
+      .login-brand-list li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(31, 53, 83, 0.14);
+        border-radius: 10px;
+        padding: 8px 10px;
       }
 
       #login-form .row-2 {
@@ -1632,6 +1699,21 @@
     <div class="page">
       <section id="login-section" class="view">
         <div class="login-shell">
+          <aside class="login-brand-panel">
+            <div class="login-brand-head">
+              <img class="login-brand-logo" src="/logo.png" alt="PROYAX logo" />
+              <img class="login-brand-banner" src="/banner.png" alt="PROYAX banner" />
+              <h2 class="login-brand-title">Admin Control Center</h2>
+              <p class="login-brand-sub">
+                Secure access for user management, mock operations, and platform administration.
+              </p>
+            </div>
+            <ul class="login-brand-list">
+              <li><i data-lucide="shield-check"></i> Role-based access and protected admin actions</li>
+              <li><i data-lucide="database"></i> Live integration with Firebase Auth and Firestore</li>
+              <li><i data-lucide="clipboard-list"></i> Centralized workflows for users, mocks, and logs</li>
+            </ul>
+          </aside>
           <div class="login-panel">
             <div class="login-title">
               <span class="login-icon-wrap"><i data-lucide="shield-check"></i></span>
