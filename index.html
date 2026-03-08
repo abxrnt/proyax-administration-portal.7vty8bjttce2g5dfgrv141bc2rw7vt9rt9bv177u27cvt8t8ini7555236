@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -161,6 +161,56 @@
         background: rgba(50, 128, 255, 0.1);
       }
 
+      .nav-dropdown {
+        position: relative;
+      }
+
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        min-width: 200px;
+        background: #fff;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 10px;
+        box-shadow: 0 14px 30px rgba(4, 40, 98, 0.18);
+        padding: 6px;
+        display: none;
+        z-index: 2000;
+      }
+
+      .nav-dropdown.open .nav-dropdown-menu {
+        display: grid;
+        gap: 4px;
+      }
+
+      .nav-dd-item {
+        width: 100%;
+        text-align: left;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 8px 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        cursor: pointer;
+      }
+
+      .nav-dd-item:hover {
+        background: rgba(50, 128, 255, 0.1);
+        border-color: rgba(50, 128, 255, 0.35);
+      }
+
+      .nav-dd-item.active {
+        border-color: rgba(50, 128, 255, 0.8);
+        background: rgba(50, 128, 255, 0.16);
+        color: #0f3f8f;
+      }
+
       .page {
         height: calc(100vh - 52px - var(--footer-h));
         width: 100%;
@@ -225,7 +275,7 @@
         border-radius: 0;
         background: transparent;
         box-shadow: none;
-        padding: 16px;
+        padding: 10px 10px 0;
       }
 
       #login-section {
@@ -354,12 +404,17 @@
 
       #admin-section {
         display: grid;
-        align-content: start;
+        align-content: stretch;
+        grid-template-rows: minmax(0, 1fr);
         gap: 12px;
+        min-height: 0;
       }
 
       #registration-view,
-      #records-view {
+      #records-view,
+      #pyqs-view,
+      #results-view,
+      #rankings-view {
         border: 0;
         border-radius: 0;
         background: transparent;
@@ -371,6 +426,22 @@
       #registration-view {
         display: flex;
         flex-direction: column;
+      }
+
+      #pyqs-view {
+        height: 100%;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 6px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      #pyqs-view::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
       }
 
       .hidden {
@@ -388,6 +459,11 @@
         margin-top: 4px;
         font-size: 13px;
         color: var(--muted);
+      }
+
+      #admin-section > section > .subtext,
+      #mocks-view-subtitle {
+        display: none !important;
       }
 
       form {
@@ -671,9 +747,7 @@
       }
 
       .status {
-        margin-top: 8px;
-        min-height: 18px;
-        font-size: 12px;
+        display: none !important;
       }
 
       .status.ok {
@@ -740,6 +814,692 @@
 
       .manage-row:nth-child(even) {
         background: rgba(50, 128, 255, 0.06);
+      }
+
+      .pyqs-head-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .pyqs-head-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pyqs-summary-grid {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .pyqs-summary-card {
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 12px;
+        background: #fff;
+        padding: 10px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .pyqs-summary-card.total {
+        background: linear-gradient(180deg, #f8fbff, #eef5ff);
+      }
+
+      .pyqs-summary-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 800;
+        color: #123468;
+      }
+
+      .pyqs-summary-count {
+        font-size: 12px;
+        font-weight: 800;
+        color: #0f3f8f;
+        background: #eff6ff;
+        border: 1px solid rgba(29, 78, 216, 0.2);
+        border-radius: 999px;
+        padding: 3px 8px;
+      }
+
+      .pyqs-summary-years {
+        display: grid;
+        gap: 4px;
+        font-size: 11px;
+      }
+
+      .pyqs-summary-year {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        color: #334155;
+      }
+
+      .pyqs-summary-year b {
+        color: #0f3f8f;
+      }
+
+      .pyqs-years {
+        margin-top: 12px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .pyqs-year-block {
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 12px;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      .pyqs-year-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        border-bottom: 1px solid rgba(4, 40, 98, 0.14);
+      }
+
+      .pyqs-year-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 800;
+        color: #0b3a7b;
+      }
+
+      .pyqs-year-count {
+        font-size: 12px;
+        font-weight: 700;
+        color: #1d4ed8;
+        background: #eef2ff;
+        border: 1px solid rgba(29, 78, 216, 0.2);
+        border-radius: 999px;
+        padding: 4px 8px;
+      }
+
+      .pyqs-subject-toggles {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .pyqs-subject-toggle {
+        width: auto;
+        border-radius: 999px;
+        border: 1px solid rgba(4, 40, 98, 0.24);
+        background: #fff;
+        color: #103264;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .pyqs-subject-toggle.active {
+        border-color: rgba(50, 128, 255, 0.8);
+        background: rgba(50, 128, 255, 0.16);
+        box-shadow: 0 0 0 2px rgba(50, 128, 255, 0.2) inset;
+      }
+
+      .pyqs-year-grid {
+        padding: 12px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 10px;
+      }
+
+      .pyqs-question-card {
+        border: 1px solid rgba(4, 40, 98, 0.18);
+        border-radius: 10px;
+        padding: 10px;
+        display: grid;
+        gap: 8px;
+        background: linear-gradient(180deg, #ffffff, #f8fbff);
+      }
+
+      .pyqs-question-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .pyqs-question-head-right {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .pyqs-question-qid {
+        font-size: 12px;
+        font-weight: 800;
+        color: #1e3a8a;
+      }
+
+      .pyqs-question-subject {
+        font-size: 11px;
+        font-weight: 700;
+        color: #14532d;
+        background: #ecfdf3;
+        border: 1px solid rgba(20, 83, 45, 0.2);
+        border-radius: 999px;
+        padding: 2px 8px;
+      }
+
+      .pyqs-question-chapter {
+        font-size: 12px;
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .pyqs-question-image {
+        height: 140px;
+        border-radius: 8px;
+        border: 1px solid rgba(4, 40, 98, 0.12);
+        background: #f3f8ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .pyqs-question-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .pyqs-preview-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        background: #fff;
+        color: #0b3a7b;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .pyqs-preview-btn:hover {
+        background: #eff6ff;
+        border-color: rgba(29, 78, 216, 0.35);
+      }
+
+      .pyqs-summary-top {
+        border-top: 1px dashed rgba(4, 40, 98, 0.16);
+        padding-top: 6px;
+        display: grid;
+        gap: 4px;
+        font-size: 11px;
+        color: #334155;
+      }
+
+      .pyqs-summary-top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .pyqs-summary-top-row b {
+        color: #0f3f8f;
+      }
+
+      .pyqs-preview-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1700;
+        background: rgba(2, 6, 23, 0.72);
+        display: none;
+        padding: 20px;
+      }
+
+      .pyqs-preview-card {
+        width: min(1080px, 96vw);
+        max-height: calc(100vh - 40px);
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid rgba(4, 40, 98, 0.16);
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+
+      .pyqs-preview-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.14);
+        background: linear-gradient(180deg, #f8fbff, #eef5ff);
+      }
+
+      .pyqs-preview-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: #0f2f64;
+      }
+
+      .pyqs-preview-meta {
+        font-size: 12px;
+        color: #475569;
+      }
+
+      .pyqs-preview-body {
+        padding: 12px;
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8fbff;
+      }
+
+      .pyqs-preview-body img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid rgba(4, 40, 98, 0.16);
+      }
+
+      .pyqs-question-meta {
+        font-size: 11px;
+        color: #334155;
+        display: grid;
+        gap: 4px;
+      }
+
+      .pyqs-empty {
+        border: 1px dashed rgba(4, 40, 98, 0.25);
+        border-radius: 10px;
+        padding: 14px;
+        background: #fff;
+        color: #475569;
+        font-size: 13px;
+      }
+
+      .results-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .results-wrap {
+        margin-top: 12px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .results-table-wrap {
+        max-height: calc(100vh - 235px);
+        overflow: auto;
+      }
+
+      .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .results-table th,
+      .results-table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.12);
+        text-align: left;
+        font-size: 12px;
+        vertical-align: middle;
+      }
+
+      .results-table th {
+        background: rgba(50, 128, 255, 0.12);
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      .results-score {
+        font-weight: 800;
+        color: #0f3f8f;
+      }
+
+      .results-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(4, 20, 48, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 4000;
+        padding: 16px;
+      }
+
+      .results-modal-card {
+        background: #fff;
+        width: min(1120px, 100%);
+        max-height: calc(100vh - 32px);
+        overflow: auto;
+        border-radius: 14px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        box-shadow: 0 20px 46px rgba(4, 40, 98, 0.26);
+        padding: 16px;
+      }
+
+      .results-modal-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .results-modal-title {
+        margin: 0;
+        color: #0f3f8f;
+        font-size: 20px;
+      }
+
+      .results-meta {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .results-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .results-stat {
+        border: 1px solid rgba(4, 40, 98, 0.12);
+        border-radius: 10px;
+        background: #f8fbff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .results-stat b {
+        display: block;
+        font-size: 20px;
+        color: #0f3f8f;
+      }
+
+      .results-subjects {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .results-subject {
+        border: 1px solid rgba(4, 40, 98, 0.12);
+        border-radius: 10px;
+        background: #fff;
+        padding: 10px;
+      }
+
+      .results-subject h3 {
+        margin: 0 0 8px 0;
+        font-size: 14px;
+      }
+
+      .results-bar {
+        height: 10px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+      }
+
+      .results-bar span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #16a34a, #22c55e);
+      }
+
+      .results-questions {
+        border: 1px solid rgba(4, 40, 98, 0.12);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .results-q-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.1);
+      }
+
+      .results-q-row:last-child {
+        border-bottom: 0;
+      }
+
+      .results-badge {
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: capitalize;
+      }
+
+      .results-badge.correct {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .results-badge.wrong {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .results-badge.unanswered {
+        background: #e5e7eb;
+        color: #374151;
+      }
+
+      .results-empty {
+        padding: 14px;
+        font-size: 13px;
+        color: #475569;
+      }
+
+      .rankings-top {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: end;
+      }
+
+      .rankings-control {
+        display: grid;
+        gap: 4px;
+        min-width: 220px;
+      }
+
+      .rankings-control label {
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .rankings-card {
+        margin-top: 12px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        border-radius: 12px;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      .rankings-head {
+        padding: 12px;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .rankings-title {
+        font-size: 16px;
+        font-weight: 900;
+        color: #0f3f8f;
+      }
+
+      .rankings-table-wrap {
+        max-height: calc(100vh - 300px);
+        overflow: auto;
+      }
+
+      .rankings-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      .rankings-table th,
+      .rankings-table td {
+        padding: 10px 8px;
+        text-align: center;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.1);
+      }
+
+      .rankings-table th {
+        font-weight: 800;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        background: #f8fbff;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      .rankings-rank {
+        font-weight: 900;
+      }
+
+      .rankings-topper {
+        background: #fff7ed;
+      }
+
+      .rankings-empty {
+        text-align: center;
+        color: var(--muted);
+        padding: 20px;
+        font-weight: 700;
+      }
+
+      .rankings-print-head {
+        display: none;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .rankings-print-head img {
+        width: 72px;
+        height: 72px;
+        margin-bottom: 6px;
+      }
+
+      .rankings-print-brand {
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .rankings-print-mock {
+        font-size: 20px;
+        font-weight: 900;
+        margin-top: 4px;
+      }
+
+      .rankings-print-meta {
+        font-size: 13px;
+        margin-top: 6px;
+        color: #334155;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden !important;
+        }
+
+        #rankings-view,
+        #rankings-view * {
+          visibility: visible !important;
+        }
+
+        #rankings-view {
+          position: absolute;
+          inset: 0;
+          background: #fff;
+          padding: 0 !important;
+          overflow: visible !important;
+        }
+
+        .rankings-top,
+        #refresh-rankings-btn,
+        #rankings-print-btn {
+          display: none !important;
+        }
+
+        .rankings-card {
+          border: none;
+          box-shadow: none;
+          margin-top: 0;
+        }
+
+        .rankings-head {
+          display: none;
+        }
+
+        .rankings-print-head {
+          display: block;
+        }
+
+        .rankings-table-wrap {
+          max-height: none;
+          overflow: visible;
+        }
+
+        .rankings-table {
+          font-size: 12px;
+        }
+      }
+
+      @media (max-width: 1300px) {
+        .pyqs-summary-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .results-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
 
       .tab-chips {
@@ -1210,6 +1970,11 @@
         font-size: 12px;
       }
 
+      .mb-chapter-q-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
       @media (max-width: 1100px) {
         .mb-subject-cards {
           grid-template-columns: 1fr;
@@ -1662,30 +2427,69 @@
         </div>
       </div>
       <div class="nav-mid hidden" id="nav-actions">
-        <button id="nav-new-registration" class="nav-btn active" type="button">
-          <i data-lucide="user-plus"></i>
-          New Registration
-        </button>
-        <button id="nav-user-records" class="nav-btn" type="button">
-          <i data-lucide="users"></i>
-          User Records
-        </button>
-        <button id="nav-create-mock" class="nav-btn" type="button">
-          <i data-lucide="file-plus-2"></i>
-          Create Mock
-        </button>
-        <button id="nav-mocks" class="nav-btn" type="button">
-          <i data-lucide="layout-grid"></i>
-          Mocks
-        </button>
-        <button id="nav-logs" class="nav-btn" type="button">
-          <i data-lucide="logs"></i>
-          Logs
-        </button>
-        <button id="nav-manage-admins" class="nav-btn hidden" type="button">
-          <i data-lucide="shield-user"></i>
-          Manage Admins
-        </button>
+        <div id="nav-users-wrap" class="nav-dropdown">
+          <button id="nav-users" class="nav-btn active" type="button">
+            <i data-lucide="users-round"></i>
+            Users
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div id="nav-users-menu" class="nav-dropdown-menu">
+            <button id="nav-new-registration" class="nav-dd-item active" type="button">
+              <i data-lucide="user-plus"></i>
+              New Registration
+            </button>
+            <button id="nav-user-records" class="nav-dd-item" type="button">
+              <i data-lucide="users"></i>
+              User Records
+            </button>
+          </div>
+        </div>
+        <div id="nav-mock-tests-wrap" class="nav-dropdown">
+          <button id="nav-mock-tests" class="nav-btn" type="button">
+            <i data-lucide="folders"></i>
+            Mock Tests
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div id="nav-mock-tests-menu" class="nav-dropdown-menu">
+            <button id="nav-create-mock" class="nav-dd-item" type="button">
+              <i data-lucide="file-plus-2"></i>
+              Create Mock
+            </button>
+            <button id="nav-mocks" class="nav-dd-item" type="button">
+              <i data-lucide="layout-grid"></i>
+              Mocks
+            </button>
+            <button id="nav-pyqs" class="nav-dd-item" type="button">
+              <i data-lucide="book-open-check"></i>
+              PYQs
+            </button>
+            <button id="nav-results" class="nav-dd-item" type="button">
+              <i data-lucide="bar-chart-3"></i>
+              Results
+            </button>
+            <button id="nav-rankings" class="nav-dd-item" type="button">
+              <i data-lucide="trophy"></i>
+              Rankings
+            </button>
+          </div>
+        </div>
+        <div id="nav-settings-wrap" class="nav-dropdown">
+          <button id="nav-settings" class="nav-btn" type="button">
+            <i data-lucide="settings-2"></i>
+            Settings
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div id="nav-settings-menu" class="nav-dropdown-menu">
+            <button id="nav-logs" class="nav-dd-item" type="button">
+              <i data-lucide="logs"></i>
+              Logs
+            </button>
+            <button id="nav-manage-admins" class="nav-dd-item hidden" type="button">
+              <i data-lucide="shield-user"></i>
+              Manage Admins
+            </button>
+          </div>
+        </div>
       </div>
       <div class="nav-right">
         <div class="nav-user" id="nav-user">Not logged in</div>
@@ -1935,6 +2739,104 @@
             <div id="mb-mocks-grid" class="mocks-grid"></div>
           </div>
         </section>
+        <section id="pyqs-view" class="hidden">
+          <div class="pyqs-head-row">
+            <h1><span class="title-icon"><i data-lucide="book-open-check"></i></span>PYQs</h1>
+            <div class="pyqs-head-actions">
+              <button id="refresh-pyqs-btn" class="btn-secondary" type="button">
+                <i data-lucide="refresh-cw"></i>
+                Refresh PYQs
+              </button>
+            </div>
+          </div>
+          <div id="pyqs-summary" class="pyqs-summary-grid">
+            <div class="pyqs-summary-card total">
+              <div class="pyqs-summary-head">
+                <span>Total</span>
+                <span class="pyqs-summary-count">0</span>
+              </div>
+              <div class="pyqs-summary-years">
+                <div class="pyqs-summary-year"><span>No data</span><b>0</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="subtext">All questions from <code>pyqs</code> collection, grouped by year and visible by default.</div>
+          <div id="pyqs-status" class="status"></div>
+          <div id="pyqs-years" class="pyqs-years">
+            <div class="pyqs-empty">Loading...</div>
+          </div>
+        </section>
+        <section id="results-view" class="hidden">
+          <div class="results-head">
+            <h1><span class="title-icon"><i data-lucide="bar-chart-3"></i></span>Results</h1>
+            <button id="refresh-results-btn" class="btn-secondary" type="button">
+              <i data-lucide="refresh-cw"></i>
+              Refresh Results
+            </button>
+          </div>
+          <div class="results-wrap">
+            <div class="results-table-wrap">
+              <table class="results-table">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Mock Name</th>
+                    <th>Duration</th>
+                    <th>Score</th>
+                    <th>Analysis</th>
+                  </tr>
+                </thead>
+                <tbody id="results-body">
+                  <tr><td colspan="6">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section id="rankings-view" class="hidden">
+          <h1><span class="title-icon"><i data-lucide="trophy"></i></span>Rankings</h1>
+          <div class="rankings-top">
+            <div class="rankings-control">
+              <label for="rankings-mock-select">Select Mock</label>
+              <select id="rankings-mock-select">
+                <option value="">Loading mocks...</option>
+              </select>
+            </div>
+            <div class="rankings-control" style="min-width:160px">
+              <label for="rankings-name-limit">Show names till rank</label>
+              <input id="rankings-name-limit" type="number" min="0" value="10" />
+            </div>
+            <button id="refresh-rankings-btn" class="btn-secondary" type="button">
+              <i data-lucide="refresh-cw"></i>
+              Refresh Rankings
+            </button>
+          </div>
+
+          <div id="rankings-table-card" class="rankings-card hidden">
+            <div class="rankings-print-head" id="rankings-print-head">
+              <img src="/favicon.png" alt="PROYAX Logo" />
+              <div class="rankings-print-brand">PROYAX - CEE Mock Test Series 2026</div>
+              <div class="rankings-print-mock" id="rankings-print-mock-name"></div>
+              <div class="rankings-print-meta" id="rankings-print-meta"></div>
+            </div>
+            <div class="rankings-head">
+              <div class="rankings-title">Leaderboard</div>
+              <button id="rankings-print-btn" class="btn-secondary" type="button">
+                <i data-lucide="printer"></i>
+                Print
+              </button>
+            </div>
+            <div class="rankings-table-wrap">
+              <table class="rankings-table">
+                <thead id="rankings-table-head"></thead>
+                <tbody id="rankings-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="rankings-empty" class="rankings-empty hidden">No attempts found for this mock.</div>
+        </section>
         <section id="logs-view" class="hidden">
           <h1>
             <span class="title-icon"><i data-lucide="logs"></i></span>Admin Logs
@@ -2049,6 +2951,49 @@
       </div>
     </div>
 
+    <div class="results-modal" id="results-modal">
+      <div class="results-modal-card">
+        <div class="results-modal-head">
+          <div>
+            <h3 id="results-modal-title" class="results-modal-title">Result Analysis</h3>
+            <div id="results-modal-meta" class="results-meta">-</div>
+          </div>
+          <button id="results-modal-close" class="btn-secondary" type="button">
+            <i data-lucide="x"></i>
+            Close
+          </button>
+        </div>
+        <div class="results-stats">
+          <div class="results-stat"><b id="results-stat-score">0</b>Score</div>
+          <div class="results-stat"><b id="results-stat-acc">0%</b>Accuracy</div>
+          <div class="results-stat"><b id="results-stat-time">0 min 0 sec</b>Time</div>
+          <div class="results-stat"><b id="results-stat-attempt">0</b>Attempted</div>
+        </div>
+        <div id="results-subjects" class="results-subjects"></div>
+        <div id="results-questions" class="results-questions">
+          <div class="results-empty">No question analysis available.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pyqs-preview-modal" id="pyqs-preview-modal">
+      <div class="pyqs-preview-card">
+        <div class="pyqs-preview-head">
+          <div>
+            <div id="pyqs-preview-title" class="pyqs-preview-title">Question Preview</div>
+            <div id="pyqs-preview-meta" class="pyqs-preview-meta">-</div>
+          </div>
+          <button id="pyqs-preview-close" class="btn-secondary" type="button">
+            <i data-lucide="x"></i>
+            Close
+          </button>
+        </div>
+        <div class="pyqs-preview-body">
+          <img id="pyqs-preview-image" src="" alt="PYQ Preview" />
+        </div>
+      </div>
+    </div>
+
     <div class="perm-modal" id="perm-modal">
       <div class="perm-modal-card">
         <div class="perm-modal-head">
@@ -2098,10 +3043,22 @@
       const adminSection = document.getElementById("admin-section");
       const navUserEl = document.getElementById("nav-user");
       const navActionsEl = document.getElementById("nav-actions");
+      const navUsersWrap = document.getElementById("nav-users-wrap");
+      const navUsersBtn = document.getElementById("nav-users");
+      const navUsersMenu = document.getElementById("nav-users-menu");
       const navNewRegistrationBtn = document.getElementById("nav-new-registration");
       const navUserRecordsBtn = document.getElementById("nav-user-records");
+      const navMockTestsWrap = document.getElementById("nav-mock-tests-wrap");
+      const navMockTestsBtn = document.getElementById("nav-mock-tests");
+      const navMockTestsMenu = document.getElementById("nav-mock-tests-menu");
       const navCreateMockBtn = document.getElementById("nav-create-mock");
       const navMocksBtn = document.getElementById("nav-mocks");
+      const navPyqsBtn = document.getElementById("nav-pyqs");
+      const navResultsBtn = document.getElementById("nav-results");
+      const navRankingsBtn = document.getElementById("nav-rankings");
+      const navSettingsWrap = document.getElementById("nav-settings-wrap");
+      const navSettingsBtn = document.getElementById("nav-settings");
+      const navSettingsMenu = document.getElementById("nav-settings-menu");
       const navLogsBtn = document.getElementById("nav-logs");
       const navManageAdminsBtn = document.getElementById("nav-manage-admins");
 
@@ -2131,8 +3088,42 @@
       const recordsView = document.getElementById("records-view");
       const mockBuilderView = document.getElementById("mock-builder-view");
       const mocksView = document.getElementById("mocks-view");
+      const pyqsView = document.getElementById("pyqs-view");
+      const resultsView = document.getElementById("results-view");
+      const rankingsView = document.getElementById("rankings-view");
       const recordsBody = document.getElementById("records-body");
       const refreshRecordsBtn = document.getElementById("refresh-records-btn");
+      const refreshPyqsBtn = document.getElementById("refresh-pyqs-btn");
+      const refreshResultsBtn = document.getElementById("refresh-results-btn");
+      const pyqsSummaryEl = document.getElementById("pyqs-summary");
+      const pyqsStatusEl = document.getElementById("pyqs-status");
+      const pyqsYearsEl = document.getElementById("pyqs-years");
+      const resultsBody = document.getElementById("results-body");
+      const resultsModal = document.getElementById("results-modal");
+      const resultsModalTitle = document.getElementById("results-modal-title");
+      const resultsModalMeta = document.getElementById("results-modal-meta");
+      const resultsModalClose = document.getElementById("results-modal-close");
+      const resultsStatScore = document.getElementById("results-stat-score");
+      const resultsStatAcc = document.getElementById("results-stat-acc");
+      const resultsStatTime = document.getElementById("results-stat-time");
+      const resultsStatAttempt = document.getElementById("results-stat-attempt");
+      const resultsSubjects = document.getElementById("results-subjects");
+      const resultsQuestions = document.getElementById("results-questions");
+      const pyqsPreviewModal = document.getElementById("pyqs-preview-modal");
+      const pyqsPreviewTitle = document.getElementById("pyqs-preview-title");
+      const pyqsPreviewMeta = document.getElementById("pyqs-preview-meta");
+      const pyqsPreviewImage = document.getElementById("pyqs-preview-image");
+      const pyqsPreviewClose = document.getElementById("pyqs-preview-close");
+      const rankingsMockSelect = document.getElementById("rankings-mock-select");
+      const rankingsNameLimitInput = document.getElementById("rankings-name-limit");
+      const refreshRankingsBtn = document.getElementById("refresh-rankings-btn");
+      const rankingsTableCard = document.getElementById("rankings-table-card");
+      const rankingsTableHead = document.getElementById("rankings-table-head");
+      const rankingsTableBody = document.getElementById("rankings-table-body");
+      const rankingsEmpty = document.getElementById("rankings-empty");
+      const rankingsPrintBtn = document.getElementById("rankings-print-btn");
+      const rankingsPrintMockName = document.getElementById("rankings-print-mock-name");
+      const rankingsPrintMeta = document.getElementById("rankings-print-meta");
       const logsView = document.getElementById("logs-view");
       const logsBody = document.getElementById("logs-body");
       const refreshLogsBtn = document.getElementById("refresh-logs-btn");
@@ -2169,6 +3160,9 @@
         { key: "records", label: "User Records", button: navUserRecordsBtn },
         { key: "builder", label: "Create Mock", button: navCreateMockBtn },
         { key: "mocks", label: "Mocks", button: navMocksBtn },
+        { key: "pyqs", label: "PYQs", button: navPyqsBtn },
+        { key: "results", label: "Results", button: navResultsBtn },
+        { key: "rankings", label: "Rankings", button: navRankingsBtn },
         { key: "logs", label: "Logs", button: navLogsBtn },
       ];
 
@@ -2212,6 +3206,30 @@
           tab.button.classList.toggle("hidden", !isSuperadmin && !allowed.has(tab.key));
         });
         navManageAdminsBtn.classList.toggle("hidden", !isSuperadmin);
+        const userButtons = [navNewRegistrationBtn, navUserRecordsBtn];
+        const showUsers = userButtons.some((btn) => !btn.classList.contains("hidden"));
+        if (navUsersWrap) {
+          navUsersWrap.classList.toggle("hidden", !showUsers);
+          if (!showUsers) navUsersWrap.classList.remove("open");
+        }
+        const mockTestButtons = [
+          navCreateMockBtn,
+          navMocksBtn,
+          navPyqsBtn,
+          navResultsBtn,
+          navRankingsBtn,
+        ];
+        const showMockTests = mockTestButtons.some((btn) => !btn.classList.contains("hidden"));
+        if (navMockTestsWrap) {
+          navMockTestsWrap.classList.toggle("hidden", !showMockTests);
+          if (!showMockTests) navMockTestsWrap.classList.remove("open");
+        }
+        const settingsButtons = [navLogsBtn, navManageAdminsBtn];
+        const showSettings = settingsButtons.some((btn) => !btn.classList.contains("hidden"));
+        if (navSettingsWrap) {
+          navSettingsWrap.classList.toggle("hidden", !showSettings);
+          if (!showSettings) navSettingsWrap.classList.remove("open");
+        }
       }
 
       function formatAllowedTabsPreview(allowedKeys) {
@@ -2498,6 +3516,324 @@
         renderIdSearchResults(digits);
       }
 
+      let pyqsAll = [];
+      let pyqsLoaded = false;
+      let pyqsLoadPromise = null;
+      let pyqsYearSubjectFilters = {};
+
+      function normalizePyqSubject(raw) {
+        const subject = String(raw || "").trim().toLowerCase();
+        if (subject === "physics") return "Physics";
+        if (subject === "chemistry") return "Chemistry";
+        if (subject === "mathematics" || subject === "maths" || subject === "math") return "Mathematics";
+        return "";
+      }
+
+      function parsePyqYearValue(v) {
+        const yearText = String(v || "").trim();
+        const yearNum = Number(yearText);
+        if (Number.isFinite(yearNum) && yearText) return yearNum;
+        return -Infinity;
+      }
+
+      function getPyqYearLabel(v) {
+        const label = String(v || "").trim();
+        return label || "Unknown Year";
+      }
+
+      function buildPyqSummaryTopChapters(chapterMap) {
+        const rows = Array.from((chapterMap && chapterMap.entries()) || [])
+          .sort((a, b) => {
+            const diff = (Number(b[1]) || 0) - (Number(a[1]) || 0);
+            if (diff !== 0) return diff;
+            return String(a[0]).localeCompare(String(b[0]));
+          })
+          .slice(0, 3);
+        if (!rows.length) {
+          return '<div class="pyqs-summary-top"><div class="pyqs-summary-top-row"><span>No chapter data</span><b>0</b></div></div>';
+        }
+        const rowHtml = rows
+          .map(
+            ([chapter, count]) =>
+              `<div class="pyqs-summary-top-row"><span>${escapeHtml(String(chapter || "Untitled"))}</span><b>${escapeHtml(String(count || 0))}</b></div>`,
+          )
+          .join("");
+        return `<div class="pyqs-summary-top">${rowHtml}</div>`;
+      }
+
+      function buildPyqSummaryCardHtml(title, totalCount, byYearMap, chapterMap, extraClass) {
+        const rows = Array.from(byYearMap.entries()).sort((a, b) => {
+          const aNum = parsePyqYearValue(a[0]);
+          const bNum = parsePyqYearValue(b[0]);
+          if (aNum !== bNum) return bNum - aNum;
+          return String(b[0]).localeCompare(String(a[0]));
+        });
+        const yearRows = rows.length
+          ? rows
+              .map(
+                ([year, count]) =>
+                  `<div class="pyqs-summary-year"><span>${escapeHtml(String(year))}</span><b>${escapeHtml(String(count))}</b></div>`,
+              )
+              .join("")
+          : '<div class="pyqs-summary-year"><span>No data</span><b>0</b></div>';
+        const topChaptersHtml = buildPyqSummaryTopChapters(chapterMap);
+        return `
+          <article class="pyqs-summary-card ${extraClass || ""}">
+            <div class="pyqs-summary-head">
+              <span>${escapeHtml(title)}</span>
+              <span class="pyqs-summary-count">${escapeHtml(String(totalCount))}</span>
+            </div>
+            <div class="pyqs-summary-years">${yearRows}</div>
+            ${topChaptersHtml}
+          </article>
+        `;
+      }
+
+      function setPyqsStatus(message, ok) {
+        if (!pyqsStatusEl) return;
+        const text = String(message || "");
+        if (!text || ok) {
+          pyqsStatusEl.textContent = "";
+          pyqsStatusEl.className = "status";
+          return;
+        }
+        pyqsStatusEl.textContent = text;
+        pyqsStatusEl.className = "status err";
+      }
+
+      function closePyqsPreviewModal() {
+        if (!pyqsPreviewModal || !pyqsPreviewImage) return;
+        pyqsPreviewModal.style.display = "none";
+        pyqsPreviewImage.removeAttribute("src");
+      }
+
+      function openPyqsPreviewModal({ imageUrl, qid, subject, chapter, year }) {
+        if (!pyqsPreviewModal || !pyqsPreviewImage) return;
+        if (!imageUrl) return;
+        if (pyqsPreviewTitle) {
+          const qidText = String(qid || "-");
+          pyqsPreviewTitle.textContent = "QID: " + qidText;
+        }
+        if (pyqsPreviewMeta) {
+          pyqsPreviewMeta.textContent =
+            `${String(subject || "-")} | ${String(chapter || "-")} | ${String(year || "-")}`;
+        }
+        pyqsPreviewImage.src = String(imageUrl);
+        pyqsPreviewImage.alt = "QID " + String(qid || "-");
+        pyqsPreviewModal.style.display = "block";
+        renderLucideIcons();
+      }
+
+      function ensurePyqYearFiltersFromData() {
+        const years = Array.from(new Set(pyqsAll.map((q) => getPyqYearLabel(q.year))));
+        years.forEach((year) => {
+          if (!pyqsYearSubjectFilters[year]) {
+            pyqsYearSubjectFilters[year] = {
+              Physics: true,
+              Chemistry: true,
+              Mathematics: true,
+            };
+          }
+        });
+        Object.keys(pyqsYearSubjectFilters).forEach((year) => {
+          if (!years.includes(year)) delete pyqsYearSubjectFilters[year];
+        });
+      }
+
+      function renderPyqsView() {
+        if (!pyqsYearsEl || !pyqsSummaryEl) return;
+        const subjects = ["Physics", "Chemistry", "Mathematics"];
+        const bySubjectYear = {
+          Physics: new Map(),
+          Chemistry: new Map(),
+          Mathematics: new Map(),
+        };
+        const bySubjectChapter = {
+          Physics: new Map(),
+          Chemistry: new Map(),
+          Mathematics: new Map(),
+        };
+        const totalByYear = new Map();
+        const totalByChapter = new Map();
+        pyqsAll.forEach((q) => {
+          const year = getPyqYearLabel(q.year);
+          const chapter = String(q.chapter || "Untitled").trim() || "Untitled";
+          totalByYear.set(year, (totalByYear.get(year) || 0) + 1);
+          totalByChapter.set(chapter, (totalByChapter.get(chapter) || 0) + 1);
+          const subject = normalizePyqSubject(q.subject);
+          if (subjects.includes(subject)) {
+            bySubjectYear[subject].set(year, (bySubjectYear[subject].get(year) || 0) + 1);
+            bySubjectChapter[subject].set(
+              chapter,
+              (bySubjectChapter[subject].get(chapter) || 0) + 1,
+            );
+          }
+        });
+        pyqsSummaryEl.innerHTML = [
+          buildPyqSummaryCardHtml(
+            "Physics",
+            Array.from(bySubjectYear.Physics.values()).reduce((s, n) => s + n, 0),
+            bySubjectYear.Physics,
+            bySubjectChapter.Physics,
+            "",
+          ),
+          buildPyqSummaryCardHtml(
+            "Chemistry",
+            Array.from(bySubjectYear.Chemistry.values()).reduce((s, n) => s + n, 0),
+            bySubjectYear.Chemistry,
+            bySubjectChapter.Chemistry,
+            "",
+          ),
+          buildPyqSummaryCardHtml(
+            "Mathematics",
+            Array.from(bySubjectYear.Mathematics.values()).reduce((s, n) => s + n, 0),
+            bySubjectYear.Mathematics,
+            bySubjectChapter.Mathematics,
+            "",
+          ),
+          buildPyqSummaryCardHtml("Total", pyqsAll.length, totalByYear, totalByChapter, "total"),
+        ].join("");
+        if (!pyqsAll.length) {
+          pyqsYearsEl.innerHTML = '<div class="pyqs-empty">No PYQs found in collection.</div>';
+          return;
+        }
+
+        const grouped = new Map();
+        pyqsAll.forEach((q) => {
+          const year = getPyqYearLabel(q.year);
+          if (!grouped.has(year)) grouped.set(year, []);
+          grouped.get(year).push(q);
+        });
+
+        const years = Array.from(grouped.keys()).sort((a, b) => {
+          const aNum = parsePyqYearValue(a);
+          const bNum = parsePyqYearValue(b);
+          if (aNum !== bNum) return bNum - aNum;
+          return b.localeCompare(a);
+        });
+
+        pyqsYearsEl.innerHTML = years
+          .map((year) => {
+            const yearItems = grouped.get(year) || [];
+            const filterState = pyqsYearSubjectFilters[year] || {
+              Physics: true,
+              Chemistry: true,
+              Mathematics: true,
+            };
+            const visibleItems = yearItems.filter((item) => {
+              const normalized = normalizePyqSubject(item.subject);
+              if (!normalized) return true;
+              return !!filterState[normalized];
+            });
+            const subjectButtons = ["Physics", "Chemistry", "Mathematics"]
+              .map((subject) => {
+                const activeClass = filterState[subject] ? "active" : "";
+                return `<button class="pyqs-subject-toggle ${activeClass}" type="button" data-pyq-year="${escapeHtml(year)}" data-pyq-subject="${escapeHtml(subject)}">${escapeHtml(subject)}</button>`;
+              })
+              .join("");
+            const cardsHtml = visibleItems.length
+              ? visibleItems
+                  .map((q) => {
+                    const chapter = q.chapter || "Untitled";
+                    const qid = q.qid || "-";
+                    const correct = q.correct || "-";
+                    const subject = normalizePyqSubject(q.subject) || q.subject || "-";
+                    const createdAt = formatDateValue(q.createdAt);
+                    const imageHtml = q.imageUrl
+                      ? `<img src="${escapeHtml(q.imageUrl)}" alt="${escapeHtml(String(qid))}" />`
+                      : '<div class="pyqs-empty">No image</div>';
+                    const previewBtn = q.imageUrl
+                      ? `<button class="pyqs-preview-btn" type="button" data-pyq-preview="1" data-pyq-image="${escapeHtml(String(q.imageUrl || ""))}" data-pyq-qid="${escapeHtml(String(qid || "-"))}" data-pyq-subject="${escapeHtml(String(subject || "-"))}" data-pyq-chapter="${escapeHtml(String(chapter || "-"))}" data-pyq-year="${escapeHtml(String(year || "-"))}" title="Preview question">
+                           <i data-lucide="expand"></i>
+                         </button>`
+                      : "";
+                    return `
+                      <article class="pyqs-question-card">
+                        <div class="pyqs-question-head">
+                          <div class="pyqs-question-qid">QID: ${escapeHtml(String(qid))}</div>
+                          <div class="pyqs-question-head-right">
+                            <div class="pyqs-question-subject">${escapeHtml(String(subject))}</div>
+                            ${previewBtn}
+                          </div>
+                        </div>
+                        <div class="pyqs-question-chapter">${escapeHtml(String(chapter))}</div>
+                        <div class="pyqs-question-image">${imageHtml}</div>
+                        <div class="pyqs-question-meta">
+                          <div><b>Answer:</b> ${escapeHtml(String(correct))}</div>
+                          <div><b>Created:</b> ${escapeHtml(String(createdAt))}</div>
+                        </div>
+                      </article>
+                    `;
+                  })
+                  .join("")
+              : '<div class="pyqs-empty">No questions match selected subjects for this year.</div>';
+
+            return `
+              <section class="pyqs-year-block">
+                <div class="pyqs-year-head">
+                  <div class="pyqs-year-title">
+                    <span>${escapeHtml(year)}</span>
+                    <span class="pyqs-year-count">${escapeHtml(String(yearItems.length))} qns</span>
+                  </div>
+                  <div class="pyqs-subject-toggles">${subjectButtons}</div>
+                </div>
+                <div class="pyqs-year-grid">${cardsHtml}</div>
+              </section>
+            `;
+          })
+          .join("");
+        renderLucideIcons();
+      }
+
+      async function loadPyqsView(forceReload) {
+        if (!pyqsYearsEl || !pyqsSummaryEl) return;
+        if (!db) {
+          pyqsSummaryEl.innerHTML = buildPyqSummaryCardHtml("Total", 0, new Map(), new Map(), "total");
+          pyqsYearsEl.innerHTML = '<div class="pyqs-empty">DB not configured.</div>';
+          setPyqsStatus("Unable to load PYQs. Firestore is not configured.", false);
+          return;
+        }
+        if (!forceReload && pyqsLoaded) {
+          renderPyqsView();
+          return;
+        }
+        if (!forceReload && pyqsLoadPromise) {
+          await pyqsLoadPromise;
+          return;
+        }
+
+        pyqsYearsEl.innerHTML = '<div class="pyqs-empty">Loading PYQs...</div>';
+        setPyqsStatus("", true);
+        pyqsLoadPromise = (async () => {
+          try {
+            let docs = [];
+            try {
+              const snap = await db.collection("pyqs").orderBy("year", "desc").limit(5000).get();
+              docs = snap.docs;
+            } catch (_) {
+              const fallback = await db.collection("pyqs").limit(5000).get();
+              docs = fallback.docs;
+            }
+            pyqsAll = docs.map((doc) => ({ id: doc.id, ...(doc.data() || {}) }));
+            ensurePyqYearFiltersFromData();
+            pyqsLoaded = true;
+            setPyqsStatus("", true);
+            renderPyqsView();
+          } catch (err) {
+            console.error(err);
+            pyqsAll = [];
+            pyqsLoaded = false;
+            pyqsSummaryEl.innerHTML = buildPyqSummaryCardHtml("Total", 0, new Map(), new Map(), "total");
+            pyqsYearsEl.innerHTML = '<div class="pyqs-empty">Failed to load PYQs.</div>';
+            setPyqsStatus("Failed to load PYQs from Firestore.", false);
+          } finally {
+            pyqsLoadPromise = null;
+          }
+        })();
+
+        await pyqsLoadPromise;
+      }
+
       async function loadUserRecords() {
         if (!db) {
           recordsBody.innerHTML = '<div class="record-row"><div>DB not configured</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
@@ -2593,6 +3929,380 @@
           console.error(err);
           logsBody.innerHTML = '<div class="log-row"><div>-</div><div>Failed to load logs</div></div>';
         }
+      }
+
+      const RESULTS_POSITIVE_MARK = 4;
+      const RESULTS_NEGATIVE_MARK = 1;
+
+      function resultsFormatDuration(seconds) {
+        const total = Number(seconds) || 0;
+        const mins = Math.floor(total / 60);
+        const secs = total % 60;
+        return `${mins} min ${secs} sec`;
+      }
+
+      function resultsGetTimestampValue(item) {
+        const raw = item && (item.date || item.createdAt);
+        if (!raw) return 0;
+        try {
+          if (raw.toDate && typeof raw.toDate === "function") return raw.toDate().getTime();
+          const d = new Date(raw);
+          return Number.isNaN(d.getTime()) ? 0 : d.getTime();
+        } catch (_) {
+          return 0;
+        }
+      }
+
+      function resultsComputeMetrics(resultData) {
+        const perQuestion = Array.isArray(resultData && resultData.perQuestion)
+          ? resultData.perQuestion
+          : [];
+        let correct = 0;
+        let wrong = 0;
+        let attempted = 0;
+        const bySubject = {};
+
+        perQuestion.forEach((q) => {
+          const section = String((q && q.section) || "Unknown").trim() || "Unknown";
+          if (!bySubject[section]) bySubject[section] = { c: 0, w: 0, u: 0 };
+          const selected = q ? q.selectedIndex : null;
+          const correctIndex = q ? q.correctIndex : null;
+          if (selected === null || selected === undefined) {
+            bySubject[section].u += 1;
+            return;
+          }
+          attempted += 1;
+          if (String(selected) === String(correctIndex)) {
+            correct += 1;
+            bySubject[section].c += 1;
+          } else {
+            wrong += 1;
+            bySubject[section].w += 1;
+          }
+        });
+
+        const computedScore = correct * RESULTS_POSITIVE_MARK - wrong * RESULTS_NEGATIVE_MARK;
+        const score =
+          resultData && typeof resultData.score === "number"
+            ? resultData.score
+            : computedScore;
+        const accuracy = Math.round((correct / Math.max(1, attempted)) * 100);
+        return { perQuestion, correct, wrong, attempted, score, accuracy, bySubject };
+      }
+
+      function closeResultsModal() {
+        if (!resultsModal) return;
+        resultsModal.style.display = "none";
+      }
+
+      function openResultsModal(resultData) {
+        if (!resultsModal) return;
+        const metrics = resultsComputeMetrics(resultData || {});
+        const studentName = String((resultData && resultData.name) || "-");
+        const mockName = String((resultData && resultData.mockName) || "-");
+        const username = String((resultData && resultData.username) || "-");
+
+        if (resultsModalTitle) {
+          resultsModalTitle.textContent = `${studentName} - ${mockName}`;
+        }
+        if (resultsModalMeta) {
+          resultsModalMeta.textContent = `Username: ${username}`;
+        }
+        if (resultsStatScore) resultsStatScore.textContent = String(metrics.score || 0);
+        if (resultsStatAcc) resultsStatAcc.textContent = `${metrics.accuracy}%`;
+        if (resultsStatTime) {
+          resultsStatTime.textContent = resultsFormatDuration(
+            (resultData && resultData.durationSec) || 0,
+          );
+        }
+        if (resultsStatAttempt) resultsStatAttempt.textContent = String(metrics.attempted || 0);
+
+        if (resultsSubjects) {
+          const keys = Object.keys(metrics.bySubject);
+          resultsSubjects.innerHTML = keys.length
+            ? keys
+                .map((k) => {
+                  const s = metrics.bySubject[k];
+                  const total = s.c + s.w + s.u;
+                  const pct = total ? (s.c / total) * 100 : 0;
+                  const net = s.c * RESULTS_POSITIVE_MARK - s.w * RESULTS_NEGATIVE_MARK;
+                  return `
+                    <div class="results-subject">
+                      <h3>${escapeHtml(k)} - Net: ${escapeHtml(String(net))}</h3>
+                      <div class="results-bar"><span style="width:${escapeHtml(String(pct))}%"></span></div>
+                      <div class="results-meta">+${escapeHtml(String(s.c * RESULTS_POSITIVE_MARK))} / -${escapeHtml(String(s.w * RESULTS_NEGATIVE_MARK))} / ${escapeHtml(String(s.u))} unattempted</div>
+                    </div>
+                  `;
+                })
+                .join("")
+            : '<div class="results-empty">No subject analysis available.</div>';
+        }
+
+        if (resultsQuestions) {
+          resultsQuestions.innerHTML = metrics.perQuestion.length
+            ? metrics.perQuestion
+                .map((q, i) => {
+                  let status = "unanswered";
+                  if (q && q.selectedIndex !== null && q.selectedIndex !== undefined && String(q.selectedIndex) === String(q.correctIndex)) status = "correct";
+                  else if (q && q.selectedIndex !== null && q.selectedIndex !== undefined) status = "wrong";
+                  const qid = String((q && q.qid) || `Q${i + 1}`);
+                  const section = String((q && q.section) || "Unknown");
+                  return `
+                    <div class="results-q-row">
+                      <div><strong>${escapeHtml(qid)}</strong> <span class="results-meta">(${escapeHtml(section)})</span></div>
+                      <span class="results-badge ${escapeHtml(status)}">${escapeHtml(status)}</span>
+                    </div>
+                  `;
+                })
+                .join("")
+            : '<div class="results-empty">No question analysis available.</div>';
+        }
+
+        resultsModal.style.display = "flex";
+        renderLucideIcons();
+      }
+
+      async function loadResultsView() {
+        if (!resultsBody) return;
+        if (!db) {
+          resultsBody.innerHTML = '<tr><td colspan="6">DB not configured</td></tr>';
+          return;
+        }
+        resultsBody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+        try {
+          let docs = [];
+          try {
+            const snap = await db.collection("results").orderBy("date", "desc").limit(1000).get();
+            docs = snap.docs;
+          } catch (_) {
+            try {
+              const fallback = await db.collection("results").limit(1000).get();
+              docs = fallback.docs.sort((a, b) => {
+                const av = resultsGetTimestampValue(a.data() || {});
+                const bv = resultsGetTimestampValue(b.data() || {});
+                return bv - av;
+              });
+            } catch (_) {
+              const legacy = await db.collection("res").limit(1000).get();
+              docs = legacy.docs.sort((a, b) => {
+                const av = resultsGetTimestampValue(a.data() || {});
+                const bv = resultsGetTimestampValue(b.data() || {});
+                return bv - av;
+              });
+            }
+          }
+
+          const isSuperadmin = isCurrentUserSuperadmin();
+          const lockedBatch = getCurrentAdminLockedBatch();
+          const getResultBatchKey = (data) =>
+            toBatchKey(
+              (data && (data.subscription || data.batch || data.studentBatch || data.userBatch)) ||
+                "",
+            );
+          const filteredDocs = docs.filter((docSnap) => {
+            if (isSuperadmin) return true;
+            if (!lockedBatch) return false;
+            return getResultBatchKey(docSnap.data() || {}) === lockedBatch;
+          });
+
+          if (!filteredDocs.length) {
+            resultsBody.innerHTML = '<tr><td colspan="6">No results found.</td></tr>';
+            return;
+          }
+
+          resultsBody.innerHTML = "";
+          filteredDocs.forEach((docSnap) => {
+            const data = docSnap.data() || {};
+            const metrics = resultsComputeMetrics(data);
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${escapeHtml(String(data.username || "-"))}</td>
+              <td>${escapeHtml(String(data.name || "-"))}</td>
+              <td><strong>${escapeHtml(String(data.mockName || "-"))}</strong></td>
+              <td>${escapeHtml(resultsFormatDuration(data.durationSec || 0))}</td>
+              <td class="results-score">${escapeHtml(String(metrics.score || 0))}</td>
+              <td><button class="btn-secondary" type="button"><i data-lucide="bar-chart-3"></i> View</button></td>
+            `;
+            const btn = row.querySelector("button");
+            if (btn) btn.addEventListener("click", () => openResultsModal(data));
+            resultsBody.appendChild(row);
+          });
+          renderLucideIcons();
+        } catch (err) {
+          console.error(err);
+          resultsBody.innerHTML = '<tr><td colspan="6">Failed to load results.</td></tr>';
+        }
+      }
+
+      let rankingsAllRows = [];
+      let rankingsLoadedMocks = false;
+      let rankingsCurrentMockMeta = { name: "", duration: "", syllabus: "" };
+
+      function rankingsCalculateMarks(perQuestion) {
+        const marks = {};
+        (Array.isArray(perQuestion) ? perQuestion : []).forEach((q) => {
+          const section = String((q && q.section) || "").trim();
+          if (!section) return;
+          if (!marks[section]) marks[section] = 0;
+          if (!q || q.selectedIndex === null || q.selectedIndex === undefined) return;
+          marks[section] += String(q.selectedIndex) === String(q.correctIndex) ? 4 : -1;
+        });
+        return marks;
+      }
+
+      function rankingsRankRows(rows) {
+        rows.sort((a, b) => {
+          if (b.total !== a.total) return b.total - a.total;
+          return (a.durationSec || 0) - (b.durationSec || 0);
+        });
+        let rank = 1;
+        let lastTotal = null;
+        return rows.map((row, i) => {
+          if (lastTotal !== null && row.total !== lastTotal) rank = i + 1;
+          lastTotal = row.total;
+          return { ...row, rank };
+        });
+      }
+
+      function rankingsRenderTable(rows) {
+        if (!rankingsTableHead || !rankingsTableBody) return;
+        const nameLimit = Number(rankingsNameLimitInput && rankingsNameLimitInput.value) || 0;
+        const subjectSet = new Set();
+        rows.forEach((r) => {
+          Object.keys(r.marks || {}).forEach((s) => subjectSet.add(s));
+        });
+        const subjects = Array.from(subjectSet);
+
+        let headHtml = "<tr><th>Rank</th><th>Student ID</th><th>Name</th>";
+        subjects.forEach((s) => {
+          headHtml += `<th>${escapeHtml(s)}</th>`;
+        });
+        headHtml += "<th>Total</th></tr>";
+        rankingsTableHead.innerHTML = headHtml;
+
+        rankingsTableBody.innerHTML = "";
+        rows.forEach((r) => {
+          const name = r.rank <= nameLimit ? String(r.name || r.username || "-") : "-";
+          const studentID = String(r.studentID || "-");
+          let rowHtml = `
+            <td class="rankings-rank">#${escapeHtml(String(r.rank))}</td>
+            <td>${escapeHtml(studentID)}</td>
+            <td>${escapeHtml(name)}</td>
+          `;
+          subjects.forEach((s) => {
+            rowHtml += `<td>${escapeHtml(String((r.marks && r.marks[s]) || 0))}</td>`;
+          });
+          rowHtml += `<td><strong>${escapeHtml(String(r.total))}</strong></td>`;
+          const tr = document.createElement("tr");
+          if (r.rank === 1) tr.classList.add("rankings-topper");
+          tr.innerHTML = rowHtml;
+          rankingsTableBody.appendChild(tr);
+        });
+      }
+
+      async function loadRankingMocks() {
+        if (!rankingsMockSelect || !db) return;
+        rankingsMockSelect.innerHTML = '<option value="">Loading mocks...</option>';
+        try {
+          let docs = [];
+          try {
+            const snap = await db.collection("mocks").orderBy("name").limit(2000).get();
+            docs = snap.docs;
+          } catch (_) {
+            const fallback = await db.collection("mocks").limit(2000).get();
+            docs = fallback.docs.sort((a, b) => {
+              const an = String((a.data() && a.data().name) || a.id || "");
+              const bn = String((b.data() && b.data().name) || b.id || "");
+              return an.localeCompare(bn);
+            });
+          }
+          rankingsMockSelect.innerHTML = '<option value="">Select a mock</option>';
+          docs.forEach((docSnap) => {
+            const d = docSnap.data() || {};
+            const opt = document.createElement("option");
+            opt.value = docSnap.id;
+            opt.textContent = String(d.name || docSnap.id || "Untitled Mock");
+            opt.dataset.duration = String(d.duration || d.time || "");
+            opt.dataset.syllabus = String(d.syllabus || d.syl || "");
+            rankingsMockSelect.appendChild(opt);
+          });
+          rankingsLoadedMocks = true;
+        } catch (err) {
+          console.error(err);
+          rankingsMockSelect.innerHTML = '<option value="">Failed to load mocks</option>';
+        }
+      }
+
+      async function loadRankingsForMock(mockId) {
+        if (!mockId || !db) return;
+        if (rankingsTableCard) rankingsTableCard.classList.add("hidden");
+        if (rankingsEmpty) rankingsEmpty.classList.add("hidden");
+        if (rankingsTableBody) rankingsTableBody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+        try {
+          let docs = [];
+          try {
+            const snap = await db.collection("results").where("mockId", "==", mockId).get();
+            docs = snap.docs;
+          } catch (_) {
+            const legacy = await db.collection("res").where("mockId", "==", mockId).get();
+            docs = legacy.docs;
+          }
+
+          if (!docs.length) {
+            rankingsAllRows = [];
+            if (rankingsTableCard) rankingsTableCard.classList.add("hidden");
+            if (rankingsEmpty) rankingsEmpty.classList.remove("hidden");
+            return;
+          }
+
+          const prepared = docs.map((docSnap) => {
+            const d = docSnap.data() || {};
+            const marks = rankingsCalculateMarks(d.perQuestion || []);
+            return {
+              ...d,
+              studentID: d.studentID || "-",
+              marks,
+              total: Object.values(marks).reduce((sum, v) => sum + (Number(v) || 0), 0),
+            };
+          });
+
+          rankingsAllRows = rankingsRankRows(prepared);
+          rankingsRenderTable(rankingsAllRows);
+          if (rankingsEmpty) rankingsEmpty.classList.add("hidden");
+          if (rankingsTableCard) rankingsTableCard.classList.remove("hidden");
+          renderLucideIcons();
+        } catch (err) {
+          console.error(err);
+          rankingsAllRows = [];
+          if (rankingsTableCard) rankingsTableCard.classList.add("hidden");
+          if (rankingsEmpty) {
+            rankingsEmpty.textContent = "Failed to load leaderboard.";
+            rankingsEmpty.classList.remove("hidden");
+          }
+        }
+      }
+
+      async function openRankingsView() {
+        if (!rankingsLoadedMocks) {
+          await loadRankingMocks();
+        }
+      }
+
+      function printRankings() {
+        if (!rankingsMockSelect) return;
+        const opt = rankingsMockSelect.options[rankingsMockSelect.selectedIndex];
+        if (!opt || !opt.value) return;
+        rankingsCurrentMockMeta = {
+          name: opt.textContent || "",
+          duration: opt.dataset.duration || "",
+          syllabus: opt.dataset.syllabus || "",
+        };
+        if (rankingsPrintMockName) rankingsPrintMockName.textContent = rankingsCurrentMockMeta.name;
+        if (rankingsPrintMeta) {
+          rankingsPrintMeta.textContent =
+            `Conducted on: ${new Date().toLocaleDateString()} | Duration: ${rankingsCurrentMockMeta.duration} min | Syllabus: ${rankingsCurrentMockMeta.syllabus}`;
+        }
+        window.print();
       }
 
       async function loadManageAdmins() {
@@ -2704,25 +4414,49 @@
         const showRecords = which === "records";
         const showBuilder = which === "builder";
         const showMocks = which === "mocks";
+        const showPyqs = which === "pyqs";
+        const showResults = which === "results";
+        const showRankings = which === "rankings";
         const showLogs = which === "logs";
         const showManageAdmins = which === "manage-admins";
-        registrationView.classList.toggle("hidden", showRecords || showBuilder || showMocks || showLogs || showManageAdmins);
+        registrationView.classList.toggle("hidden", showRecords || showBuilder || showMocks || showPyqs || showResults || showRankings || showLogs || showManageAdmins);
         recordsView.classList.toggle("hidden", !showRecords);
         mockBuilderView.classList.toggle("hidden", !showBuilder);
         mocksView.classList.toggle("hidden", !showMocks);
+        pyqsView.classList.toggle("hidden", !showPyqs);
+        resultsView.classList.toggle("hidden", !showResults);
+        rankingsView.classList.toggle("hidden", !showRankings);
         logsView.classList.toggle("hidden", !showLogs);
         manageAdminsView.classList.toggle("hidden", !showManageAdmins);
+        if (navUsersBtn) {
+          navUsersBtn.classList.toggle("active", which === "registration" || showRecords);
+        }
         navNewRegistrationBtn.classList.toggle("active", which === "registration");
         navUserRecordsBtn.classList.toggle("active", showRecords);
         navCreateMockBtn.classList.toggle("active", showBuilder);
         navMocksBtn.classList.toggle("active", showMocks);
+        navPyqsBtn.classList.toggle("active", showPyqs);
+        navResultsBtn.classList.toggle("active", showResults);
+        navRankingsBtn.classList.toggle("active", showRankings);
+        if (navMockTestsBtn) {
+          navMockTestsBtn.classList.toggle("active", showBuilder || showMocks || showPyqs || showResults || showRankings);
+        }
+        if (navSettingsBtn) {
+          navSettingsBtn.classList.toggle("active", showLogs || showManageAdmins);
+        }
         navLogsBtn.classList.toggle("active", showLogs);
         navManageAdminsBtn.classList.toggle("active", showManageAdmins);
+        if (navUsersWrap) navUsersWrap.classList.remove("open");
+        if (navMockTestsWrap) navMockTestsWrap.classList.remove("open");
+        if (navSettingsWrap) navSettingsWrap.classList.remove("open");
         if (showRecords) loadUserRecords();
         if (showMocks) {
           mbSelectedBatch = null;
           mbLoadMocksTable();
         }
+        if (showPyqs) loadPyqsView(false);
+        if (showResults) loadResultsView();
+        if (showRankings) openRankingsView();
         if (showLogs) loadAdminLogs();
         if (showManageAdmins) loadManageAdmins();
         renderLucideIcons();
@@ -2833,15 +4567,79 @@
         runLiveIdSearch(false);
       });
 
+      const navDropdowns = [
+        { wrap: navUsersWrap, btn: navUsersBtn, menu: navUsersMenu },
+        { wrap: navMockTestsWrap, btn: navMockTestsBtn, menu: navMockTestsMenu },
+        { wrap: navSettingsWrap, btn: navSettingsBtn, menu: navSettingsMenu },
+      ];
+      navDropdowns.forEach(({ wrap, btn, menu }) => {
+        if (btn && wrap) {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const shouldOpen = !wrap.classList.contains("open");
+            navDropdowns.forEach((d) => d.wrap && d.wrap.classList.remove("open"));
+            if (shouldOpen) wrap.classList.add("open");
+          });
+        }
+        if (menu && wrap) {
+          menu.addEventListener("click", () => {
+            wrap.classList.remove("open");
+          });
+        }
+      });
+      document.addEventListener("click", (e) => {
+        navDropdowns.forEach(({ wrap }) => {
+          if (!wrap) return;
+          if (!wrap.contains(e.target)) wrap.classList.remove("open");
+        });
+      });
+
       navNewRegistrationBtn.addEventListener("click", () => setActivePane("registration"));
       navUserRecordsBtn.addEventListener("click", () => setActivePane("records"));
       navCreateMockBtn.addEventListener("click", () => setActivePane("builder"));
       navMocksBtn.addEventListener("click", () => setActivePane("mocks"));
+      navPyqsBtn.addEventListener("click", () => setActivePane("pyqs"));
+      navResultsBtn.addEventListener("click", () => setActivePane("results"));
+      navRankingsBtn.addEventListener("click", () => setActivePane("rankings"));
       navLogsBtn.addEventListener("click", () => setActivePane("logs"));
       navManageAdminsBtn.addEventListener("click", () => setActivePane("manage-admins"));
       refreshRecordsBtn.addEventListener("click", () => loadUserRecords());
+      refreshPyqsBtn.addEventListener("click", () => loadPyqsView(true));
+      refreshResultsBtn.addEventListener("click", () => loadResultsView());
+      refreshRankingsBtn.addEventListener("click", async () => {
+        rankingsLoadedMocks = false;
+        await loadRankingMocks();
+        const selectedMockId = rankingsMockSelect && rankingsMockSelect.value;
+        if (selectedMockId) loadRankingsForMock(selectedMockId);
+      });
       refreshLogsBtn.addEventListener("click", () => loadAdminLogs());
       refreshAdminsBtn.addEventListener("click", () => loadManageAdmins());
+      if (rankingsMockSelect) {
+        rankingsMockSelect.addEventListener("change", () => {
+          const mockId = rankingsMockSelect.value;
+          if (!mockId) {
+            rankingsAllRows = [];
+            if (rankingsTableCard) rankingsTableCard.classList.add("hidden");
+            if (rankingsEmpty) rankingsEmpty.classList.add("hidden");
+            return;
+          }
+          const opt = rankingsMockSelect.options[rankingsMockSelect.selectedIndex];
+          rankingsCurrentMockMeta = {
+            name: (opt && opt.textContent) || "",
+            duration: (opt && opt.dataset.duration) || "",
+            syllabus: (opt && opt.dataset.syllabus) || "",
+          };
+          loadRankingsForMock(mockId);
+        });
+      }
+      if (rankingsNameLimitInput) {
+        rankingsNameLimitInput.addEventListener("input", () => {
+          if (rankingsAllRows.length) rankingsRenderTable(rankingsAllRows);
+        });
+      }
+      if (rankingsPrintBtn) {
+        rankingsPrintBtn.addEventListener("click", printRankings);
+      }
       permCloseBtn.addEventListener("click", () => closePermissionsModal());
       if (footerPrivacyBtn) {
         footerPrivacyBtn.addEventListener("click", () => openLegalModal("privacy"));
@@ -2857,6 +4655,31 @@
           if (e.target === legalModal) closeLegalModal();
         });
       }
+      if (resultsModalClose) {
+        resultsModalClose.addEventListener("click", closeResultsModal);
+      }
+      if (resultsModal) {
+        resultsModal.addEventListener("click", (e) => {
+          if (e.target === resultsModal) closeResultsModal();
+        });
+      }
+      if (pyqsPreviewClose) {
+        pyqsPreviewClose.addEventListener("click", closePyqsPreviewModal);
+      }
+      if (pyqsPreviewModal) {
+        pyqsPreviewModal.addEventListener("click", (e) => {
+          if (e.target === pyqsPreviewModal) closePyqsPreviewModal();
+        });
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        if (resultsModal && resultsModal.style.display === "flex") {
+          closeResultsModal();
+        }
+        if (pyqsPreviewModal && pyqsPreviewModal.style.display === "block") {
+          closePyqsPreviewModal();
+        }
+      });
       permModal.addEventListener("click", (e) => {
         if (e.target === permModal) closePermissionsModal();
       });
@@ -3194,15 +5017,57 @@
         if (mbChapterModal) mbChapterModal.style.display = "none";
       }
 
+      function mbFindQuestionIndex(subject, q) {
+        if (!mbData[subject]) return -1;
+        return mbData[subject].findIndex((item) => {
+          return (
+            String((item && item.qid) || "") === String((q && q.qid) || "") &&
+            String((item && item.img) || "") === String((q && q.img) || "") &&
+            String((item && item.ans) || "") === String((q && q.ans) || "") &&
+            String((item && item.chapter) || "") === String((q && q.chapter) || "")
+          );
+        });
+      }
+
+      function mbToggleQuestion(subject, q) {
+        if (!mbData[subject]) return false;
+        const idx = mbFindQuestionIndex(subject, q);
+        if (idx >= 0) {
+          mbData[subject].splice(idx, 1);
+          return false;
+        }
+        mbData[subject].push({
+          qid: q.qid || "",
+          img: q.img || "",
+          ans: q.ans || "",
+          chapter: q.chapter || "",
+        });
+        return true;
+      }
+
+      function mbAddQuestionIfMissing(subject, q) {
+        if (!mbData[subject]) return false;
+        if (mbFindQuestionIndex(subject, q) >= 0) return false;
+        mbData[subject].push({
+          qid: q.qid || "",
+          img: q.img || "",
+          ans: q.ans || "",
+          chapter: q.chapter || "",
+        });
+        return true;
+      }
+
       function mbOpenChapterModal(subject, chapter) {
         if (!mbChapterModal || !mbChapterModalBody) return;
         const normalizedChapter = String(chapter || "").trim().toLowerCase();
         const isUnassigned = normalizedChapter === "unassigned";
-        const items = (mbData[subject] || []).filter((q) => {
-          const raw = String((q && q.chapter) || "").trim();
-          if (isUnassigned) return !raw;
-          return raw.toLowerCase() === normalizedChapter;
-        });
+        const items = (mbData[subject] || [])
+          .map((q, originalIndex) => ({ q, originalIndex }))
+          .filter(({ q }) => {
+            const raw = String((q && q.chapter) || "").trim();
+            if (isUnassigned) return !raw;
+            return raw.toLowerCase() === normalizedChapter;
+          });
         if (mbChapterModalTitle) {
           mbChapterModalTitle.textContent = `${subject} - ${chapter}`;
         }
@@ -3214,7 +5079,7 @@
         } else {
           mbChapterModalBody.innerHTML = items
             .map(
-              (q, idx) => `
+              ({ q, originalIndex }, idx) => `
                 <article class="mb-chapter-q-card">
                   <div class="mb-chapter-q-head">Q${idx + 1}${q.qid ? ` - ${escapeHtml(q.qid)}` : ""}</div>
                   <div class="mb-chapter-q-img-wrap">
@@ -3223,6 +5088,12 @@
                       : '<div class="mb-chapter-q-empty">No image available</div>'}
                   </div>
                   <div class="mb-chapter-q-ans"><b>Answer:</b> ${escapeHtml(q.ans || "-")}</div>
+                  <div class="mb-chapter-q-actions">
+                    <button class="mb-btn danger mb-unselect-question-btn" type="button" data-subject="${escapeHtml(subject)}" data-index="${escapeHtml(String(originalIndex))}">
+                      <i data-lucide="x-circle"></i>
+                      Unselect
+                    </button>
+                  </div>
                 </article>
               `,
             )
@@ -3230,6 +5101,28 @@
         }
         mbChapterModal.style.display = "block";
         renderLucideIcons();
+      }
+
+      function mbIsPyqSelected(subject, pyq) {
+        return (
+          mbFindQuestionIndex(subject, {
+            qid: pyq.qid || "",
+            img: pyq.imageUrl || "",
+            ans: pyq.correct || "",
+            chapter: pyq.chapter || "",
+          }) >= 0
+        );
+      }
+
+      function mbUpdatePyqButtonState(btn, selected) {
+        if (!btn) return;
+        if (selected) {
+          btn.classList.add("done");
+          btn.innerHTML = '<i data-lucide="check"></i> Selected';
+        } else {
+          btn.classList.remove("done");
+          btn.innerHTML = '<i data-lucide="plus"></i> Add';
+        }
       }
 
       function mbRender() {
@@ -3366,18 +5259,18 @@
             <button class="mb-btn mb-pyq-btn" type="button"><i data-lucide="plus"></i> Add</button>
           `;
           const addBtn = card.querySelector("button");
+          const subj = d.subject || mbImpSubject.value;
+          mbUpdatePyqButtonState(addBtn, mbIsPyqSelected(subj, d));
           addBtn.addEventListener("click", () => {
-            const subj = d.subject || mbImpSubject.value;
             if (!mbData[subj]) return;
-            mbData[subj].push({
+            const selected = mbToggleQuestion(subj, {
               qid: d.qid || "",
               img: d.imageUrl || "",
               ans: d.correct || "",
               chapter: d.chapter || "",
             });
+            mbUpdatePyqButtonState(addBtn, selected);
             mbRender();
-            addBtn.classList.add("done");
-            addBtn.textContent = "OK";
           });
           mbPyqGrid.appendChild(card);
         });
@@ -3547,18 +5440,23 @@
       });
 
       mbImportAll.addEventListener("click", () => {
+        let added = 0;
+        let skipped = 0;
         mbFilteredPyqs.forEach((d) => {
           const subj = d.subject || mbImpSubject.value;
           if (!mbData[subj]) return;
-          mbData[subj].push({
+          const wasAdded = mbAddQuestionIfMissing(subj, {
             qid: d.qid || "",
             img: d.imageUrl || "",
             ans: d.correct || "",
             chapter: d.chapter || "",
           });
+          if (wasAdded) added += 1;
+          else skipped += 1;
         });
         mbRender();
-        setMockBuilderStatus(`${mbFilteredPyqs.length} questions imported.`, true);
+        mbRenderPyqs();
+        setMockBuilderStatus(`${added} questions imported. ${skipped} already selected.`, true);
       });
 
       if (mbSubjectCards) {
@@ -3577,6 +5475,49 @@
       if (mbChapterModal) {
         mbChapterModal.addEventListener("click", (e) => {
           if (e.target === mbChapterModal) mbCloseChapterModal();
+        });
+      }
+      if (mbChapterModalBody) {
+        mbChapterModalBody.addEventListener("click", (e) => {
+          const btn = e.target.closest(".mb-unselect-question-btn");
+          if (!btn) return;
+          const subject = btn.dataset.subject || "";
+          const index = Number(btn.dataset.index);
+          if (!subject || !mbData[subject] || !Number.isInteger(index) || index < 0 || index >= mbData[subject].length) return;
+          mbData[subject].splice(index, 1);
+          mbRender();
+          const chapterTitle = mbChapterModalTitle ? mbChapterModalTitle.textContent || "" : "";
+          const sep = chapterTitle.indexOf(" - ");
+          if (sep > -1) {
+            const chapter = chapterTitle.slice(sep + 3);
+            mbOpenChapterModal(subject, chapter);
+          } else {
+            mbCloseChapterModal();
+          }
+          setMockBuilderStatus("Question unselected.", true);
+        });
+      }
+
+      if (pyqsYearsEl) {
+        pyqsYearsEl.addEventListener("click", (e) => {
+          const previewBtn = e.target.closest("[data-pyq-preview]");
+          if (previewBtn) {
+            openPyqsPreviewModal({
+              imageUrl: previewBtn.dataset.pyqImage || "",
+              qid: previewBtn.dataset.pyqQid || "-",
+              subject: previewBtn.dataset.pyqSubject || "-",
+              chapter: previewBtn.dataset.pyqChapter || "-",
+              year: previewBtn.dataset.pyqYear || "-",
+            });
+            return;
+          }
+          const btn = e.target.closest(".pyqs-subject-toggle");
+          if (!btn) return;
+          const year = String(btn.dataset.pyqYear || "");
+          const subject = String(btn.dataset.pyqSubject || "");
+          if (!year || !subject || !pyqsYearSubjectFilters[year]) return;
+          pyqsYearSubjectFilters[year][subject] = !pyqsYearSubjectFilters[year][subject];
+          renderPyqsView();
         });
       }
 
