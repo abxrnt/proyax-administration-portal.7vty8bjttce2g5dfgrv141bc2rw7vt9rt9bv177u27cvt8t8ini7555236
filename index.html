@@ -3858,13 +3858,24 @@
             });
           }
 
-          if (!docs.length) {
-            recordsBody.innerHTML = '<div class="record-row"><div>No users found</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
+          const isSuperadmin = isCurrentUserSuperadmin();
+          const lockedBatch = getCurrentAdminLockedBatch();
+          const filteredDocs = docs.filter((docSnap) => {
+            if (isSuperadmin) return true;
+            if (!lockedBatch) return false;
+            const data = docSnap.data() || {};
+            return toBatchKey(data.subscription) === lockedBatch;
+          });
+
+          if (!filteredDocs.length) {
+            recordsBody.innerHTML = isSuperadmin
+              ? '<div class="record-row"><div>No users found</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>'
+              : '<div class="record-row"><div>No students found in your batch</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div><div>-</div></div>';
             return;
           }
 
           recordsBody.innerHTML = "";
-          docs.forEach((doc) => {
+          filteredDocs.forEach((doc) => {
             const d = doc.data() || {};
             const row = document.createElement("div");
             row.className = "record-row";
