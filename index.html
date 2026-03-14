@@ -134,6 +134,11 @@
         justify-content: center;
       }
 
+      .nav-dashboard-btn {
+        border-color: rgba(16, 61, 132, 0.25);
+        background: #f6faff;
+      }
+
       .nav-btn {
         width: auto;
         padding: 6px 10px;
@@ -829,6 +834,31 @@
         gap: 8px;
       }
 
+      .pyqs-filter-bar {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 10px;
+        align-items: end;
+      }
+
+      .pyqs-filter-field {
+        display: grid;
+        gap: 6px;
+      }
+
+      .pyqs-filter-field label {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .pyqs-filter-bar input,
+      .pyqs-filter-bar select {
+        height: 36px;
+        font-size: 13px;
+      }
+
       .pyqs-summary-grid {
         margin-top: 10px;
         display: grid;
@@ -1162,6 +1192,396 @@
         table-layout: fixed;
       }
 
+      #pyqs-db-view {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .pyqs-db-head {
+        display: grid;
+        grid-template-columns: 1fr minmax(480px, 680px) 1fr;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .pyqs-db-search {
+        justify-self: center;
+        width: 100%;
+      }
+
+      .pyqs-db-search-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        flex-wrap: nowrap;
+      }
+
+      .pyqs-db-search-wrap input {
+        flex: 0 0 260px;
+        min-width: 220px;
+      }
+
+      .pyqs-db-subjects {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .pyqs-db-subject-btn {
+        width: auto;
+        border-radius: 999px;
+        border: 1px solid rgba(4, 40, 98, 0.24);
+        background: #fff;
+        color: #103264;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .pyqs-db-subject-btn.active {
+        border-color: rgba(50, 128, 255, 0.8);
+        background: rgba(50, 128, 255, 0.16);
+        box-shadow: 0 0 0 2px rgba(50, 128, 255, 0.2) inset;
+      }
+
+      .pyqs-db-head-actions {
+        justify-self: end;
+      }
+
+      #pyqs-db-view .results-wrap {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #pyqs-db-view .results-table-wrap {
+        flex: 1;
+        max-height: none;
+      }
+
+      .pyqs-db-table {
+        table-layout: auto;
+        min-width: 100%;
+      }
+
+      .pyqs-db-table th,
+      .pyqs-db-table td {
+        text-align: center;
+      }
+
+      .pyqs-db-table th:first-child,
+      .pyqs-db-table td:first-child {
+        text-align: left;
+        font-weight: 700;
+        white-space: normal;
+      }
+
+      .pyqs-db-chapter-cell {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pyqs-db-view-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        background: #fff;
+        color: #0b3a7b;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .pyqs-db-view-btn:hover {
+        background: #eff6ff;
+        border-color: rgba(29, 78, 216, 0.35);
+      }
+
+      .pyqs-zero {
+        color: var(--err);
+        font-weight: 800;
+      }
+
+      .pyqs-db-modal-card {
+        background: #fff;
+        width: min(1220px, 100%);
+        max-height: calc(100vh - 32px);
+        overflow: auto;
+        border-radius: 14px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        box-shadow: 0 20px 46px rgba(4, 40, 98, 0.26);
+        padding: 16px;
+      }
+
+      .pyqs-db-modal-status {
+        margin: 6px 0 10px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .pyqs-db-modal-status.err {
+        color: var(--err);
+        font-weight: 700;
+      }
+
+      .pyqs-db-modal-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .pyqs-db-modal-table th,
+      .pyqs-db-modal-table td {
+        padding: 10px;
+        border-bottom: 1px solid rgba(4, 40, 98, 0.12);
+        text-align: left;
+        font-size: 12px;
+        vertical-align: middle;
+      }
+
+      .pyqs-db-modal-table th {
+        background: #eaf2ff;
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      .pyqs-db-input {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+
+      .pyqs-db-input:disabled {
+        background: #f8fafc;
+        color: #475569;
+        border-color: rgba(4, 40, 98, 0.12);
+      }
+
+      .pyqs-db-action-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(4, 40, 98, 0.2);
+        background: #fff;
+        color: #0b3a7b;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .pyqs-db-action-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .dashboard-view {
+        display: grid;
+        gap: 16px;
+        height: 100%;
+        overflow: auto;
+        padding-bottom: 10px;
+      }
+
+      .dashboard-hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 14px;
+        align-items: stretch;
+      }
+
+      .dashboard-card {
+        border: 1px solid rgba(4, 40, 98, 0.18);
+        border-radius: 16px;
+        background: linear-gradient(180deg, #ffffff, #f6f9ff);
+        box-shadow: 0 16px 30px rgba(7, 35, 78, 0.08);
+        padding: 16px;
+      }
+
+      .dashboard-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #0f2f64;
+        margin: 0 0 6px;
+      }
+
+      .dashboard-subtitle {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .dashboard-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .dashboard-kpi {
+        border-radius: 14px;
+        border: 1px solid rgba(4, 40, 98, 0.14);
+        background: #ffffff;
+        padding: 12px;
+        display: grid;
+        gap: 6px;
+        position: relative;
+        overflow: hidden;
+        animation: dash-card-in 420ms ease both;
+      }
+
+      .dashboard-kpi::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 10% 0%, rgba(102, 167, 255, 0.18), transparent 45%);
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .dashboard-kpi h4 {
+        margin: 0;
+        font-size: 11px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .dashboard-kpi .kpi-value {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0b3a7b;
+      }
+
+      .dashboard-kpi .kpi-meta {
+        font-size: 11px;
+        color: #4b5563;
+      }
+
+      .dashboard-tiles {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .dashboard-tile {
+        border-radius: 14px;
+        padding: 14px;
+        border: 1px solid rgba(4, 40, 98, 0.18);
+        background: linear-gradient(145deg, #f7fbff, #ffffff);
+        display: grid;
+        gap: 8px;
+        animation: dash-card-in 420ms ease both;
+      }
+
+      .dashboard-tile h5 {
+        margin: 0;
+        font-size: 12px;
+        color: #173b72;
+      }
+
+      .dashboard-tile .tile-value {
+        font-size: 20px;
+        font-weight: 800;
+        color: #0b3a7b;
+      }
+
+      .dashboard-chart-card {
+        display: grid;
+        gap: 10px;
+      }
+
+      .dashboard-chart {
+        display: grid;
+        gap: 8px;
+      }
+
+      .chart-row {
+        display: grid;
+        grid-template-columns: 120px 1fr 50px;
+        align-items: center;
+        gap: 10px;
+        font-size: 12px;
+        color: #1f3553;
+      }
+
+      .chart-bar {
+        height: 10px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #66a7ff, #87c2ff);
+        width: 0%;
+        transition: width 420ms ease;
+      }
+
+      .chart-bar-track {
+        height: 10px;
+        border-radius: 999px;
+        background: #e2ecfb;
+        overflow: hidden;
+      }
+
+      .dashboard-activity {
+        border-radius: 14px;
+        border: 1px dashed rgba(4, 40, 98, 0.25);
+        background: rgba(239, 246, 255, 0.6);
+        padding: 14px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .dashboard-activity-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #1f3553;
+      }
+
+      .dashboard-pulse {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #1f9d63;
+        box-shadow: 0 0 0 0 rgba(31, 157, 99, 0.6);
+        animation: pulse 1.8s ease infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(31, 157, 99, 0.5);
+        }
+        70% {
+          box-shadow: 0 0 0 12px rgba(31, 157, 99, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(31, 157, 99, 0);
+        }
+      }
+
+      @keyframes dash-card-in {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       .results-table th,
       .results-table td {
         padding: 12px 10px;
@@ -1172,7 +1592,7 @@
       }
 
       .results-table th {
-        background: rgba(50, 128, 255, 0.12);
+        background: #eaf2ff;
         color: var(--muted);
         font-size: 11px;
         text-transform: uppercase;
@@ -1495,6 +1915,22 @@
       @media (max-width: 1300px) {
         .pyqs-summary-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .pyqs-filter-bar {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .dashboard-hero {
+          grid-template-columns: 1fr;
+        }
+
+        .dashboard-kpi-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .dashboard-tiles {
+          grid-template-columns: 1fr;
         }
 
         .results-stats {
@@ -2427,6 +2863,10 @@
         </div>
       </div>
       <div class="nav-mid hidden" id="nav-actions">
+        <button id="nav-dashboard" class="nav-btn nav-dashboard-btn" type="button">
+          <i data-lucide="layout-dashboard"></i>
+          Dashboard
+        </button>
         <div id="nav-users-wrap" class="nav-dropdown">
           <button id="nav-users" class="nav-btn active" type="button">
             <i data-lucide="users-round"></i>
@@ -2462,6 +2902,10 @@
             <button id="nav-pyqs" class="nav-dd-item" type="button">
               <i data-lucide="book-open-check"></i>
               PYQs
+            </button>
+            <button id="nav-pyqs-db" class="nav-dd-item" type="button">
+              <i data-lucide="database"></i>
+              PYQs Database
             </button>
             <button id="nav-results" class="nav-dd-item" type="button">
               <i data-lucide="bar-chart-3"></i>
@@ -2549,6 +2993,82 @@
       </section>
 
       <section id="admin-section" class="view hidden">
+        <section id="dashboard-view" class="dashboard-view">
+          <div class="dashboard-hero">
+            <div class="dashboard-card">
+              <div class="dashboard-title">Admin Dashboard</div>
+              <div class="dashboard-subtitle">
+                Live overview of mocks, users, and PYQs data across the platform.
+              </div>
+              <div class="dashboard-kpi-grid">
+                <div class="dashboard-kpi">
+                  <h4>Total Mocks</h4>
+                  <div class="kpi-value" id="dash-mocks-total">0</div>
+                  <div class="kpi-meta">All created mock tests</div>
+                </div>
+                <div class="dashboard-kpi">
+                  <h4>Total Batches</h4>
+                  <div class="kpi-value" id="dash-batches-total">0</div>
+                  <div class="kpi-meta">Active student batches</div>
+                </div>
+                <div class="dashboard-kpi">
+                  <h4>Total Students</h4>
+                  <div class="kpi-value" id="dash-students-total">0</div>
+                  <div class="kpi-meta">Registered learners</div>
+                </div>
+                <div class="dashboard-kpi">
+                  <h4>Total Admins</h4>
+                  <div class="kpi-value" id="dash-admins-total">0</div>
+                  <div class="kpi-meta">Admins with access</div>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-card dashboard-chart-card">
+              <div class="dashboard-title">PYQs Snapshot</div>
+              <div class="dashboard-subtitle">Collection size, chapters, and coverage.</div>
+              <div class="dashboard-tiles">
+                <div class="dashboard-tile">
+                  <h5>Total PYQs</h5>
+                  <div class="tile-value" id="dash-pyqs-total">0</div>
+                  <div class="kpi-meta">Questions in database</div>
+                </div>
+                <div class="dashboard-tile">
+                  <h5>Total Chapters</h5>
+                  <div class="tile-value" id="dash-chapters-total">0</div>
+                  <div class="kpi-meta">Unique chapter labels</div>
+                </div>
+                <div class="dashboard-tile">
+                  <h5>Years Covered</h5>
+                  <div class="tile-value" id="dash-years-total">0</div>
+                  <div class="kpi-meta">Distinct PYQ years</div>
+                </div>
+              </div>
+              <div class="dashboard-activity">
+                <div class="dashboard-activity-item">
+                  <span><span class="dashboard-pulse"></span> Live sync status</span>
+                  <span id="dash-activity-meta">Loading…</span>
+                </div>
+                <div class="dashboard-activity-item">
+                  <span>Subjects tracked</span>
+                  <span id="dash-subjects-total">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-card dashboard-chart-card">
+            <div class="dashboard-title">PYQs By Year</div>
+            <div class="dashboard-subtitle">Top 8 years by total questions.</div>
+            <div class="dashboard-chart" id="dash-pyqs-year-chart"></div>
+          </div>
+
+          <div class="dashboard-card dashboard-chart-card">
+            <div class="dashboard-title">Students By Batch</div>
+            <div class="dashboard-subtitle">Active students in each batch.</div>
+            <div class="dashboard-chart" id="dash-batch-chart"></div>
+          </div>
+        </section>
+
         <section id="registration-view">
           <h1><span class="title-icon"><i data-lucide="user-plus"></i></span>Create User</h1>
           <div class="subtext">Create Firebase Auth user and save profile in Firestore.</div>
@@ -2749,6 +3269,35 @@
               </button>
             </div>
           </div>
+          <div class="pyqs-filter-bar">
+            <div class="pyqs-filter-field">
+              <label for="pyqs-search-input">Search chapter or QID</label>
+              <input id="pyqs-search-input" type="search" placeholder="Type chapter name or QID" />
+            </div>
+            <div class="pyqs-filter-field">
+              <label for="pyqs-subject-filter">Subject</label>
+              <select id="pyqs-subject-filter">
+                <option value="">All Subjects</option>
+              </select>
+            </div>
+            <div class="pyqs-filter-field">
+              <label for="pyqs-year-filter">Year</label>
+              <select id="pyqs-year-filter">
+                <option value="">All Years</option>
+              </select>
+            </div>
+            <div class="pyqs-filter-field">
+              <label for="pyqs-sort-filter">Sort by</label>
+              <select id="pyqs-sort-filter">
+                <option value="year_desc">Year: Newest</option>
+                <option value="year_asc">Year: Oldest</option>
+                <option value="qid_asc">QID: Asc</option>
+                <option value="qid_desc">QID: Desc</option>
+                <option value="chapter_asc">Chapter: A-Z</option>
+                <option value="chapter_desc">Chapter: Z-A</option>
+              </select>
+            </div>
+          </div>
           <div id="pyqs-summary" class="pyqs-summary-grid">
             <div class="pyqs-summary-card total">
               <div class="pyqs-summary-head">
@@ -2764,6 +3313,42 @@
           <div id="pyqs-status" class="status"></div>
           <div id="pyqs-years" class="pyqs-years">
             <div class="pyqs-empty">Loading...</div>
+          </div>
+        </section>
+        <section id="pyqs-db-view" class="hidden">
+          <div class="results-head pyqs-db-head">
+            <div>
+              <h1><span class="title-icon"><i data-lucide="database"></i></span>PYQs Database</h1>
+              <div class="subtext" id="pyqs-db-counts">Physics: 0 | Chemistry: 0 | Mathematics: 0</div>
+            </div>
+            <div class="pyqs-db-search pyqs-db-search-wrap">
+              <input id="pyqs-db-search" type="search" placeholder="Search chapters" />
+              <div class="pyqs-db-subjects">
+                <button class="pyqs-db-subject-btn active" type="button" data-subject="Physics">Physics</button>
+                <button class="pyqs-db-subject-btn" type="button" data-subject="Chemistry">Chemistry</button>
+                <button class="pyqs-db-subject-btn" type="button" data-subject="Mathematics">Mathematics</button>
+              </div>
+            </div>
+            <div class="pyqs-db-head-actions">
+              <button id="refresh-pyqs-db-btn" class="btn-secondary" type="button">
+                <i data-lucide="refresh-cw"></i>
+                Refresh PYQs
+              </button>
+            </div>
+          </div>
+          <div class="results-wrap">
+            <div class="results-table-wrap">
+              <table class="results-table pyqs-db-table">
+                <thead id="pyqs-db-head">
+                  <tr>
+                    <th>Chapter</th>
+                  </tr>
+                </thead>
+                <tbody id="pyqs-db-body">
+                  <tr><td colspan="1">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
         <section id="results-view" class="hidden">
@@ -2994,6 +3579,39 @@
       </div>
     </div>
 
+    <div class="results-modal" id="pyqs-db-modal">
+      <div class="pyqs-db-modal-card">
+        <div class="results-modal-head">
+          <div>
+            <h3 id="pyqs-db-modal-title" class="results-modal-title">Chapter Questions</h3>
+            <div id="pyqs-db-modal-meta" class="results-meta">-</div>
+          </div>
+          <button id="pyqs-db-modal-close" class="btn-secondary" type="button">
+            <i data-lucide="x"></i>
+            Close
+          </button>
+        </div>
+        <div id="pyqs-db-modal-status" class="pyqs-db-modal-status"></div>
+        <div class="results-table-wrap">
+          <table class="pyqs-db-modal-table">
+            <thead>
+              <tr>
+                <th>QID</th>
+                <th>Year</th>
+                <th>Subject</th>
+                <th>Chapter</th>
+                <th>Correct</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pyqs-db-modal-body">
+              <tr><td colspan="6">No questions.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div class="perm-modal" id="perm-modal">
       <div class="perm-modal-card">
         <div class="perm-modal-head">
@@ -3043,6 +3661,7 @@
       const adminSection = document.getElementById("admin-section");
       const navUserEl = document.getElementById("nav-user");
       const navActionsEl = document.getElementById("nav-actions");
+      const navDashboardBtn = document.getElementById("nav-dashboard");
       const navUsersWrap = document.getElementById("nav-users-wrap");
       const navUsersBtn = document.getElementById("nav-users");
       const navUsersMenu = document.getElementById("nav-users-menu");
@@ -3054,6 +3673,7 @@
       const navCreateMockBtn = document.getElementById("nav-create-mock");
       const navMocksBtn = document.getElementById("nav-mocks");
       const navPyqsBtn = document.getElementById("nav-pyqs");
+      const navPyqsDbBtn = document.getElementById("nav-pyqs-db");
       const navResultsBtn = document.getElementById("nav-results");
       const navRankingsBtn = document.getElementById("nav-rankings");
       const navSettingsWrap = document.getElementById("nav-settings-wrap");
@@ -3084,20 +3704,32 @@
       const roleButtons = document.querySelectorAll(".role-btn");
       const subscriptionInput = document.getElementById("subscription");
       const subscriptionButtons = document.querySelectorAll(".sub-btn");
+      const dashboardView = document.getElementById("dashboard-view");
       const registrationView = document.getElementById("registration-view");
       const recordsView = document.getElementById("records-view");
       const mockBuilderView = document.getElementById("mock-builder-view");
       const mocksView = document.getElementById("mocks-view");
       const pyqsView = document.getElementById("pyqs-view");
+      const pyqsDbView = document.getElementById("pyqs-db-view");
       const resultsView = document.getElementById("results-view");
       const rankingsView = document.getElementById("rankings-view");
       const recordsBody = document.getElementById("records-body");
       const refreshRecordsBtn = document.getElementById("refresh-records-btn");
       const refreshPyqsBtn = document.getElementById("refresh-pyqs-btn");
+      const refreshPyqsDbBtn = document.getElementById("refresh-pyqs-db-btn");
+      const pyqsDbSearchInput = document.getElementById("pyqs-db-search");
+      const pyqsDbSubjectBtns = document.querySelectorAll(".pyqs-db-subject-btn");
+      const pyqsDbCounts = document.getElementById("pyqs-db-counts");
       const refreshResultsBtn = document.getElementById("refresh-results-btn");
       const pyqsSummaryEl = document.getElementById("pyqs-summary");
       const pyqsStatusEl = document.getElementById("pyqs-status");
       const pyqsYearsEl = document.getElementById("pyqs-years");
+      const pyqsDbHead = document.getElementById("pyqs-db-head");
+      const pyqsDbBody = document.getElementById("pyqs-db-body");
+      const pyqsSearchInput = document.getElementById("pyqs-search-input");
+      const pyqsSubjectFilter = document.getElementById("pyqs-subject-filter");
+      const pyqsYearFilter = document.getElementById("pyqs-year-filter");
+      const pyqsSortFilter = document.getElementById("pyqs-sort-filter");
       const resultsBody = document.getElementById("results-body");
       const resultsModal = document.getElementById("results-modal");
       const resultsModalTitle = document.getElementById("results-modal-title");
@@ -3114,6 +3746,23 @@
       const pyqsPreviewMeta = document.getElementById("pyqs-preview-meta");
       const pyqsPreviewImage = document.getElementById("pyqs-preview-image");
       const pyqsPreviewClose = document.getElementById("pyqs-preview-close");
+      const pyqsDbModal = document.getElementById("pyqs-db-modal");
+      const pyqsDbModalTitle = document.getElementById("pyqs-db-modal-title");
+      const pyqsDbModalMeta = document.getElementById("pyqs-db-modal-meta");
+      const pyqsDbModalBody = document.getElementById("pyqs-db-modal-body");
+      const pyqsDbModalClose = document.getElementById("pyqs-db-modal-close");
+      const pyqsDbModalStatus = document.getElementById("pyqs-db-modal-status");
+      const dashMocksTotal = document.getElementById("dash-mocks-total");
+      const dashBatchesTotal = document.getElementById("dash-batches-total");
+      const dashStudentsTotal = document.getElementById("dash-students-total");
+      const dashAdminsTotal = document.getElementById("dash-admins-total");
+      const dashPyqsTotal = document.getElementById("dash-pyqs-total");
+      const dashChaptersTotal = document.getElementById("dash-chapters-total");
+      const dashYearsTotal = document.getElementById("dash-years-total");
+      const dashSubjectsTotal = document.getElementById("dash-subjects-total");
+      const dashPyqsYearChart = document.getElementById("dash-pyqs-year-chart");
+      const dashBatchChart = document.getElementById("dash-batch-chart");
+      const dashActivityMeta = document.getElementById("dash-activity-meta");
       const rankingsMockSelect = document.getElementById("rankings-mock-select");
       const rankingsNameLimitInput = document.getElementById("rankings-name-limit");
       const refreshRankingsBtn = document.getElementById("refresh-rankings-btn");
@@ -3156,11 +3805,13 @@
       let idSearchLoadPromise = null;
 
       const TAB_DEFS = [
+        { key: "dashboard", label: "Dashboard", button: navDashboardBtn },
         { key: "registration", label: "New Registration", button: navNewRegistrationBtn },
         { key: "records", label: "User Records", button: navUserRecordsBtn },
         { key: "builder", label: "Create Mock", button: navCreateMockBtn },
         { key: "mocks", label: "Mocks", button: navMocksBtn },
         { key: "pyqs", label: "PYQs", button: navPyqsBtn },
+        { key: "pyqs-db", label: "PYQs Database", button: navPyqsDbBtn },
         { key: "results", label: "Results", button: navResultsBtn },
         { key: "rankings", label: "Rankings", button: navRankingsBtn },
         { key: "logs", label: "Logs", button: navLogsBtn },
@@ -3216,6 +3867,7 @@
           navCreateMockBtn,
           navMocksBtn,
           navPyqsBtn,
+          navPyqsDbBtn,
           navResultsBtn,
           navRankingsBtn,
         ];
@@ -3520,6 +4172,7 @@
       let pyqsLoaded = false;
       let pyqsLoadPromise = null;
       let pyqsYearSubjectFilters = {};
+      let pyqsDbSubject = "Physics";
 
       function normalizePyqSubject(raw) {
         const subject = String(raw || "").trim().toLowerCase();
@@ -3541,6 +4194,81 @@
         return label || "Unknown Year";
       }
 
+      function getPyqSubjectLabel(item) {
+        const normalized = normalizePyqSubject(item && item.subject);
+        if (normalized) return normalized;
+        const raw = String((item && item.subject) || "").trim();
+        return raw || "Unknown";
+      }
+
+      function getPyqChapterLabel(item) {
+        const raw = String((item && item.chapter) || "").trim();
+        return raw || "Untitled";
+      }
+
+      function comparePyqValues(a, b) {
+        return String(a || "").localeCompare(String(b || ""), undefined, {
+          numeric: true,
+          sensitivity: "base",
+        });
+      }
+
+      function sortPyqsItems(items, sortMode) {
+        const sorted = items.slice();
+        if (sortMode === "qid_asc") {
+          sorted.sort((a, b) => comparePyqValues(a.qid, b.qid));
+        } else if (sortMode === "qid_desc") {
+          sorted.sort((a, b) => comparePyqValues(b.qid, a.qid));
+        } else if (sortMode === "chapter_asc") {
+          sorted.sort((a, b) => comparePyqValues(a.chapter, b.chapter));
+        } else if (sortMode === "chapter_desc") {
+          sorted.sort((a, b) => comparePyqValues(b.chapter, a.chapter));
+        }
+        return sorted;
+      }
+
+      function updatePyqsFilterOptions() {
+        if (!pyqsSubjectFilter || !pyqsYearFilter) return;
+        const currentSubject = String(pyqsSubjectFilter.value || "");
+        const currentYear = String(pyqsYearFilter.value || "");
+
+        const subjectCounts = new Map();
+        pyqsAll.forEach((q) => {
+          const label = getPyqSubjectLabel(q);
+          subjectCounts.set(label, (subjectCounts.get(label) || 0) + 1);
+        });
+        const preferredSubjects = ["Physics", "Chemistry", "Mathematics"];
+        const extraSubjects = Array.from(subjectCounts.keys())
+          .filter((s) => !preferredSubjects.includes(s))
+          .sort((a, b) => comparePyqValues(a, b));
+        const subjectOptions = preferredSubjects.filter((s) => subjectCounts.has(s)).concat(extraSubjects);
+
+        pyqsSubjectFilter.innerHTML = ['<option value="">All Subjects</option>']
+          .concat(
+            subjectOptions.map(
+              (subject) =>
+                `<option value="${escapeHtml(subject)}">${escapeHtml(subject)} (${subjectCounts.get(subject) || 0})</option>`,
+            ),
+          )
+          .join("");
+        if (currentSubject && subjectCounts.has(currentSubject)) {
+          pyqsSubjectFilter.value = currentSubject;
+        }
+
+        const years = Array.from(new Set(pyqsAll.map((q) => getPyqYearLabel(q.year)))).sort((a, b) => {
+          const aNum = parsePyqYearValue(a);
+          const bNum = parsePyqYearValue(b);
+          if (aNum !== bNum) return bNum - aNum;
+          return b.localeCompare(a);
+        });
+        pyqsYearFilter.innerHTML = ['<option value="">All Years</option>']
+          .concat(years.map((year) => `<option value="${escapeHtml(year)}">${escapeHtml(year)}</option>`))
+          .join("");
+        if (currentYear && years.includes(currentYear)) {
+          pyqsYearFilter.value = currentYear;
+        }
+      }
+
       function buildPyqSummaryTopChapters(chapterMap) {
         const rows = Array.from((chapterMap && chapterMap.entries()) || [])
           .sort((a, b) => {
@@ -3548,7 +4276,7 @@
             if (diff !== 0) return diff;
             return String(a[0]).localeCompare(String(b[0]));
           })
-          .slice(0, 3);
+          .slice(0, 5);
         if (!rows.length) {
           return '<div class="pyqs-summary-top"><div class="pyqs-summary-top-row"><span>No chapter data</span><b>0</b></div></div>';
         }
@@ -3642,6 +4370,23 @@
 
       function renderPyqsView() {
         if (!pyqsYearsEl || !pyqsSummaryEl) return;
+        const query = String((pyqsSearchInput && pyqsSearchInput.value) || "")
+          .trim()
+          .toLowerCase();
+        const selectedSubject = String((pyqsSubjectFilter && pyqsSubjectFilter.value) || "");
+        const selectedYear = String((pyqsYearFilter && pyqsYearFilter.value) || "");
+        const sortMode = String((pyqsSortFilter && pyqsSortFilter.value) || "year_desc");
+        const filteredAll = pyqsAll.filter((q) => {
+          const yearLabel = getPyqYearLabel(q.year);
+          if (selectedYear && yearLabel !== selectedYear) return false;
+          if (selectedSubject && getPyqSubjectLabel(q) !== selectedSubject) return false;
+          if (query) {
+            const qidText = String(q.qid || "").toLowerCase();
+            const chapterText = String(q.chapter || "").toLowerCase();
+            if (!qidText.includes(query) && !chapterText.includes(query)) return false;
+          }
+          return true;
+        });
         const subjects = ["Physics", "Chemistry", "Mathematics"];
         const bySubjectYear = {
           Physics: new Map(),
@@ -3655,7 +4400,7 @@
         };
         const totalByYear = new Map();
         const totalByChapter = new Map();
-        pyqsAll.forEach((q) => {
+        filteredAll.forEach((q) => {
           const year = getPyqYearLabel(q.year);
           const chapter = String(q.chapter || "Untitled").trim() || "Untitled";
           totalByYear.set(year, (totalByYear.get(year) || 0) + 1);
@@ -3691,15 +4436,15 @@
             bySubjectChapter.Mathematics,
             "",
           ),
-          buildPyqSummaryCardHtml("Total", pyqsAll.length, totalByYear, totalByChapter, "total"),
+          buildPyqSummaryCardHtml("Total", filteredAll.length, totalByYear, totalByChapter, "total"),
         ].join("");
-        if (!pyqsAll.length) {
-          pyqsYearsEl.innerHTML = '<div class="pyqs-empty">No PYQs found in collection.</div>';
+        if (!filteredAll.length) {
+          pyqsYearsEl.innerHTML = '<div class="pyqs-empty">No PYQs match the selected filters.</div>';
           return;
         }
 
         const grouped = new Map();
-        pyqsAll.forEach((q) => {
+        filteredAll.forEach((q) => {
           const year = getPyqYearLabel(q.year);
           if (!grouped.has(year)) grouped.set(year, []);
           grouped.get(year).push(q);
@@ -3708,8 +4453,8 @@
         const years = Array.from(grouped.keys()).sort((a, b) => {
           const aNum = parsePyqYearValue(a);
           const bNum = parsePyqYearValue(b);
-          if (aNum !== bNum) return bNum - aNum;
-          return b.localeCompare(a);
+          if (aNum !== bNum) return sortMode === "year_asc" ? aNum - bNum : bNum - aNum;
+          return sortMode === "year_asc" ? a.localeCompare(b) : b.localeCompare(a);
         });
 
         pyqsYearsEl.innerHTML = years
@@ -3725,14 +4470,15 @@
               if (!normalized) return true;
               return !!filterState[normalized];
             });
+            const sortedItems = sortPyqsItems(visibleItems, sortMode);
             const subjectButtons = ["Physics", "Chemistry", "Mathematics"]
               .map((subject) => {
                 const activeClass = filterState[subject] ? "active" : "";
                 return `<button class="pyqs-subject-toggle ${activeClass}" type="button" data-pyq-year="${escapeHtml(year)}" data-pyq-subject="${escapeHtml(subject)}">${escapeHtml(subject)}</button>`;
               })
               .join("");
-            const cardsHtml = visibleItems.length
-              ? visibleItems
+            const cardsHtml = sortedItems.length
+              ? sortedItems
                   .map((q) => {
                     const chapter = q.chapter || "Untitled";
                     const qid = q.qid || "-";
@@ -3816,6 +4562,7 @@
             }
             pyqsAll = docs.map((doc) => ({ id: doc.id, ...(doc.data() || {}) }));
             ensurePyqYearFiltersFromData();
+            updatePyqsFilterOptions();
             pyqsLoaded = true;
             setPyqsStatus("", true);
             renderPyqsView();
@@ -3832,6 +4579,407 @@
         })();
 
         await pyqsLoadPromise;
+      }
+
+      function renderPyqsDatabaseView() {
+        if (!pyqsDbBody || !pyqsDbHead) return;
+        if (!pyqsAll.length) {
+          pyqsDbHead.innerHTML = "<tr><th>Chapter</th></tr>";
+          pyqsDbBody.innerHTML = '<tr><td colspan="1">No PYQs found in collection.</td></tr>';
+          if (pyqsDbCounts) {
+            pyqsDbCounts.textContent = "Physics: 0 | Chemistry: 0 | Mathematics: 0";
+          }
+          return;
+        }
+        if (pyqsDbCounts) {
+          const subjects = ["Physics", "Chemistry", "Mathematics"];
+          const parts = subjects.map((subject) => {
+            const chapters = new Set(
+              pyqsAll
+                .filter((q) => getPyqSubjectLabel(q) === subject)
+                .map((q) => getPyqChapterLabel(q)),
+            );
+            return `${subject}: ${chapters.size}`;
+          });
+          pyqsDbCounts.textContent = parts.join(" | ");
+        }
+        const subjectFiltered = pyqsDbSubject
+          ? pyqsAll.filter((q) => getPyqSubjectLabel(q) === pyqsDbSubject)
+          : pyqsAll;
+        if (!subjectFiltered.length) {
+          pyqsDbHead.innerHTML = "<tr><th>Chapter</th></tr>";
+          pyqsDbBody.innerHTML = `<tr><td colspan="1">No PYQs found for ${escapeHtml(
+            pyqsDbSubject || "selected subject",
+          )}.</td></tr>`;
+          return;
+        }
+        const query = String((pyqsDbSearchInput && pyqsDbSearchInput.value) || "")
+          .trim()
+          .toLowerCase();
+        const years = Array.from(new Set(subjectFiltered.map((q) => getPyqYearLabel(q.year)))).sort((a, b) => {
+          const aNum = parsePyqYearValue(a);
+          const bNum = parsePyqYearValue(b);
+          if (aNum !== bNum) return bNum - aNum;
+          return b.localeCompare(a);
+        });
+        const chapterMap = new Map();
+        subjectFiltered.forEach((q) => {
+          const chapter = getPyqChapterLabel(q);
+          const year = getPyqYearLabel(q.year);
+          if (!chapterMap.has(chapter)) {
+            chapterMap.set(chapter, new Map());
+          }
+          const yearMap = chapterMap.get(chapter);
+          yearMap.set(year, (yearMap.get(year) || 0) + 1);
+        });
+        let chapters = Array.from(chapterMap.keys()).sort((a, b) => {
+          const aMap = chapterMap.get(a) || new Map();
+          const bMap = chapterMap.get(b) || new Map();
+          const aTotal = Array.from(aMap.values()).reduce((s, n) => s + (Number(n) || 0), 0);
+          const bTotal = Array.from(bMap.values()).reduce((s, n) => s + (Number(n) || 0), 0);
+          if (aTotal !== bTotal) return bTotal - aTotal;
+          return comparePyqValues(a, b);
+        });
+        if (query) {
+          chapters = chapters.filter((chapter) => String(chapter).toLowerCase().includes(query));
+        }
+
+        pyqsDbHead.innerHTML = `
+          <tr>
+            <th>Chapter</th>
+            ${years.map((year) => `<th>${escapeHtml(String(year))}</th>`).join("")}
+          </tr>
+        `;
+
+        if (!chapters.length) {
+          pyqsDbBody.innerHTML = `<tr><td colspan="${years.length + 1}">No chapters match search.</td></tr>`;
+          renderLucideIcons();
+          return;
+        }
+
+        pyqsDbBody.innerHTML = chapters
+          .map((chapter) => {
+            const yearMap = chapterMap.get(chapter) || new Map();
+            const cells = years
+              .map((year) => {
+                const count = yearMap.get(year) || 0;
+                const cls = count === 0 ? "pyqs-zero" : "";
+                return `<td class="${cls}">${escapeHtml(String(count))}</td>`;
+              })
+              .join("");
+            return `
+              <tr>
+                <td>
+                  <span class="pyqs-db-chapter-cell">
+                    <button class="pyqs-db-view-btn" type="button" data-pyqs-chapter="${escapeHtml(
+                      String(chapter),
+                    )}" title="View questions">
+                      <i data-lucide="eye"></i>
+                    </button>
+                    ${escapeHtml(String(chapter))}
+                  </span>
+                </td>
+                ${cells}
+              </tr>
+            `;
+          })
+          .join("");
+        renderLucideIcons();
+      }
+
+      function setPyqsDbModalStatus(message, isError) {
+        if (!pyqsDbModalStatus) return;
+        pyqsDbModalStatus.textContent = message || "";
+        pyqsDbModalStatus.className = "pyqs-db-modal-status" + (isError ? " err" : "");
+      }
+
+      function closePyqsDbModal() {
+        if (!pyqsDbModal || !pyqsDbModalBody) return;
+        pyqsDbModal.style.display = "none";
+        pyqsDbModalBody.innerHTML = '<tr><td colspan="6">No questions.</td></tr>';
+        setPyqsDbModalStatus("", false);
+      }
+
+      function openPyqsDbModal(chapterLabel) {
+        if (!pyqsDbModal || !pyqsDbModalBody) return;
+        const chapter = String(chapterLabel || "").trim() || "Untitled";
+        const items = pyqsAll.filter((q) => getPyqChapterLabel(q) === chapter);
+        if (pyqsDbModalTitle) pyqsDbModalTitle.textContent = "Chapter: " + chapter;
+        if (pyqsDbModalMeta) pyqsDbModalMeta.textContent = `${items.length} questions`;
+        pyqsDbModalBody.innerHTML = items.length
+          ? items
+              .map((q) => {
+                const qid = q.qid || "";
+                const year = getPyqYearLabel(q.year);
+                const subject = getPyqSubjectLabel(q);
+                const chapterText = getPyqChapterLabel(q);
+                const correct = q.correct || "";
+                return `
+                  <tr data-pyqs-id="${escapeHtml(String(q.id || ""))}">
+                    <td><input class="pyqs-db-input" data-field="qid" value="${escapeHtml(
+                      String(qid),
+                    )}" disabled /></td>
+                    <td><input class="pyqs-db-input" data-field="year" value="${escapeHtml(
+                      String(year),
+                    )}" disabled /></td>
+                    <td><input class="pyqs-db-input" data-field="subject" value="${escapeHtml(
+                      String(subject),
+                    )}" disabled /></td>
+                    <td><input class="pyqs-db-input" data-field="chapter" value="${escapeHtml(
+                      String(chapterText),
+                    )}" disabled /></td>
+                    <td><input class="pyqs-db-input" data-field="correct" value="${escapeHtml(
+                      String(correct),
+                    )}" disabled /></td>
+                    <td>
+                      <button class="pyqs-db-action-btn pyqs-db-edit-btn" type="button" title="Edit">
+                        <i data-lucide="pencil"></i>
+                      </button>
+                      <button class="pyqs-db-action-btn pyqs-db-save-btn disabled" type="button" title="Save">
+                        <i data-lucide="save"></i>
+                      </button>
+                    </td>
+                  </tr>
+                `;
+              })
+              .join("")
+          : '<tr><td colspan="6">No questions found for this chapter.</td></tr>';
+        pyqsDbModal.style.display = "flex";
+        setPyqsDbModalStatus("", false);
+        renderLucideIcons();
+      }
+
+      function setPyqsDbRowEditing(row, isEditing) {
+        if (!row) return;
+        const inputs = Array.from(row.querySelectorAll(".pyqs-db-input"));
+        inputs.forEach((input) => {
+          input.disabled = !isEditing;
+        });
+        const saveBtn = row.querySelector(".pyqs-db-save-btn");
+        if (saveBtn) {
+          saveBtn.classList.toggle("disabled", !isEditing);
+        }
+      }
+
+      function getPyqsDbRowPayload(row) {
+        const payload = {};
+        row.querySelectorAll(".pyqs-db-input").forEach((input) => {
+          const field = String(input.dataset.field || "").trim();
+          if (!field) return;
+          payload[field] = String(input.value || "").trim();
+        });
+        if (payload.year) {
+          const yearNum = Number(payload.year);
+          payload.year = Number.isFinite(yearNum) && payload.year ? yearNum : payload.year;
+        }
+        return payload;
+      }
+
+      async function savePyqsDbRow(row) {
+        if (!row) return;
+        const docId = String(row.dataset.pyqsId || "");
+        if (!docId || !db) {
+          setPyqsDbModalStatus("Unable to save. DB not configured.", true);
+          return;
+        }
+        const payload = getPyqsDbRowPayload(row);
+        try {
+          setPyqsDbModalStatus("Saving...", false);
+          await db.collection("pyqs").doc(docId).set(payload, { merge: true });
+          const idx = pyqsAll.findIndex((q) => String(q.id || "") === docId);
+          if (idx > -1) {
+            pyqsAll[idx] = { ...pyqsAll[idx], ...payload };
+          }
+          setPyqsDbModalStatus("Saved.", false);
+          setPyqsDbRowEditing(row, false);
+          renderPyqsDatabaseView();
+          updatePyqsFilterOptions();
+          renderPyqsView();
+        } catch (err) {
+          console.error(err);
+          setPyqsDbModalStatus("Failed to save changes.", true);
+        }
+      }
+
+      async function loadPyqsDatabaseView(forceReload) {
+        if (!pyqsDbBody) return;
+        if (!db) {
+          if (pyqsDbHead) pyqsDbHead.innerHTML = "<tr><th>Chapter</th></tr>";
+          pyqsDbBody.innerHTML = '<tr><td colspan="1">DB not configured.</td></tr>';
+          return;
+        }
+        if (!forceReload && pyqsLoaded) {
+          renderPyqsDatabaseView();
+          return;
+        }
+        if (!forceReload && pyqsLoadPromise) {
+          await pyqsLoadPromise;
+          renderPyqsDatabaseView();
+          return;
+        }
+
+        if (pyqsDbHead) pyqsDbHead.innerHTML = "<tr><th>Chapter</th></tr>";
+        pyqsDbBody.innerHTML = '<tr><td colspan="1">Loading PYQs...</td></tr>';
+        pyqsLoadPromise = (async () => {
+          try {
+            let docs = [];
+            try {
+              const snap = await db.collection("pyqs").orderBy("year", "desc").limit(5000).get();
+              docs = snap.docs;
+            } catch (_) {
+              const fallback = await db.collection("pyqs").limit(5000).get();
+              docs = fallback.docs;
+            }
+            pyqsAll = docs.map((doc) => ({ id: doc.id, ...(doc.data() || {}) }));
+            ensurePyqYearFiltersFromData();
+            updatePyqsFilterOptions();
+            pyqsLoaded = true;
+          } catch (err) {
+            console.error(err);
+            pyqsAll = [];
+            pyqsLoaded = false;
+            if (pyqsDbHead) pyqsDbHead.innerHTML = "<tr><th>Chapter</th></tr>";
+            pyqsDbBody.innerHTML = '<tr><td colspan="1">Failed to load PYQs.</td></tr>';
+          } finally {
+            pyqsLoadPromise = null;
+          }
+        })();
+
+        await pyqsLoadPromise;
+        if (!pyqsLoaded && !pyqsAll.length) return;
+        renderPyqsDatabaseView();
+      }
+
+      function animateNumber(el, toValue) {
+        if (!el) return;
+        const target = Number(toValue) || 0;
+        const start = Number(el.textContent) || 0;
+        const startTime = performance.now();
+        const duration = 700;
+        const tick = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = Math.round(start + (target - start) * eased);
+          el.textContent = value.toLocaleString();
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+
+      function renderChart(container, rows) {
+        if (!container) return;
+        if (!rows.length) {
+          container.innerHTML = '<div class="subtext">No data available.</div>';
+          return;
+        }
+        const maxVal = Math.max(...rows.map((r) => r.value), 1);
+        container.innerHTML = rows
+          .map(
+            (row) => `
+              <div class="chart-row">
+                <div>${escapeHtml(row.label)}</div>
+                <div class="chart-bar-track">
+                  <div class="chart-bar" data-width="${((row.value / maxVal) * 100).toFixed(1)}"></div>
+                </div>
+                <div>${escapeHtml(String(row.value))}</div>
+              </div>
+            `,
+          )
+          .join("");
+        requestAnimationFrame(() => {
+          container.querySelectorAll(".chart-bar").forEach((bar) => {
+            const w = bar.getAttribute("data-width") || "0";
+            bar.style.width = `${w}%`;
+          });
+        });
+      }
+
+      async function loadDashboardView() {
+        if (!db) {
+          if (dashActivityMeta) dashActivityMeta.textContent = "DB not configured";
+          [
+            dashMocksTotal,
+            dashBatchesTotal,
+            dashStudentsTotal,
+            dashAdminsTotal,
+            dashPyqsTotal,
+            dashChaptersTotal,
+            dashYearsTotal,
+            dashSubjectsTotal,
+          ].forEach((el) => {
+            if (el) el.textContent = "0";
+          });
+          if (dashPyqsYearChart) dashPyqsYearChart.innerHTML = '<div class="subtext">No data.</div>';
+          if (dashBatchChart) dashBatchChart.innerHTML = '<div class="subtext">No data.</div>';
+          return;
+        }
+
+        if (dashActivityMeta) dashActivityMeta.textContent = "Syncing…";
+
+        const [mocksSnap, usersSnap, adminsSnap] = await Promise.all([
+          db.collection("mocks").limit(5000).get().catch(async () => {
+            const fallback = await db.collection("mocks").limit(5000).get();
+            return fallback;
+          }),
+          db.collection("mocks_users").limit(8000).get().catch(async () => {
+            const fallback = await db.collection("mocks_users").limit(8000).get();
+            return fallback;
+          }),
+          db.collection("mock_admins").limit(1000).get().catch(async () => {
+            const fallback = await db.collection("mock_admins").limit(1000).get();
+            return fallback;
+          }),
+        ]);
+
+        const mocksCount = mocksSnap && mocksSnap.size ? mocksSnap.size : 0;
+        const adminsCount = adminsSnap && adminsSnap.size ? adminsSnap.size : 0;
+
+        const batchCounts = new Map();
+        const userDocs = usersSnap && usersSnap.docs ? usersSnap.docs : [];
+        userDocs.forEach((doc) => {
+          const d = doc.data() || {};
+          const key = toBatchKey(d.subscription || "");
+          const label = toBatchLabel(d.subscription || "");
+          const current = batchCounts.get(key) || { label, value: 0 };
+          current.value += 1;
+          batchCounts.set(key, current);
+        });
+
+        const batchRows = Array.from(batchCounts.values())
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 8);
+
+        animateNumber(dashMocksTotal, mocksCount);
+        animateNumber(dashStudentsTotal, userDocs.length);
+        animateNumber(dashAdminsTotal, adminsCount);
+        animateNumber(dashBatchesTotal, batchCounts.size);
+
+        await loadPyqsDatabaseView(false);
+
+        const pyqsCount = pyqsAll.length;
+        const chaptersSet = new Set(pyqsAll.map((q) => getPyqChapterLabel(q)));
+        const yearsSet = new Set(pyqsAll.map((q) => getPyqYearLabel(q.year)));
+        const subjectsSet = new Set(pyqsAll.map((q) => getPyqSubjectLabel(q)));
+
+        animateNumber(dashPyqsTotal, pyqsCount);
+        animateNumber(dashChaptersTotal, chaptersSet.size);
+        animateNumber(dashYearsTotal, yearsSet.size);
+        animateNumber(dashSubjectsTotal, subjectsSet.size);
+
+        const pyqsByYear = new Map();
+        pyqsAll.forEach((q) => {
+          const year = getPyqYearLabel(q.year);
+          pyqsByYear.set(year, (pyqsByYear.get(year) || 0) + 1);
+        });
+        const pyqsYearRows = Array.from(pyqsByYear.entries())
+          .map(([year, value]) => ({ label: year, value }))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 8);
+
+        renderChart(dashPyqsYearChart, pyqsYearRows);
+        renderChart(dashBatchChart, batchRows);
+
+        if (dashActivityMeta) dashActivityMeta.textContent = "Updated just now";
       }
 
       async function loadUserRecords() {
@@ -4422,19 +5570,26 @@
         }
 
         currentPane = which;
+        const showDashboard = which === "dashboard";
         const showRecords = which === "records";
         const showBuilder = which === "builder";
         const showMocks = which === "mocks";
         const showPyqs = which === "pyqs";
+        const showPyqsDb = which === "pyqs-db";
         const showResults = which === "results";
         const showRankings = which === "rankings";
         const showLogs = which === "logs";
         const showManageAdmins = which === "manage-admins";
-        registrationView.classList.toggle("hidden", showRecords || showBuilder || showMocks || showPyqs || showResults || showRankings || showLogs || showManageAdmins);
+        registrationView.classList.toggle(
+          "hidden",
+          showDashboard || showRecords || showBuilder || showMocks || showPyqs || showPyqsDb || showResults || showRankings || showLogs || showManageAdmins,
+        );
+        dashboardView.classList.toggle("hidden", !showDashboard);
         recordsView.classList.toggle("hidden", !showRecords);
         mockBuilderView.classList.toggle("hidden", !showBuilder);
         mocksView.classList.toggle("hidden", !showMocks);
         pyqsView.classList.toggle("hidden", !showPyqs);
+        pyqsDbView.classList.toggle("hidden", !showPyqsDb);
         resultsView.classList.toggle("hidden", !showResults);
         rankingsView.classList.toggle("hidden", !showRankings);
         logsView.classList.toggle("hidden", !showLogs);
@@ -4442,15 +5597,20 @@
         if (navUsersBtn) {
           navUsersBtn.classList.toggle("active", which === "registration" || showRecords);
         }
+        navDashboardBtn.classList.toggle("active", showDashboard);
         navNewRegistrationBtn.classList.toggle("active", which === "registration");
         navUserRecordsBtn.classList.toggle("active", showRecords);
         navCreateMockBtn.classList.toggle("active", showBuilder);
         navMocksBtn.classList.toggle("active", showMocks);
         navPyqsBtn.classList.toggle("active", showPyqs);
+        navPyqsDbBtn.classList.toggle("active", showPyqsDb);
         navResultsBtn.classList.toggle("active", showResults);
         navRankingsBtn.classList.toggle("active", showRankings);
         if (navMockTestsBtn) {
-          navMockTestsBtn.classList.toggle("active", showBuilder || showMocks || showPyqs || showResults || showRankings);
+          navMockTestsBtn.classList.toggle(
+            "active",
+            showBuilder || showMocks || showPyqs || showPyqsDb || showResults || showRankings,
+          );
         }
         if (navSettingsBtn) {
           navSettingsBtn.classList.toggle("active", showLogs || showManageAdmins);
@@ -4460,12 +5620,14 @@
         if (navUsersWrap) navUsersWrap.classList.remove("open");
         if (navMockTestsWrap) navMockTestsWrap.classList.remove("open");
         if (navSettingsWrap) navSettingsWrap.classList.remove("open");
+        if (showDashboard) loadDashboardView();
         if (showRecords) loadUserRecords();
         if (showMocks) {
           mbSelectedBatch = null;
           mbLoadMocksTable();
         }
         if (showPyqs) loadPyqsView(false);
+        if (showPyqsDb) loadPyqsDatabaseView(false);
         if (showResults) loadResultsView();
         if (showRankings) openRankingsView();
         if (showLogs) loadAdminLogs();
@@ -4607,15 +5769,32 @@
 
       navNewRegistrationBtn.addEventListener("click", () => setActivePane("registration"));
       navUserRecordsBtn.addEventListener("click", () => setActivePane("records"));
+      navDashboardBtn.addEventListener("click", () => setActivePane("dashboard"));
       navCreateMockBtn.addEventListener("click", () => setActivePane("builder"));
       navMocksBtn.addEventListener("click", () => setActivePane("mocks"));
       navPyqsBtn.addEventListener("click", () => setActivePane("pyqs"));
+      navPyqsDbBtn.addEventListener("click", () => setActivePane("pyqs-db"));
       navResultsBtn.addEventListener("click", () => setActivePane("results"));
       navRankingsBtn.addEventListener("click", () => setActivePane("rankings"));
       navLogsBtn.addEventListener("click", () => setActivePane("logs"));
       navManageAdminsBtn.addEventListener("click", () => setActivePane("manage-admins"));
       refreshRecordsBtn.addEventListener("click", () => loadUserRecords());
       refreshPyqsBtn.addEventListener("click", () => loadPyqsView(true));
+      if (refreshPyqsDbBtn) {
+        refreshPyqsDbBtn.addEventListener("click", () => loadPyqsDatabaseView(true));
+      }
+      if (pyqsSearchInput) {
+        pyqsSearchInput.addEventListener("input", () => renderPyqsView());
+      }
+      if (pyqsSubjectFilter) {
+        pyqsSubjectFilter.addEventListener("change", () => renderPyqsView());
+      }
+      if (pyqsYearFilter) {
+        pyqsYearFilter.addEventListener("change", () => renderPyqsView());
+      }
+      if (pyqsSortFilter) {
+        pyqsSortFilter.addEventListener("change", () => renderPyqsView());
+      }
       refreshResultsBtn.addEventListener("click", () => loadResultsView());
       refreshRankingsBtn.addEventListener("click", async () => {
         rankingsLoadedMocks = false;
@@ -4689,6 +5868,9 @@
         }
         if (pyqsPreviewModal && pyqsPreviewModal.style.display === "block") {
           closePyqsPreviewModal();
+        }
+        if (pyqsDbModal && pyqsDbModal.style.display === "flex") {
+          closePyqsDbModal();
         }
       });
       permModal.addEventListener("click", (e) => {
@@ -5529,6 +6711,52 @@
           if (!year || !subject || !pyqsYearSubjectFilters[year]) return;
           pyqsYearSubjectFilters[year][subject] = !pyqsYearSubjectFilters[year][subject];
           renderPyqsView();
+        });
+      }
+
+      if (pyqsDbBody) {
+        pyqsDbBody.addEventListener("click", (e) => {
+          const btn = e.target.closest(".pyqs-db-view-btn");
+          if (!btn) return;
+          const chapter = btn.dataset.pyqsChapter || "";
+          openPyqsDbModal(chapter);
+        });
+      }
+      if (pyqsDbSearchInput) {
+        pyqsDbSearchInput.addEventListener("input", () => renderPyqsDatabaseView());
+      }
+      if (pyqsDbSubjectBtns && pyqsDbSubjectBtns.length) {
+        pyqsDbSubjectBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const subject = String(btn.dataset.subject || "").trim();
+            if (!subject) return;
+            pyqsDbSubject = subject;
+            pyqsDbSubjectBtns.forEach((b) => b.classList.toggle("active", b === btn));
+            renderPyqsDatabaseView();
+          });
+        });
+      }
+      if (pyqsDbModalClose) {
+        pyqsDbModalClose.addEventListener("click", closePyqsDbModal);
+      }
+      if (pyqsDbModal) {
+        pyqsDbModal.addEventListener("click", (e) => {
+          if (e.target === pyqsDbModal) closePyqsDbModal();
+        });
+      }
+      if (pyqsDbModalBody) {
+        pyqsDbModalBody.addEventListener("click", (e) => {
+          const row = e.target.closest("tr[data-pyqs-id]");
+          if (!row) return;
+          const editBtn = e.target.closest(".pyqs-db-edit-btn");
+          const saveBtn = e.target.closest(".pyqs-db-save-btn");
+          if (editBtn) {
+            setPyqsDbRowEditing(row, true);
+            return;
+          }
+          if (saveBtn && !saveBtn.classList.contains("disabled")) {
+            savePyqsDbRow(row);
+          }
         });
       }
 
